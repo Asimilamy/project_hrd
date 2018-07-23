@@ -8,7 +8,6 @@ class MY_Controller extends CI_Controller {
 		
 		$this->load->library(array('session'));
 		$this->load->helper(array('url', 'html'));
-		$_SESSION['kd_user'] = 'Paijo';
 	}
 
 	private function check_login() {
