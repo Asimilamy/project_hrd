@@ -10,6 +10,7 @@ class Login extends MY_Controller {
 	}
 
 	public function index() {
+		$this->load->helper(array('form'));
 		$data = [];
 		$this->load->view('page/'.$this->class_uri.'/login_page', $data);
 	}
