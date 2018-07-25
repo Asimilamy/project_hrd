@@ -10,13 +10,13 @@
     # Removes index.php from ExpressionEngine URLs
     RewriteCond %{THE_REQUEST} ^GET.*index\.php [NC]
     RewriteCond %{REQUEST_URI} !/system/.* [NC]
-    RewriteRule (.*?)index\.php/*(.*) myfiles/software/garuda/dyna_shop/dynamic_shop/$1$2$3 [R=301,NE,L]
+    RewriteRule (.*?)index\.php/*(.*) myfiles/software/garuda/dynamic_shop/$1$2$3 [R=301,NE,L]
 
     # Directs all EE web requests through the site index file
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ /myfiles/software/garuda/dyna_shop/dynamic_shop/index.php?/$1 [L]
+    RewriteRule ^(.*)$ /myfiles/software/garuda/dynamic_shop/index.php?/$1 [L]
 
     # RewriteCond $1 !^(index\.php|images|robots\.txt)
-    # RewriteRule ^(.*)$ /myfiles/software/garuda/dyna_shop/dynamic_shop/index.php?/$1 [L]
+    # RewriteRule ^(.*)$ /myfiles/software/garuda/dynamic_shop/index.php?/$1 [L]
 </IfModule>
