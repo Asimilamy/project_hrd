@@ -451,7 +451,7 @@ $config['global_xss_filtering'] = FALSE;
 $config['csrf_protection'] = TRUE;
 $config['csrf_token_name'] = 'csrf_dynamic_shop';
 $config['csrf_cookie_name'] = 'csrf_cookie_dynamic_shop';
-$config['csrf_expire'] = 0;
+$config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array();
 

@@ -6,10 +6,11 @@ class Login extends MY_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		parent::admin_login_tpl();
 	}
 
 	public function index() {
+		parent::admin_login_tpl();
+
 		$this->load->helper(array('form'));
 		$data['class_link'] = $this->class_link;
 		$data['form_errs'] = array('idErrUsername', 'idErrPass');
@@ -17,13 +18,23 @@ class Login extends MY_Controller {
 	}
 
 	function csrf_redirect() {
-		$flash = 'Halaman anda direset dikarenakan sesi browser anda telah habis.&nbsp; Silahkan coba lagi.';
-		$this->session->set_flashdata('message', $flash);
-		redirect($class_link, 'location');
+		if ($this->input->is_ajax_request()) :
+			$str['alert_stat'] = 'online';
+			$str['csrf_alert'] = 'Halaman anda direset dikarenakan sesi browser anda telah habis.'."\n".'Silahkan coba lagi.';
+
+			header('Content-Type: application/json');
+			echo json_encode($str);
+		else :
+			$flash = 'Halaman anda direset dikarenakan sesi browser anda telah habis.&nbsp; Silahkan coba lagi.';
+			$this->session->set_flashdata('message', $flash);
+			redirect($class_link, 'location');
+		endif;
 	}
 
 	public function send_data() {
 		if ($this->input->is_ajax_request()) :
+			$str['alert_stat'] = 'offline';
+			$str['csrf_alert'] = '';
 			/*$this->form_validation->set_rules($this->tm_rak->form_rules());
 			if ($this->form_validation->run() == FALSE) :
 				$str = $this->tm_rak->form_warning($this->form_errs);

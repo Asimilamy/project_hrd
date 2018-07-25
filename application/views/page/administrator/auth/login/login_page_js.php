@@ -26,9 +26,13 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 			cache: false,
 			processData:false,
 			success: function(data){
-				if (data.confirm == 'success') {
-				}
-				if (data.confirm == 'error') {
+				if (data.alert_stat == 'online') {
+					if(!alert(data.csrf_alert)){window.location.reload();}
+				} else if (data.alert_stat == 'offline') {
+					if (data.confirm == 'success') {
+					}
+					if (data.confirm == 'error') {
+					}
 				}
 				$('#<?php echo $field_focus; ?>').focus();
 				$('input[name="<?php echo $this->config->item('csrf_token_name'); ?>"]').val(data.csrf);

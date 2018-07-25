@@ -6,8 +6,14 @@ class MY_Security extends CI_Security {
         parent::__construct();
     }
 
-    public function csrf_error_show() {
-        // header('Location: /auth/csrf_redirect'.htmlspecialchars($_SERVER['REQUEST_URI'].'/csrf_redirect'), TRUE, 302);
-        header('Location: administrator/auth/login/csrf_redirect', TRUE, 302);
+    public function csrf_show_error() {
+        $uri_string = '';
+        $uris = explode('/', htmlspecialchars($_SERVER['REQUEST_URI']));
+        for ($i = 0; $i < count($uris); $i++) :
+            if (!empty($uri) || $uris[$i] != $uris[count($uris) - 1]) :
+                $uri_string .= $uris[$i].'/';
+            endif;
+        endfor;
+        header('Location: '.$uri_string.'/csrf_redirect');
     }
 }
