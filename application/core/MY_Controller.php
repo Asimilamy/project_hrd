@@ -6,8 +6,9 @@ class MY_Controller extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		
+		$this->load->database();
 		$this->load->library(array('session'));
-		$this->load->helper(array('url', 'html'));
+		$this->load->helper(array('my_helper', 'url', 'html'));
 	}
 
 	private function check_login() {

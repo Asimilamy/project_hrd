@@ -1,15 +1,32 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
+
+/* --START OF BOX DEFAULT PROPERTY-- */
+$js_file = 'login_page_js';
+$box_title = 'Login Form';
+$data['class_link'] = $class_link;
+$data['form_id'] = 'myform';
+$data['form_errs'] = $form_errs;
+$data['field_focus'] = 'idTxtUsername';
+/* --END OF BOX DEFAULT PROPERTY-- */
 ?>
 <div class="login_wrapper">
 	<div class="animate form login_form">
 		<section class="login_content">
-			<?php echo form_open_multipart('', array('class' => 'myform', 'id' => 'myform')); ?>
-				<h1>Login Form</h1>
-				<div>
-					<?php echo form_input(array('type' => 'text', 'id' => 'idTxtUsername', 'name' => 'txtUsername', 'class' => 'form-control', 'placeholder' => 'Username')); ?>
+			<?php echo form_open_multipart('', array('class' => 'myform form-label-left', 'id' => $data['form_id'])); ?>
+				<h1><?php echo $box_title; ?></h1>
+				<div class="form-group">
+					<span id="idErrUsername" class="label label-warning pull-left" style="font-size: 100%;display: none;">
+						<i class="ace-icon fa fa-ban"></i> 
+						Username anda sudah digunakan!
+					</span>
+					<?php echo form_input(array('type' => 'text', 'id' => $data['field_focus'], 'name' => 'txtUsername', 'class' => 'form-control', 'placeholder' => 'Username')); ?>
 				</div>
 				<div>
+					<span id="idErrPass" class="label label-warning pull-left" style="font-size: 100%;display: none;">
+						<i class="ace-icon fa fa-ban"></i> 
+						Username anda sudah digunakan!
+					</span>
 					<?php echo form_input(array('type' => 'password', 'id' => 'idTxtPass', 'name' => 'txtPassword', 'class' => 'form-control', 'placeholder' => 'Password')); ?>
 				</div>
 				<div>
@@ -27,4 +44,5 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 			<?php echo form_close(); ?>
 		</section>
 	</div>
+	<?php $this->load->view('page/'.$class_link.'/'.$js_file, $data); ?>
 </div>
