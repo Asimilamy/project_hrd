@@ -40,9 +40,9 @@ function buildLabel($type = 'success', $msg = '') {
 
 function build_icon($text = 'danger') {
 	if ($text == 'danger') :
-		$icon = 'exclamation-triangle';
-	elseif ($text == 'warning') :
 		$icon = 'ban';
+	elseif ($text == 'warning') :
+		$icon = 'exclamation-triangle';
 	elseif ($text == 'success') :
 		$icon = 'check';
 	else :

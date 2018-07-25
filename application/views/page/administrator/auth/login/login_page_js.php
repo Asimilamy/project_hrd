@@ -13,7 +13,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		$no = 0;
 		foreach ($form_errs as $form_err) {
 			echo $no == 0?"":"\n\t\t";
-			echo '$(\'#'.$form_err.'\').html(\'\');';
+			echo '$(\'#'.$form_err.'\').slideUp();';
 			$no++;
 		}
 		echo "\n";
@@ -32,6 +32,17 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 					if (data.confirm == 'success') {
 					}
 					if (data.confirm == 'error') {
+						<?php
+						$no = 0;
+						foreach ($form_errs as $form_err) {
+							echo $no == 0?"":"\n\t\t\t\t\t\t";
+							echo 'if (data.'.$form_err.' != \'\') {';
+								echo '$(\'#'.$form_err.'\').html(data.'.$form_err.').slideDown();';
+							echo '}';
+							$no++;
+						}
+						echo "\n";
+						?>
 					}
 				}
 				$('#<?php echo $field_focus; ?>').focus();

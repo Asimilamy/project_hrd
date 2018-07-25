@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed!');
 
 class Login extends MY_Controller {
+	private $form_errs = array('idErrUsername', 'idErrPass');
 	private $class_link = 'administrator/auth/login';
 
 	public function __construct() {
@@ -10,11 +11,7 @@ class Login extends MY_Controller {
 
 	public function index() {
 		parent::admin_login_tpl();
-
-		$this->load->helper(array('form'));
-		$data['class_link'] = $this->class_link;
-		$data['form_errs'] = array('idErrUsername', 'idErrPass');
-		$this->load->view('page/'.$this->class_link.'/login_page', $data);
+		$this->login_form();
 	}
 
 	function csrf_redirect() {
@@ -31,20 +28,29 @@ class Login extends MY_Controller {
 		endif;
 	}
 
+	public function login_form() {
+		$this->load->helper(array('form'));
+		$data['class_link'] = $this->class_link;
+		$data['form_errs'] = $this->form_errs;
+		$this->load->view('page/'.$this->class_link.'/login_page', $data);
+	}
+
 	public function send_data() {
+		$this->load->model(array('model_auth/m_login'));
+		$this->load->library(array('form_validation'));
+
 		if ($this->input->is_ajax_request()) :
-			$str['alert_stat'] = 'offline';
-			$str['csrf_alert'] = '';
-			/*$this->form_validation->set_rules($this->tm_rak->form_rules());
+			$this->form_validation->set_rules($this->m_login->form_rules());
 			if ($this->form_validation->run() == FALSE) :
-				$str = $this->tm_rak->form_warning($this->form_errs);
+				$str = $this->m_login->form_warning($this->form_errs);
 				$str['confirm'] = 'error';
 			else :
-				$data['kd_rak'] = $this->input->post('txtKd');
-				$data['gudang_kd'] = $this->input->post('txtKdGudang');
-				$data['nm_rak'] = $this->input->post('txtNmRak');
-				$str = $this->tm_rak->submit_data($data);
-			endif;*/
+				$data['user_id'] = $this->input->post('txtUsername');
+				$data['user_pass'] = $this->input->post('txtPassword');
+				$str = $this->m_login->verify_login($data);
+			endif;
+			$str['alert_stat'] = 'offline';
+			$str['csrf_alert'] = '';
 			$str['csrf'] = $this->security->get_csrf_hash();
 
 			header('Content-Type: application/json');
