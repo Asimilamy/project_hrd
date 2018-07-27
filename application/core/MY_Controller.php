@@ -46,4 +46,8 @@ class MY_Controller extends CI_Controller {
 			$this->output->set_template('admin_login_tpl/admin_login_tpl');
 		endif;
 	}
+
+	public function error_tpl() {
+		$this->output->set_template('error_tpl/error_tpl');
+	}
 }
