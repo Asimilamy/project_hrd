@@ -21,11 +21,21 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		<link href="<?php echo base_url().'assets/admin_assets/'; ?>vendors/nprogress/nprogress.css" rel="stylesheet">
 		<!-- Animate.css -->
 		<link href="<?php echo base_url().'assets/admin_assets/'; ?>vendors/animate.css/animate.min.css" rel="stylesheet">
-
 		<!-- Custom Theme Style -->
 		<link href="<?php echo base_url().'assets/admin_assets/'; ?>build/css/my_custom.min.css" rel="stylesheet">
+
+		<!-- jQuery -->
+		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/jquery/dist/jquery.min.js"></script>
 	</head>
 	<body class="login">
 		<?php echo $output; ?>
+
+		<?php
+		foreach($js as $file) {
+			echo "\n\t\t";
+			?><script src="<?php echo $file; ?>"></script><?php
+		}
+		echo "\n\t";
+		?>
 	</body>
 </html>
