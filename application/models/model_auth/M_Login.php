@@ -28,10 +28,12 @@ class M_Login extends CI_Model {
 	}
 
 	public function verify_login($datas = '') {
+		$form_pass = $datas['user_pass'];
+		$datas['user_pass'] = hash_text($datas['user_pass']);
 		$chk_userid = $this->chk_user_exist($datas['user_id']);
 		if ($chk_userid) :
 			$user_pass = $chk_userid->user_pass;
-			$chk_pass = verify_hash($datas['user_pass'], $user_pass);
+			$chk_pass = verify_hash($form_pass, $user_pass);
 			if ($chk_pass) :
 				// if the datas passed the system then system will register all session according to user
 			else :
