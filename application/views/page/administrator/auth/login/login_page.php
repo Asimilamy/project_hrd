@@ -15,6 +15,7 @@ $data['field_focus'] = 'idTxtUsername';
 		<section class="login_content">
 			<?php echo form_open_multipart('', array('class' => 'myform form-label-left', 'id' => $data['form_id'])); ?>
 				<h1><?php echo $box_title; ?></h1>
+				<div id="idAlert" style="display: none;"></div>
 				<div class="form-group">
 					<span id="idErrUsername" class="label label-warning pull-left" style="font-size: 100%;display: none;">
 						<i class="ace-icon fa fa-ban"></i> 

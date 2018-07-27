@@ -31,8 +31,8 @@ function build_alert($alert_type = '', $alert_title = '', $alert_msg = '') {
         $alert .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
             $alert .= '<span aria-hidden="true">×</span>';
         $alert .= '</button>';
-        $alert .= '<strong>'.$icon.$alert_title.'</strong>';
-        $alert .= $alert_msg;
+        $alert .= '<strong><i class="ace-icon fa fa-'.$icon.'"></i> '.$alert_title.'</strong>';
+        $alert .= '<br>'.$alert_msg;
     $alert .= '</div>';
 
     return $alert;

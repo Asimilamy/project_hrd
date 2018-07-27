@@ -28,5 +28,13 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	</head>
 	<body class="login">
 		<?php echo $output; ?>
+
+		<?php
+		foreach($js as $file) {
+			echo "\n\t\t";
+			?><script src="<?php echo $file; ?>"></script><?php
+		}
+		echo "\n\t";
+		?>
 	</body>
 </html>

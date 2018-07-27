@@ -45,6 +45,7 @@ class MY_Controller extends CI_Controller {
 			<?php
 		else :
 			$this->output->set_template('admin_login_tpl/admin_login_tpl');
+			$this->load->js('assets/admin_assets/vendors/bootstrap/dist/js/bootstrap.min.js');
 		endif;
 	}
 }

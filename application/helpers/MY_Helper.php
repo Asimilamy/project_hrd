@@ -42,7 +42,7 @@ function hash_text($text) {
 	return $result;
 }
 
-function get_hash($text, $hash) {
+function verify_hash($text, $hash) {
 	$decrypt = password_verify($text, $hash);
 
 	return $decrypt;

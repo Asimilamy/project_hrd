@@ -9,6 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	});
 
 	function submit_form(form_id) {
+		$('#idAlert').slideUp();
 		<?php
 		$no = 0;
 		foreach ($form_errs as $form_err) {
@@ -44,6 +45,9 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 						echo "\n";
 						?>
 					}
+				}
+				if (data.alert != '') {
+					$('#idAlert').html(data.alert).slideDown();
 				}
 				$('#<?php echo $field_focus; ?>').focus();
 				$('input[name="<?php echo $this->config->item('csrf_token_name'); ?>"]').val(data.csrf);

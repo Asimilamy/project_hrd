@@ -46,7 +46,7 @@ class Login extends MY_Controller {
 				$str['confirm'] = 'error';
 			else :
 				$data['user_id'] = $this->input->post('txtUsername');
-				$data['user_pass'] = hash_text($this->input->post('txtPassword'));
+				$data['user_pass'] = $this->input->post('txtPassword');
 				$str = $this->m_login->verify_login($data);
 			endif;
 			$str['alert_stat'] = 'offline';
