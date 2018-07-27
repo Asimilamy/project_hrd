@@ -48,4 +48,8 @@ class MY_Controller extends CI_Controller {
 			$this->load->js('assets/admin_assets/vendors/bootstrap/dist/js/bootstrap.min.js');
 		endif;
 	}
+
+	public function error_tpl() {
+		$this->output->set_template('error_tpl/error_tpl');
+	}
 }
