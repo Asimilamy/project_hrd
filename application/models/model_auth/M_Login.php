@@ -31,7 +31,7 @@ class M_Login extends CI_Model {
 		$form_pass = $datas['user_pass'];
 		$datas['user_pass'] = hash_text($datas['user_pass']);
 		$chk_userid = $this->chk_user_exist($datas['user_id']);
-		if ($chk_userid) :
+		if (isset($chk_userid)) :
 			$user_pass = $chk_userid->user_pass;
 			$chk_pass = verify_hash($form_pass, $user_pass);
 			if ($chk_pass) :
