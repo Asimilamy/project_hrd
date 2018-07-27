@@ -12,7 +12,28 @@ function sql_connect() {
 	return $connection;
 }
 
-function hashText($text) {
+function get_client_ip() {
+	$ipaddress = '';
+	if (getenv('HTTP_CLIENT_IP')) :
+		$ipaddress = getenv('HTTP_CLIENT_IP');
+	elseif(getenv('HTTP_X_FORWARDED_FOR')) :
+		$ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+	elseif(getenv('HTTP_X_FORWARDED')) :
+		$ipaddress = getenv('HTTP_X_FORWARDED');
+	elseif(getenv('HTTP_FORWARDED_FOR')) :
+		$ipaddress = getenv('HTTP_FORWARDED_FOR');
+	elseif(getenv('HTTP_FORWARDED')) :
+		$ipaddress = getenv('HTTP_FORWARDED');
+	elseif(getenv('REMOTE_ADDR')) :
+		$ipaddress = getenv('REMOTE_ADDR');
+	else :
+		$ipaddress = 'UNKNOWN';
+	endif;
+
+	return $ipaddress;
+}
+
+function hash_text($text) {
 	$options = [
 		'cost' => 12,
 	];
@@ -21,32 +42,8 @@ function hashText($text) {
 	return $result;
 }
 
-function getHash($text, $hash) {
+function get_hash($text, $hash) {
 	$decrypt = password_verify($text, $hash);
 
 	return $decrypt;
-}
-
-function buildLabel($type = 'success', $msg = '') {
-	$icon = build_icon($type);
-
-	$label = '<span class="label label-'.$type.'">
-		<i class="ace-icon fa fa-'.$icon.'"></i> 
-		'.$msg.'
-	</span>';
-
-	return $label;
-}
-
-function build_icon($text = 'danger') {
-	if ($text == 'danger') :
-		$icon = 'ban';
-	elseif ($text == 'warning') :
-		$icon = 'exclamation-triangle';
-	elseif ($text == 'success') :
-		$icon = 'check';
-	else :
-		$icon = build_icon();
-	endif;
-	return $icon;
 }

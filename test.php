@@ -1,2 +1,2 @@
 <?php
-echo substr($_SERVER['PHP_SELF'], 0, -9);
+echo substr('1807270001', 6);

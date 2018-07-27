@@ -25,7 +25,7 @@ $data['field_focus'] = 'idTxtUsername';
 				<div>
 					<span id="idErrPass" class="label label-warning pull-left" style="font-size: 100%;display: none;">
 						<i class="ace-icon fa fa-ban"></i> 
-						Username anda sudah digunakan!
+						Password tidak cocok!
 					</span>
 					<?php echo form_input(array('type' => 'password', 'id' => 'idTxtPass', 'name' => 'txtPassword', 'class' => 'form-control', 'placeholder' => 'Password')); ?>
 				</div>
