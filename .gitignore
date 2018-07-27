@@ -1,0 +1,16 @@
+application/cache/
+application/config/
+application/core/
+application/helpers/
+application/hooks/
+application/language/
+application/libraries/
+application/logs/
+application/third-party/
+application/.htaccess
+assets/
+system/
+db_backup/
+.htaccess
+index.php
+test.php
