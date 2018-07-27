@@ -6,9 +6,8 @@ class MY_Controller extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->load->database();
 		$this->load->library(array('session'));
-		$this->load->helper(array('my_helper', 'alert_helper', 'key_helper', 'url', 'html'));
+		$this->load->helper(array('url', 'html'));
 	}
 
 	private function check_login() {
@@ -45,7 +44,6 @@ class MY_Controller extends CI_Controller {
 			<?php
 		else :
 			$this->output->set_template('admin_login_tpl/admin_login_tpl');
-			$this->load->js('assets/admin_assets/vendors/bootstrap/dist/js/bootstrap.min.js');
 		endif;
 	}
 
