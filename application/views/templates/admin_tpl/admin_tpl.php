@@ -41,6 +41,11 @@
 		}
 		echo "\n\t";
 		?>
+
+		<!-- jQuery -->
+		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/jquery/dist/jquery.min.js"></script>
+		<!-- Bootstrap -->
+		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 	</head>
 	<body class="nav-md footer_fixed">
 		<?php echo $this->load->get_section('sidebar_menu'); ?>
@@ -54,11 +59,6 @@
 		<!-- /page content -->
 
 		<?php echo $this->load->get_section('footer'); ?>
-
-		<!-- jQuery -->
-		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/jquery/dist/jquery.min.js"></script>
-		<!-- Bootstrap -->
-		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 		<!-- FastClick -->
 		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/fastclick/lib/fastclick.js"></script>
 		<!-- NProgress -->
