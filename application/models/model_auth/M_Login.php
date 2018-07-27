@@ -36,6 +36,9 @@ class M_Login extends CI_Model {
 			$chk_pass = verify_hash($form_pass, $user_pass);
 			if ($chk_pass) :
 				// if the datas passed the system then system will register all session according to user
+				$conf = get_report(1, 'Selamat Datang '.$datas['user_id'], $datas);
+				$conf['idErrUsername'] = '';
+				$conf['idErrPass'] = '';
 			else :
 				$conf = get_report(0, 'Gagal Login Password tidak cocok dengan Username', $datas);
 				$conf['idErrUsername'] = '';
