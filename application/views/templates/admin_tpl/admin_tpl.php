@@ -41,11 +41,6 @@
 		}
 		echo "\n\t";
 		?>
-
-		<!-- jQuery -->
-		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/jquery/dist/jquery.min.js"></script>
-		<!-- Bootstrap -->
-		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 	</head>
 	<body class="nav-md footer_fixed">
 		<?php echo $this->load->get_section('sidebar_menu'); ?>
@@ -59,15 +54,15 @@
 		<!-- /page content -->
 
 		<?php echo $this->load->get_section('footer'); ?>
-		<!-- FastClick -->
-		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/fastclick/lib/fastclick.js"></script>
+
+		<!-- jQuery -->
+		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/jquery/dist/jquery.min.js"></script>
+		<!-- Bootstrap -->
+		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 		<!-- NProgress -->
 		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/nprogress/nprogress.js"></script>
-		<!-- JQuery Custom Content Scroller -->
-		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 		<!-- Custom Theme Scripts -->
 		<script src="<?php echo base_url().'assets/admin_assets/'; ?>build/js/custom.min.js"></script>
-
 		<?php
 		foreach($js as $file) {
 			echo "\n\t\t";

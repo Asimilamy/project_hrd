@@ -31,6 +31,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 					if(!alert(data.csrf_alert)){window.location.reload();}
 				} else if (data.alert_stat == 'offline') {
 					if (data.confirm == 'success') {
+						window.location.replace("<?php echo base_url('administrator/home'); ?>");
 					}
 					if (data.confirm == 'error') {
 						<?php

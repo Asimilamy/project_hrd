@@ -39,6 +39,9 @@ class M_Login extends CI_Model {
 				$conf = get_report(1, 'Selamat Datang '.$datas['user_id'], $datas);
 				$conf['idErrUsername'] = '';
 				$conf['idErrPass'] = '';
+				foreach ($chk_userid as $key => $val) :
+					$_SESSION['user'][$key] = $val;
+				endforeach;
 			else :
 				$conf = get_report(0, 'Gagal Login Password tidak cocok dengan Username', $datas);
 				$conf['idErrUsername'] = '';

@@ -12,9 +12,9 @@ class MY_Controller extends CI_Controller {
 	}
 
 	private function check_login() {
-		if (!isset($_SESSION['kd_user'])) :
+		if (!isset($_SESSION['user'])) :
 			$this->session->sess_destroy();
-			redirect('/administrator/auth/login');
+			redirect('administrator/auth/login');
 		endif;
 	}
 
@@ -37,12 +37,8 @@ class MY_Controller extends CI_Controller {
 	}
 
 	public function admin_login_tpl() {
-		if (isset($_SESSION['kd_user'])) :
-			?>
-			<script type="text/javascript">
-				window.location.replace("<?php echo base_url(); ?>administrator/home");
-			</script>
-			<?php
+		if (isset($_SESSION['user'])) :
+			redirect('administrator/home');
 		else :
 			$this->output->set_template('admin_login_tpl/admin_login_tpl');
 			$this->load->js('assets/admin_assets/vendors/bootstrap/dist/js/bootstrap.min.js');
