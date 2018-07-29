@@ -12,4 +12,8 @@ class Home extends MY_Controller {
 	public function index() {
 		$this->load->view('page/'.$this->class_url.'/home');
 	}
+
+	public function debug_code() {
+		$this->load->view('page/'.$this->class_url.'/test');
+	}
 }

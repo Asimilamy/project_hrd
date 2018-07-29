@@ -1,3 +1,7 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed!');
+?>
+
 <div class="page-title">
 	<div class="title_left">
 		<h3>Plain Page</h3>

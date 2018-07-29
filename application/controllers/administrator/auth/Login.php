@@ -48,6 +48,9 @@ class Login extends MY_Controller {
 				$data['user_id'] = $this->input->post('txtUsername');
 				$data['user_pass'] = $this->input->post('txtPassword');
 				$str = $this->m_login->verify_login($data);
+				if ($str['confirm'] == 'success') :
+					$this->register_session();
+				endif;
 			endif;
 			$str['alert_stat'] = 'offline';
 			$str['csrf_alert'] = '';
@@ -56,5 +59,10 @@ class Login extends MY_Controller {
 			header('Content-Type: application/json');
 			echo json_encode($str);
 		endif;
+	}
+
+	public function register_session() {
+		$this->load->model(array('model_tpl/m_menu'));
+		$_SESSION['user']['menus'] = $this->m_menu->get_user_menu($_SESSION['user']['master_type_kd']);
 	}
 }

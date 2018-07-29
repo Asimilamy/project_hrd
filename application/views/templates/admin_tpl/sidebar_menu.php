@@ -1,3 +1,7 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed!');
+?>
+
 <div class="container body">
 	<div class="main_container">
 		<div class="col-md-3 left_col">
@@ -28,11 +32,55 @@
 					<div class="menu_section">
 						<h3>Test Menu</h3>
 						<ul class="nav side-menu">
-							<li>
-								<a href="<?php echo base_url('administrator/home'); ?>">
-									<i class="fa fa-dashboard"></i> Home
-								</a>
-							</li>
+							<?php
+							$user_menu = '';
+							$menu_array = [];
+							$menu_parent = [];
+							if (isset($_SESSION['user']['menus'])) :
+								foreach ($_SESSION['user']['menus'] as $menu) :
+									if ($menu->menu_link == '#') :
+										$menu_array[$menu->kd_menu] = $menu->menu_nm;
+									else :
+										if (isset($menu_array[$menu->menu_parent])) :
+											$menu_array[$menu->kd_menu] = $menu->menu_nm;
+											$menu_array[$menu->menu_parent] = $menu_array[$menu->menu_parent].'-'.$menu_array[$menu->kd_menu];
+										else :
+											$menu_array[$menu->kd_menu] = $menu->menu_nm;
+										endif;
+									endif;
+								endforeach;
+							endif;
+
+							foreach ($menu_array as $menu_single) :
+								echo $menu_single.'<br>';
+							endforeach;
+
+							function render_individual_menu($menu_modul = '', $menu_link = '', $menu_title = '', $menu_icon = '', $menu_nm = '') {
+								$menu = '<li>';
+									$menu .= '<a href="'.base_url($menu_modul.$menu_link).'" title="'.$menu_title.'">';
+										$menu .= '<i class="'.$menu_icon.'"></i> '.$menu_nm;
+									$menu .= '</a>';
+								$menu .= '</li>';
+								return $menu;
+							}
+
+							function open_parent_menu($menu_title = '', $menu_icon = '', $menu_nm = '') {
+								$menu = '<li>';
+									$menu .= '<a title="'.$menu_title.'"><i class="fa '.$menu_icon.'"></i> '.$menu_nm.' <span class="fa fa-chevron-down"></span></a>';
+									$menu .= '<ul class="nav child_menu">';
+								return $menu;
+							}
+
+							function close_parent_menu() {
+								$menu = '</ul></li>';
+								return $menu;
+							}
+
+							function render_child_menu($menu_link = '', $menu_title = '', $menu_nm = '') {
+								$menu = '<li><a href="'.$menu_link.'" title="'.$menu_title.'">'.$menu_nm.'</a></li>';
+							}
+							echo $user_menu;
+							?>
 						</ul>
 					</div>
 					<div class="menu_section">
@@ -145,7 +193,7 @@
 										<a href="#level1_2">Level One</a>
 									</li>
 								</ul>
-							</li>                  
+							</li>
 							<li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
 						</ul>
 					</div>
