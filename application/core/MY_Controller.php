@@ -8,7 +8,7 @@ class MY_Controller extends CI_Controller {
 		
 		$this->load->database();
 		$this->load->library(array('session'));
-		$this->load->helper(array('my_helper', 'alert_helper', 'key_helper', 'url', 'html'));
+		$this->load->helper(array('basic_helper', 'alert_helper', 'key_helper', 'url', 'html'));
 	}
 
 	private function check_login() {
