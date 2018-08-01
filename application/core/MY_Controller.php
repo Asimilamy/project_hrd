@@ -21,6 +21,7 @@ class MY_Controller extends CI_Controller {
 	public function admin_tpl() {
 		self::check_login();
 		$this->output->set_template('admin_tpl/admin_tpl');
+		$this->load->helper(array('menu_renderer_helper'));
 		
 		$data = [];
 		$this->load->section('sidebar_menu', 'templates/admin_tpl/sidebar_menu', $data);

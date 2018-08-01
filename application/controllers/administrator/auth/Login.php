@@ -63,6 +63,8 @@ class Login extends MY_Controller {
 
 	public function register_session() {
 		$this->load->model(array('model_tpl/m_menu'));
-		$_SESSION['user']['menus'] = $this->m_menu->get_user_menu($_SESSION['user']['master_type_kd']);
+		$_SESSION['user']['menus']['one'] = $this->m_menu->get_menu_level($_SESSION['user']['master_type_kd'], 'one');
+		$_SESSION['user']['menus']['two'] = $this->m_menu->get_menu_level($_SESSION['user']['master_type_kd'], 'two');
+		$_SESSION['user']['menus']['three'] = $this->m_menu->get_menu_level($_SESSION['user']['master_type_kd'], 'three');
 	}
 }
