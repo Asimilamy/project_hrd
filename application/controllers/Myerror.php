@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
 
-class Error extends MY_Controller {
+class Myerror extends MY_Controller {
     public function __construct() {
         parent::__construct();
     }
