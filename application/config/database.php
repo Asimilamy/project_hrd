@@ -77,7 +77,7 @@ $db['default'] = array(
 	'dsn'	=> 'mysql:host=localhost; dbname=db_dynamic_shop; charset=utf8;',
 	'hostname' => 'localhost',
 	'username' => 'root',
-	'password' => '',
+	'password' => '641820-gWH@17',
 	'database' => 'db_dynamic_shop',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
