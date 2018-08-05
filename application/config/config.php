@@ -35,7 +35,7 @@ $config['base_url'] = substr($_SERVER['PHP_SELF'], 0, -9);
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
