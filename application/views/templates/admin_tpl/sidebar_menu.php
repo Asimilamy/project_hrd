@@ -1,5 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
+if (ENVIRONMENT == 'development') :
+	$this->m_menu->register_session($_SESSION['user']['master_type_kd']);
+endif;
 ?>
 
 <div class="container body">
@@ -36,6 +39,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 							$user_menu = '';
 							if (isset($_SESSION['user']['menus']['one'])) :
 								foreach ($_SESSION['user']['menus']['one'] as $menu) :
+									$kd_menus[] = $menu->kd_menu;
 									if ($menu->menu_link == '#') :
 										$user_menu .= open_parent_menu($menu->menu_title, $menu->menu_icon, $menu->menu_nm, 'parent');
 										if (isset($_SESSION['user']['menus']['two'])) :
@@ -46,20 +50,20 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 														if (isset($_SESSION['user']['menus']['three'])) :
 															foreach ($_SESSION['user']['menus']['three'] as $subsubmenu) :
 																if ($subsubmenu->menu_parent == $submenu->kd_menu) :
-																	$user_menu .= render_child_menu($subsubmenu->menu_link, $subsubmenu->menu_title, $subsubmenu->menu_nm);
+																	$user_menu .= render_child_menu($menu->menu_modul.'/'.url_title($menu->menu_title, '_', TRUE).'/'.url_title($submenu->menu_title, '_', TRUE).'/'.$subsubmenu->menu_link, $subsubmenu->menu_title, $subsubmenu->menu_nm);
 																endif;
 															endforeach;
 														endif;
 														$user_menu .= close_parent_menu();
 													else :
-														$user_menu .= render_child_menu($submenu->menu_link, $submenu->menu_title, $submenu->menu_nm);
+														$user_menu .= render_child_menu($menu->menu_modul.'/'.url_title($menu->menu_title, '_', TRUE).'/'.$submenu->menu_link, $submenu->menu_title, $submenu->menu_nm);
 													endif;
 												endif;
 											endforeach;
 										endif;
 										$user_menu .= close_parent_menu();
 									else :
-										$user_menu .= render_individual_menu($menu->menu_modul, $menu->menu_link, $menu->menu_title, $menu->menu_icon, $menu->menu_nm);
+										$user_menu .= render_individual_menu($menu->menu_modul.'/'.$menu->menu_link, $menu->menu_title, $menu->menu_icon, $menu->menu_nm);
 									endif;
 								endforeach;
 							endif;

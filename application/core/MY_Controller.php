@@ -19,6 +19,10 @@ class MY_Controller extends CI_Controller {
 	}
 
 	public function admin_tpl() {
+		if (ENVIRONMENT == 'development') :
+			$this->load->model(array('model_tpl/m_menu'));
+		endif;
+		
 		self::check_login();
 		$this->output->set_template('admin_tpl/admin_tpl');
 		$this->load->helper(array('menu_renderer_helper'));

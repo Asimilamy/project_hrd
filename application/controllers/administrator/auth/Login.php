@@ -36,7 +36,7 @@ class Login extends MY_Controller {
 	}
 
 	public function send_data() {
-		$this->load->model(array('model_auth/m_login'));
+		$this->load->model(array('model_auth/m_login', 'model_tpl/m_menu'));
 		$this->load->library(array('form_validation'));
 
 		if ($this->input->is_ajax_request()) :
@@ -49,7 +49,7 @@ class Login extends MY_Controller {
 				$data['user_pass'] = $this->input->post('txtPassword');
 				$str = $this->m_login->verify_login($data);
 				if ($str['confirm'] == 'success') :
-					$this->register_session();
+					$this->m_menu->register_session($_SESSION['user']['master_type_kd']);
 				endif;
 			endif;
 			$str['alert_stat'] = 'offline';
@@ -59,12 +59,5 @@ class Login extends MY_Controller {
 			header('Content-Type: application/json');
 			echo json_encode($str);
 		endif;
-	}
-
-	public function register_session() {
-		$this->load->model(array('model_tpl/m_menu'));
-		$_SESSION['user']['menus']['one'] = $this->m_menu->get_menu_level($_SESSION['user']['master_type_kd'], 'one');
-		$_SESSION['user']['menus']['two'] = $this->m_menu->get_menu_level($_SESSION['user']['master_type_kd'], 'two');
-		$_SESSION['user']['menus']['three'] = $this->m_menu->get_menu_level($_SESSION['user']['master_type_kd'], 'three');
 	}
 }
