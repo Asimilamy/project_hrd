@@ -146,14 +146,8 @@ class Create_menu extends MY_Controller {
 				$data['menu_modul'] = $this->input->post('selModul');
 				$data['menu_global'] = $this->input->post('selGlobal');
 				$str = $this->base_query->submit_data('tm_menu', 'kd_menu', 'Data Menu', $data);
-				if ($str['confirm'] == 'success') :
-					$data['master_type_kd'] = $this->input->post('selMasterType');
-					$data['menu_kd'] = $str['key'];
-					$data['create_access'] = $str['key'];
-					$data['read_access'] = $str['key'];
-					$data['update_access'] = $str['key'];
-					$data['delete_access'] = $str['key'];
-					$str = $this->base_query->submit_batch('td_user_access', 'kd_user_access', 'Hak Akses User', $data);
+				if ($str['confirm'] == 'success' && $this->input->post('chkAccess') == 'access') :
+					$str = $this->process_user_access_batch($str['key']);
 				endif;
 			endif;
 			$str['alert_stat'] = 'offline';
@@ -170,6 +164,9 @@ class Create_menu extends MY_Controller {
 		if ($this->input->is_ajax_request()) :
 			$id = $this->input->get('id');
 			$str = $this->base_query->delete_data('tm_menu', array('kd_menu' => $id), 'Data Menu');
+			if ($str['confirm'] == 'success') :
+				$str = $this->delete_user_access($id);
+			endif;
 			
 			header('Content-Type: application/json');
 			echo json_encode($str);
@@ -181,6 +178,40 @@ class Create_menu extends MY_Controller {
 		$this->load->helper('form');
 		$data['master_type_opts'] = $this->m_master_type->get_opts(array('type' => $_SESSION['master_type_tipe']));
 		$data['btn_inc'] = $this->input->get('btn_inc');
-		$this->load->view('page/'.$this->class_link.'/user_form_main', $data);
+		$this->load->view('page/'.$this->class_link.'/additional_views/user_form_main', $data);
+	}
+
+	private function process_user_access_batch($menu_kd = '') {
+		$this->load->model('model_basic/base_query');
+		$this->db->trans_begin();
+		$act_del = $this->delete_user_access($menu_kd);
+		$kd_user_access = create_pkey('td_user_access', 'kd_user_access');
+		$master_type_kds = $this->input->post('selMasterType');
+		$create_accesss = $this->input->post('chkAccessCreate');
+		$read_accesss = $this->input->post('chkAccessRead');
+		$update_accesss = $this->input->post('chkAccessUpdate');
+		$delete_accesss = $this->input->post('chkAccessDelete');
+		for ($i = 0; $i < count($master_type_kds); $i++) :
+			$master_type_kd = $master_type_kds[$i];
+			$create_access = isset($create_accesss[$i])?$create_accesss[$i]:'0';
+			$read_access = isset($read_accesss[$i])?$read_accesss[$i]:'0';
+			$update_access = isset($update_accesss[$i])?$update_accesss[$i]:'0';
+			$delete_access = isset($delete_accesss[$i])?$delete_accesss[$i]:'0';
+			$data_batch[] = array('kd_user_access' => $kd_user_access, 'master_type_kd' => $master_type_kd, 'menu_kd' => $menu_kd, 'create_access' => $create_access, 'read_access' => $read_access, 'update_access' => $read_access, 'delete_access' => $delete_access, 'tgl_input' => date('Y-m-d H:i:s'), 'user_kd' => $_SESSION['user']['kd_user']);
+			$kd_user_access = create_pkey('td_user_access', 'kd_user_access', $kd_user_access, 1);
+		endfor;
+		$str = $this->base_query->submit_batch('td_user_access', 'Data User Access', $data_batch);
+		if ($this->db->trans_status() === FALSE) :
+			$this->db->trans_rollback();
+		else :
+			$this->db->trans_commit();
+		endif;
+		return $str;
+	}
+
+	private function delete_user_access($kd_menu = '') {
+		$this->load->model('model_basic/base_query');
+		$str = $this->base_query->delete_data('td_user_access', array('menu_kd' => $kd_menu), 'Data User Access');
+		return $str;
 	}
 }

@@ -38,11 +38,11 @@ function build_alert($alert_type = '', $alert_title = '', $alert_msg = '') {
     return $alert;
 }
 
-function get_report($act = '', $label = '', $data = '', $key = '') {
+function get_report($act = '', $label = '', $data = [], $key = '') {
     if ($act) :
-        $str = render_report('Berhasil', 'success', build_alert('success', 'Berhasil!', $label.'!', $key));
+        $str = render_report('Berhasil', 'success', build_alert('success', 'Berhasil!', $label.'!'), $key);
     else :
-        $str = render_report('Gagal', 'error', build_alert('danger', 'Gagal!', $label.'!', $key));
+        $str = render_report('Gagal', 'error', build_alert('danger', 'Gagal!', $label.'!'), $key);
     endif;
     write_log($str['stat'], $label, $data);
     return $str;

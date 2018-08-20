@@ -95,11 +95,12 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	}
 
 	$(document).off('click', '.btn-add-user').on('click', '.btn-add-user', function() {
-		show_user_type('1');
+		var form_access_inc = $('.form_group_user_access').length;
+		show_user_type(form_access_inc);
 	});
 
 	$(document).off('click', '.btn-remove-user').on('click', '.btn-remove-user', function() {
-		$(this).parents('.form-group').slideUp(function() {
+		$(this).parents('.form_group_user_access').slideUp(function() {
 			$(this).remove();
 		});
 	});
@@ -111,6 +112,10 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 			data: 'btn_inc='+inc,
 			success: function(html) {
 				$('.form_user_access').append(html).slideDown();
+				$('input.flat').iCheck({
+				    checkboxClass: 'icheckbox_flat-blue',
+				    radioClass: 'iradio_flat-blue'
+				});
 			}
 		});
 	}

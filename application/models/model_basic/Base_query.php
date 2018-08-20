@@ -32,7 +32,14 @@ class Base_query extends CI_Model {
 		return $str;
 	}
 
-	public function submit_batch() {
-		
+	public function submit_batch($tbl_name = '', $title_name = '', $data = []) {
+		$act = $this->db->insert_batch($tbl_name, $data);
+		$str = get_report($act, 'Menambahkan '.$title_name);
+		return $str;
+	}
+
+	private function create($data = '') {
+		$act = $this->db->insert_batch($this->tbl_name, $data);
+		return $act?TRUE:FALSE;
 	}
 }
