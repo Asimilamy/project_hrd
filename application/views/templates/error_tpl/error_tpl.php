@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
+$last_uri = $this->uri->segment_array();
+$last_uri = ucwords(str_replace('_', ' ', end($last_uri)));
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +14,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="icon" href="<?php echo base_url().'assets/admin_assets/'; ?>images/favicon.ico" type="image/ico">
 
-        <title><?= $this->uri->segment(2); ?> | Error | Amertalink Shop</title>
+        <title>Project HRD | ERROR | <?php echo $last_uri; ?></title>
 
         <!-- Bootstrap -->
         <link href="<?php echo base_url('assets/admin_assets/vendors/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">

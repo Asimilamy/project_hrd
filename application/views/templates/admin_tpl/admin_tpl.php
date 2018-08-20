@@ -13,7 +13,7 @@ $last_uri = ucwords(str_replace('_', ' ', end($last_uri)));
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="icon" href="<?php echo base_url().'assets/admin_assets/'; ?>images/favicon.ico" type="image/ico">
 
-		<title><?php echo $last_uri; ?> | Amertalink Shop</title>
+		<title>Project HRD | <?php echo $last_uri; ?></title>
 
 		<!-- Bootstrap -->
 		<link href="<?php echo base_url().'assets/admin_assets/'; ?>vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
