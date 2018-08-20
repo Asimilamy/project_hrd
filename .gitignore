@@ -5,7 +5,6 @@ application/logs/
 application/.htaccess
 system/
 db_backup/
-flow_projects/
 .htaccess
 index.php
 test.php
