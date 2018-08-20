@@ -1,7 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
 if (ENVIRONMENT == 'development') :
-	$this->m_menu->register_session($_SESSION['user']['master_type_kd']);
+	if (isset($_SESSION['user']['master_type_kd'])) :
+		$this->m_menu->register_session($_SESSION['user']['master_type_kd']);
+	endif;
 endif;
 ?>
 
@@ -10,7 +12,7 @@ endif;
 		<div class="col-md-3 left_col">
 			<div class="left_col scroll-view">
 				<div class="navbar nav_title" style="border: 0;">
-					<a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+					<a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Amertalink</span></a>
 				</div>
 
 				<div class="clearfix"></div>
@@ -39,7 +41,6 @@ endif;
 							$user_menu = '';
 							if (isset($_SESSION['user']['menus']['one'])) :
 								foreach ($_SESSION['user']['menus']['one'] as $menu) :
-									$kd_menus[] = $menu->kd_menu;
 									if ($menu->menu_link == '#') :
 										$user_menu .= open_parent_menu($menu->menu_title, $menu->menu_icon, $menu->menu_nm, 'parent');
 										if (isset($_SESSION['user']['menus']['two'])) :

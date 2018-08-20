@@ -12,7 +12,7 @@ class MY_Controller extends CI_Controller {
 	}
 
 	private function check_login() {
-		if (!isset($_SESSION['user'])) :
+		if (!isset($_SESSION['user']['kd_user'])) :
 			$this->session->sess_destroy();
 			redirect('administrator/auth/login');
 		endif;
@@ -42,7 +42,7 @@ class MY_Controller extends CI_Controller {
 	}
 
 	public function admin_login_tpl() {
-		if (isset($_SESSION['user'])) :
+		if (isset($_SESSION['user']['kd_user'])) :
 			redirect('administrator/home');
 		else :
 			$this->output->set_template('admin_login_tpl/admin_login_tpl');
@@ -52,5 +52,27 @@ class MY_Controller extends CI_Controller {
 
 	public function error_tpl() {
 		$this->output->set_template('error_tpl/error_tpl');
+	}
+
+	public function datatables_assets() {
+		$this->load->css('assets/admin_assets/vendors/datatables-1.10.15/media/css/dataTables.bootstrap.min.css');
+		$this->load->js('assets/admin_assets/vendors/datatables-1.10.15/media/js/jquery.dataTables.min.js');
+		$this->load->js('assets/admin_assets/vendors/datatables-1.10.15/media/js/dataTables.bootstrap.min.js');
+	}
+
+	public function tableresponsive_assets() {
+		$this->load->css('assets/admin_assets/vendors/datatables-1.10.15/extensions/responsive/css/responsive.bootstrap.min.css');
+		$this->load->js('assets/admin_assets/vendors/datatables-1.10.15/extensions/responsive/js/dataTables.responsive.min.js');
+		$this->load->js('assets/admin_assets/vendors/datatables-1.10.15/extensions/responsive/js/responsive.bootstrap.min.js');
+	}
+
+	public function tablefixed_assets() {
+		$this->load->css('assets/admin_assets/vendors/datatables-1.10.15/extensions/fixedcolumns/css/fixedcolumns.bootstrap.min.css');
+		$this->load->js('assets/admin_assets/vendors/datatables-1.10.15/extensions/fixedcolumns/js/datatables.fixedcolumns.min.js');
+	}
+
+	public function icheck_assets() {
+		$this->load->css('assets/admin_assets/vendors/iCheck/skins/flat/blue.css');
+		$this->load->js('assets/admin_assets/vendors/iCheck/icheck.min.js');
 	}
 }

@@ -8,7 +8,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="icon" href="<?php echo base_url().'assets/admin_assets/'; ?>images/favicon.ico" type="image/ico">
 
-		<title>Gentelella Alela! | </title>
+		<title><?= $this->uri->segment(2); ?> | Amertalink Shop</title>
 
 		<!-- Bootstrap -->
 		<link href="<?php echo base_url().'assets/admin_assets/'; ?>vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,8 +16,6 @@
 		<link href="<?php echo base_url().'assets/admin_assets/'; ?>vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 		<!-- NProgress -->
 		<link href="<?php echo base_url().'assets/admin_assets/'; ?>vendors/nprogress/nprogress.css" rel="stylesheet">
-		<!-- JQuery Custom Content Scroller -->
-		<link href="<?php echo base_url().'assets/admin_assets/'; ?>vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
 		<!-- Custom Theme Style -->
 		<link href="<?php echo base_url().'assets/admin_assets/'; ?>build/css/custom.min.css" rel="stylesheet">
 
@@ -45,14 +43,45 @@
 		<!-- jQuery -->
 		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/jquery/dist/jquery.min.js"></script>
 	</head>
-	<body class="nav-md footer_fixed">
+	<body class="nav-md">
 		<?php echo $this->load->get_section('sidebar_menu'); ?>
 
 		<?php echo $this->load->get_section('top_nav'); ?>
 		
 		<!-- page content -->
 		<div class="right_col" role="main">
-			<?php echo $output; ?>
+			<?php
+			$uri_segments = $this->uri->segment_array();
+			$page_title = ucwords(str_replace('_', ' ', end($uri_segments)));
+			?>
+			<div class="page-title">
+				<div class="title_left">
+					<h3><?php echo $page_title; ?></h3>
+				</div>
+				<?php
+				$page_search = FALSE;
+				if ($page_search == TRUE) :
+					?>
+					<div class="title_right">
+						<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Search for...">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button">Go!</button>
+								</span>
+							</div>
+						</div>
+					</div>
+					<?php
+				endif;
+				?>
+			</div>
+			
+			<div class="clearfix"></div>
+
+			<div id="idMainContainer">
+				<?php echo $output; ?>
+			</div>
 		</div>
 		<!-- /page content -->
 
@@ -62,8 +91,6 @@
 		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 		<!-- NProgress -->
 		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/nprogress/nprogress.js"></script>
-		<!-- Custom Theme Scripts -->
-		<script src="<?php echo base_url().'assets/admin_assets/'; ?>build/js/custom.min.js"></script>
 		<?php
 		foreach($js as $file) {
 			echo "\n\t\t";
@@ -71,5 +98,7 @@
 		}
 		echo "\n\t";
 		?>
+		<!-- Custom Theme Scripts -->
+		<script src="<?php echo base_url().'assets/admin_assets/'; ?>build/js/my_custom.min.js"></script>
 	</body>
 </html>

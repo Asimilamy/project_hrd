@@ -18,7 +18,7 @@ class M_login extends CI_Model {
 		return $str;
 	}
 
-	function chk_user_exist($user_id = '') {
+	public function chk_user_exist($user_id = '') {
 		$this->db->select('a.kd_user, a.master_type_kd, a.user_id, a.user_pass')
 			->from('tm_user a')
 			->where(array('user_id' => $user_id));

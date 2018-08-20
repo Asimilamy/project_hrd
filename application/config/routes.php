@@ -52,3 +52,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'administrator/home';
 $route['404_override'] = 'myerror';
 $route['translate_uri_dashes'] = FALSE;
+
+/*
+| contoh rounting controllers
+| $route['product/(:num)'] = 'catalog/product_lookup/$1';
+| $route['url/:any || :num'] = 'folder/controller/method || controller/method';
+*/
+
+$route['(:any)/master_type'] = 'administrator/developer/master_type';
+$route['(:any)/(:any)/master_type'] = 'administrator/developer/master_type';
+$route['(:any)/(:any)/(:any)/master_type'] = 'administrator/developer/master_type';

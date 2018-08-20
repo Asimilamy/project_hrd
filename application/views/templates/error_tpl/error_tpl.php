@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="icon" href="<?php echo base_url().'assets/admin_assets/'; ?>images/favicon.ico" type="image/ico">
 
-        <title>Gentelella Alela! | </title>
+        <title><?= $this->uri->segment(2); ?> | Error | Amertalink Shop</title>
 
         <!-- Bootstrap -->
         <link href="<?php echo base_url('assets/admin_assets/vendors/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet">

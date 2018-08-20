@@ -3,9 +3,15 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 class Data_barang extends MY_Controller {
 	private $class_link = 'administrator/management_items/data_barang';
+	private $form_errs = array('idErrType', 'idErrBarcode', 'idErrNmBarang', 'idErrDeskripsi');
 
 	public function __construct() {
 		parent::__construct();
+		parent::datatables_assets();
+		$this->load->model(array('model_auth/m_access', 'model_barang/tm_barang'));
+
+		$access = $this->m_access->read_user_access('data_barang', 'Management Items');
+		$_SESSION['user']['access'] = array('create' => $access->create, 'read' => $access->read, 'update' => $access->update, 'delete' => $access->delete);
 	}
 
 	/*
@@ -38,8 +44,30 @@ class Data_barang extends MY_Controller {
 	}
 
 	public function get_table() {
-		$data['class_link'] = $this->class_link;
-		$this->load->view('page/'.$this->class_link.'/table_box', $data);
+		/* --START OF BOX DEFAULT PROPERTY-- */
+		$data['page_title'] = 'Data Barang';
+		$data['box_type'] = 'Table';
+		$data['page_search'] = FALSE;
+		$data['js_file'] = 'table_js';
+		/* --END OF BOX DEFAULT PROPERTY-- */
+
+		/* --START OF BOX BUTTON PROPERTY-- */
+		$data['btn_add'] = TRUE;
+		$data['btn_hide'] = TRUE;
+		$data['btn_close'] = FALSE;
+		/* --END OF BOX BUTTON PROPERTY-- */
+
+		/* --START OF BOX DATA PROPERTY-- */
+		$data['data']['class_link'] = $this->class_link;
+		$data['data']['box_id'] = 'idBox'.$data['box_type'];
+		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
+		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
+		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
+		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
+		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
+		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
+		/* --END OF BOX DATA PROPERTY-- */
+		$this->load->view('containers/view_box', $data);
 	}
 
 	public function open_table() {
@@ -48,9 +76,84 @@ class Data_barang extends MY_Controller {
 	}
 
 	public function table_data() {
-		$data = $this->tm_deliveryorder->ssp_table();
+		$this->load->library(array('ssp'));
+
+		$data = $this->tm_barang->ssp_table();
 		echo json_encode(
 			SSP::simple( $_GET, $data['sql_details'], $data['table'], $data['primaryKey'], $data['columns'], $data['joinQuery'], $data['where'] )
 		);
+	}
+
+	public function get_form() {
+		$data['data']['id'] = $this->input->get('id');
+
+		/* --START OF BOX DEFAULT PROPERTY-- */
+		$data['page_title'] = 'Data Barang';
+		$data['box_type'] = 'Form';
+		$data['page_search'] = FALSE;
+		$data['js_file'] = 'form_js';
+		/* --END OF BOX DEFAULT PROPERTY-- */
+
+		/* --START OF BOX BUTTON PROPERTY-- */
+		$data['btn_add'] = FALSE;
+		$data['btn_hide'] = TRUE;
+		$data['btn_close'] = TRUE;
+		/* --END OF BOX BUTTON PROPERTY-- */
+
+		/* --START OF BOX DATA PROPERTY-- */
+		$data['data']['class_link'] = $this->class_link;
+		$data['data']['box_id'] = 'idBox'.$data['box_type'];
+		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
+		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
+		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
+		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
+		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
+		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
+		$data['data']['form_errs'] = $this->form_errs;
+		/* --END OF BOX DATA PROPERTY-- */
+		$this->load->view('containers/view_box', $data);
+	}
+
+	public function open_form() {
+		$this->load->helper(array('form'));
+		$id = $this->input->get('id');
+		$data = $this->tm_barang->get_data($id);
+		$this->load->view('page/'.$this->class_link.'/form_main', $data);
+	}
+
+	public function send_data() {
+		$this->load->library('form_validation');
+		$this->load->model('model_basic/base_query');
+		if ($this->input->is_ajax_request()) :
+			$this->form_validation->set_rules($this->tm_barang->form_rules());
+			if ($this->form_validation->run() == FALSE) :
+				$str = $this->tm_barang->form_warning($this->form_errs);
+				$str['confirm'] = 'error';
+			else :
+				$data['kd_mbarang'] = $this->input->post('txtKd');
+				$data['master_type_kd'] = $this->input->post('selType');
+				$data['barcode'] = $this->input->post('txtBarcode');
+				$data['nm_barang'] = $this->input->post('txtNmBarang');
+				$data['deskripsi'] = $this->input->post('txtDeskripsi');
+				$str = $this->base_query->submit_data('tm_barang', 'kd_mbarang', 'Data Master Barang', $data);
+			endif;
+			$str['alert_stat'] = 'offline';
+			$str['csrf_alert'] = '';
+			$str['csrf'] = $this->security->get_csrf_hash();
+
+			header('Content-Type: application/json');
+			echo json_encode($str);
+		endif;
+	}
+
+	public function delete_data() {
+		$this->load->model('model_basic/base_query');
+		if ($this->input->is_ajax_request()) :
+			$id = $this->input->get('id');
+			$str = $this->base_query->delete_data('tm_barang', array('kd_mbarang' => $id), 'Data Master Barang');
+			
+			header('Content-Type: application/json');
+			echo json_encode($str);
+		endif;
 	}
 }

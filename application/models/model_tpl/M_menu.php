@@ -34,4 +34,29 @@ class M_menu extends CI_Model {
 		$result = $query->result();
 		return $result;
 	}
+
+	public function menu_parent_opts($params = []) {
+		$this->db->select('kd_menu, menu_nm')
+			->from('tm_menu');
+		if (!empty($params)) :
+			$this->db->where($params);
+		endif;
+		$query = $this->db->get();
+		$return = $query->result();
+		return $this->render_opts($return);
+	}
+
+	public function render_opts($opts) {
+		$option[''] = '--Pilih Parent Menu--';
+		foreach ($opts as $opt) :
+			$option[$opt->kd_menu] = $opt->menu_nm;
+		endforeach;
+		return $option;
+	}
+
+	public function modul_menu_opts() {
+		$option[''] = '--Pilih Modul Menu--';
+		$option['administrator'] = 'Modul Administrator';
+		return $option;
+	}
 }
