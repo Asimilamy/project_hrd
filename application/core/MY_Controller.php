@@ -75,4 +75,10 @@ class MY_Controller extends CI_Controller {
 		$this->load->css('assets/admin_assets/vendors/iCheck/skins/flat/blue.css');
 		$this->load->js('assets/admin_assets/vendors/iCheck/icheck.min.js');
 	}
+
+	public function datatimepicker_assets() {
+		$this->load->css('assets/admin_assets/vendors/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.min.css');
+		$this->load->js('assets/admin_assets/js/moment/moment.min.js');
+		$this->load->js('assets/admin_assets/vendors/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js');
+	}
 }

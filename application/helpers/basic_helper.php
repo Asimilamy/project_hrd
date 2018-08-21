@@ -57,3 +57,22 @@ function ya_tidak($var = '') {
 	endif;
 	return $text;
 }
+
+function render_dropdown($title = '', $opts = [], $val = '', $var = '') {
+	$option[''] = '-- Pilih '.$title.' --';
+	foreach ($opts as $opt) :
+		if (is_object($opt)) :
+			$option[$opt->{$val}] = $opt->{$var}; 
+		else :
+			$option[$opt[$val]] = $opt[$var];
+		endif;
+	endforeach;
+	return $option;
+}
+
+function format_date($date, $format){
+	$tgl = new DateTime($date);
+	$tgl_formatted = $tgl->format($format);
+
+	return $tgl_formatted;
+}
