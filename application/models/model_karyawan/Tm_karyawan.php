@@ -76,12 +76,13 @@ class Tm_karyawan extends CI_Model {
 			array('field' => 'selUnit', 'label' => 'Unit', 'rules' => 'required'),
 			array('field' => 'selBagian', 'label' => 'Bagian', 'rules' => 'required'),
 			array('field' => 'selJabatan', 'label' => 'Jabatan', 'rules' => 'required'),
+			array('field' => 'txtTglMasuk', 'label' => 'Tanggal Masuk', 'rules' => 'required'),
 		);
 		return $rules;
 	}
 
 	public function form_warning($datas = '') {
-		$forms = array('txtNik', 'txtNm', 'selStatusKerja', 'selUnit', 'selBagian', 'selJabatan');
+		$forms = array('txtNik', 'txtNm', 'selStatusKerja', 'selUnit', 'selBagian', 'selJabatan', 'txtTglMasuk');
 		foreach ($datas as $key => $data) :
 			$str[$data] = (!empty(form_error($forms[$key])))?build_label('warning', form_error($forms[$key], '"', '"')):'';
 		endforeach;

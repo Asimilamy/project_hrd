@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 class Data_pegawai extends MY_Controller {
 	private $class_link = 'administrator/personal_identification_manager/data_pegawai';
-	private $form_errs = array('idErrNik', 'idErrNm', 'idErrStatusKerja', 'idErrUnit', 'idErrBagian', 'idErrJabatan');
+	private $form_errs = array('idErrNik', 'idErrNm', 'idErrStatusKerja', 'idErrUnit', 'idErrBagian', 'idErrJabatan', 'idErrTglMasuk');
 
 	public function __construct() {
 		parent::__construct();
