@@ -12,8 +12,10 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	<tr>
 		<th style="width:1%; text-align:center;" class="all">No.</th>
 		<th style="width:4%; text-align:center;" class="all">Opsi</th>
-		<th style="width:45%; text-align:center;">Type Admin</th>
-		<th style="width:50%; text-align:left;">User ID</th>
+		<th style="width:1%; text-align:center;">Kode</th>
+		<th style="width:25%; text-align:center;">Type Admin</th>
+		<th style="width:30%; text-align:left;">User ID</th>
+		<th style="width:40%; text-align:left;">User Name</th>
 	</tr>
 	</thead>
 </table>
@@ -54,7 +56,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		"columnDefs": [
 			{"data": null, "searchable": false, "orderable": false, "className": "dt-center", "targets": 0},
 			{"searchable": false, "orderable": false, "targets": 1},
-			{"className": "dt-center", "targets": 2},
+			{"className": "dt-center", "targets": 2, "visible": false, "searchable": false},
 		],
 		"order":[2, 'asc'],
 		"rowCallback": function (row, data, iDisplayIndex) {

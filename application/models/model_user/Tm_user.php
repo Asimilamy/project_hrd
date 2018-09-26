@@ -9,17 +9,19 @@ class Tm_user extends CI_Model {
 	public function ssp_table() {
 		$data['table'] = $this->tbl_name;
 
-		$data['primaryKey'] = $this->p_key;
+		$data['primaryKey'] = 'a.'.$this->p_key;
 
 		$data['columns'] = array(
-			array( 'db' => $this->p_key,
+			array( 'db' => 'a.'.$this->p_key,
 				'dt' => 1, 'field' => $this->p_key,
 				'formatter' => function($d, $row){
 
 					return $this->tbl_btn($d, $row[2]);
 				} ),
-			array( 'db' => 'b.nm_master_type', 'dt' => 2, 'field' => 'nm_master_type' ),
-			array( 'db' => 'a.user_id', 'dt' => 3, 'field' => 'user_id' ),
+			array( 'db' => 'a.'.$this->p_key, 'dt' => 2, 'field' => $this->p_key ),
+			array( 'db' => 'b.nm_master_type', 'dt' => 3, 'field' => 'nm_master_type' ),
+			array( 'db' => 'a.user_id', 'dt' => 4, 'field' => 'user_id' ),
+			array( 'db' => 'a.user_name', 'dt' => 5, 'field' => 'user_name' ),
 		);
 
 		$data['sql_details'] = sql_connect();
@@ -53,9 +55,9 @@ class Tm_user extends CI_Model {
 		$this->load->model(array('model_basic/base_query'));
 		$row = $this->base_query->get_row($this->tbl_name, array($this->p_key => $id));
 		if (!empty($row)) :
-			$data = array('kd_user' => $row->kd_user, 'master_type_kd' => $row->master_type_kd, 'user_id' => $row->user_id, 'user_pass' => $row->user_pass);
+			$data = array('kd_user' => $row->kd_user, 'master_type_kd' => $row->master_type_kd, 'user_id' => $row->user_id, 'user_pass' => $row->user_pass, 'user_name' => $row->user_name, 'user_img' => $row->user_img);
 		else :
-			$data = array('kd_user' => '', 'master_type_kd' => '', 'user_id' => '', 'user_pass' => '');
+			$data = array('kd_user' => '', 'master_type_kd' => '', 'user_id' => '', 'user_pass' => '', 'user_name' => '', 'user_img' => '');
 		endif;
 		return $data;
 	}
@@ -64,6 +66,7 @@ class Tm_user extends CI_Model {
 		$rules = array(
 			array('field' => 'selType', 'label' => 'Master Type', 'rules' => 'required'),
 			array('field' => 'txtId', 'label' => 'User ID', 'rules' => 'required|callback_username_check'),
+			array('field' => 'txtUsername', 'label' => 'User Name', 'rules' => 'required|callback_username_check'),
 		);
 		if (empty($this->input->post('txtKd')) || !empty($this->input->post('txtPass'))) :
 			$rules_pass = array(

@@ -9,6 +9,7 @@ $app_logo = $this->m_setting->get_setting('app_logo');
 $greeting_text = $this->m_setting->get_setting('greeting_text');
 $sidebar_title = $this->m_setting->get_setting('sidebar_title');
 $sidebar_name = $this->m_setting->get_setting('sidebar_name');
+$default_user_img = $this->m_setting->get_setting('default_user_img');
 ?>
 
 <div class="container body">
@@ -24,11 +25,21 @@ $sidebar_name = $this->m_setting->get_setting('sidebar_name');
 				<!-- menu profile quick info -->
 				<div class="profile clearfix">
 					<div class="profile_pic">
-						<img src="<?php echo base_url().'assets/admin_assets/'; ?>images/img.jpg" alt="..." class="img-circle profile_img">
+						<?php
+						if (!empty($_SESSION['user']['user_img']) && file_exists('assets/admin_assets/images/users/'.$_SESSION['user']['user_img'])) :
+							?>
+							<img src="<?php echo base_url('assets/admin_assets/images/users/'.$_SESSION['user']['user_img']); ?>" alt="<?php echo $_SESSION['user']['user_name']; ?>" class="img-circle profile_img" width="60px" height="60px">
+							<?php
+						else :
+							?>
+							<img src="<?php echo base_url('assets/admin_assets/images/settings/'.$default_user_img); ?>" alt="<?php echo $_SESSION['user']['user_name']; ?>" class="img-circle profile_img" width="60px" height="60px">
+							<?php
+						endif;
+						?>
 					</div>
 					<div class="profile_info">
 						<span><?php echo $greeting_text; ?>,</span>
-						<h2>John Doe</h2>
+						<h2><?php echo $_SESSION['user']['user_name']; ?></h2>
 					</div>
 					<div class="clearfix"></div>
 				</div>

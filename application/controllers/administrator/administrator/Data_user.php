@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 class Data_user extends MY_Controller {
 	private $class_link = 'administrator/administrator/data_user';
-	private $form_errs = array('idErrType', 'idErrId', 'idErrPass', 'idErrPassConf');
+	private $form_errs = array('idErrType', 'idErrId', 'idErrPass', 'idErrPassConf', 'idErrUsername');
 
 	public function __construct() {
 		parent::__construct();
@@ -76,11 +76,11 @@ class Data_user extends MY_Controller {
 	}
 
 	public function table_data() {
-		$this->load->library(array('ssp'));
+		$this->load->library(array('custom_ssp'));
 
 		$data = $this->tm_user->ssp_table();
 		echo json_encode(
-			SSP::simple( $_GET, $data['sql_details'], $data['table'], $data['primaryKey'], $data['columns'], $data['joinQuery'], $data['where'] )
+			Custom_ssp::simple( $_GET, $data['sql_details'], $data['table'], $data['primaryKey'], $data['columns'], $data['joinQuery'], $data['where'] )
 		);
 	}
 
@@ -130,15 +130,33 @@ class Data_user extends MY_Controller {
 	public function send_data() {
 		$this->load->library('form_validation');
 		$this->load->model('model_basic/base_query');
+		$this->load->helper('upload_file_helper');
 		if ($this->input->is_ajax_request()) :
 			$this->form_validation->set_rules($this->tm_user->form_rules());
 			if ($this->form_validation->run() == FALSE) :
 				$str = $this->tm_user->form_warning($this->form_errs);
 				$str['confirm'] = 'error';
 			else :
+				$file_img = $_FILES['fileImage'];
+				if (!empty($file_img['name'])) :
+					$path = 'assets/admin_assets/images/users/';
+					$upload = upload_file('fileImage', $path, 'jpg|png|gif', 'idErrFileImage');
+					if (isset($upload['confirm']) && $upload['confirm'] == 'error') :
+						header('Content-Type: application/json');
+						echo json_encode($upload);
+						exit();
+					else :
+						$user_img = $upload['upload_data']['file_name'];
+						process_image_conf($path.$user_img, '150');
+					endif;
+				else :
+					$user_img = $this->input->post('txtFileLama');
+				endif;
 				$data['kd_user'] = $this->input->post('txtKd');
 				$data['master_type_kd'] = $this->input->post('selType');
 				$data['user_id'] = $this->input->post('txtId');
+				$data['user_name'] = $this->input->post('txtUsername');
+				$data['user_img'] = $user_img;
 				if (!empty($this->input->post('txtPass'))) :
 					$data['user_pass'] = hash_text($this->input->post('txtPass'));
 				endif;

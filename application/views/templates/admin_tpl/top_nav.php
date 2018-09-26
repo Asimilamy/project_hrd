@@ -1,3 +1,7 @@
+<?php
+$default_user_img = $this->m_setting->get_setting('default_user_img');
+?>
+
 <!-- top navigation -->
 <div class="top_nav">
 	<div class="nav_menu">
@@ -9,7 +13,18 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="">
 					<a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						<img src="<?php echo base_url().'assets/admin_assets/'; ?>images/img.jpg" alt="">John Doe
+						<?php
+						if (!empty($_SESSION['user']['user_img']) && file_exists('assets/admin_assets/images/users/'.$_SESSION['user']['user_img'])) :
+							?>
+							<img src="<?php echo base_url('assets/admin_assets/images/users/'.$_SESSION['user']['user_img']); ?>" alt="<?php echo $_SESSION['user']['user_name']; ?>">
+							<?php
+						else :
+							?>
+							<img src="<?php echo base_url('assets/admin_assets/images/settings/'.$default_user_img); ?>" alt="<?php echo $_SESSION['user']['user_name']; ?>">
+							<?php
+						endif;
+						?>
+						<?php echo $_SESSION['user']['user_name']; ?>
 						<span class=" fa fa-angle-down"></span>
 					</a>
 					<ul class="dropdown-menu dropdown-usermenu pull-right">

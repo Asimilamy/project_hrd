@@ -46,6 +46,26 @@ endif;
 		<?php echo form_input(array('type' => 'password', 'name' => 'txtPassConf', 'id' => 'idTxtPassConf', 'class' => 'form-control', 'placeholder' => 'Confirm Password')); ?>
 	</div>
 </div>
+<div class="form-group">
+	<label for="idTxtUsername" class="col-sm-2 control-label">Username</label>
+	<div class="col-sm-4 col-xs-4">
+		<div id="idErrUsername"></div>
+		<?php echo form_input(array('name' => 'txtUsername', 'id' => 'idTxtUsername', 'class' => 'form-control', 'placeholder' => 'Username', 'value' => $user_name)); ?>
+	</div>
+</div>
+<div class="form-group">
+	<label for="idFileImage" class="col-sm-2 control-label">User Image</label>
+	<div class="col-sm-4 col-xs-4">
+		<div id="idErrFileImage"></div>
+		<?php
+		if (!empty($user_img) && file_exists('assets/admin_assets/images/users/'.$user_img)) :
+			echo img('assets/admin_assets/images/users/'.$user_img, FALSE, array('width' => '100', 'height' => '100', 'title' => 'User Image', 'style' => 'margin-bottom: 5px;'));
+		endif;
+		?>
+		<?php echo form_upload(array('name' => 'fileImage', 'id' => 'idFileImage', 'class' => 'form-control')); ?>
+		<?php echo form_input(array('type' => 'hidden','name' => 'txtFileLama', 'value' => $user_img)); ?>
+	</div>
+</div>
 <div class="box_form_properties"></div>
 <hr>
 <div class="form-group">

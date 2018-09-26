@@ -28,6 +28,7 @@ class MY_Controller extends CI_Controller {
 		$this->load->helper(array('menu_renderer_helper'));
 		$this->load->model(array('model_basic/base_query', 'model_setting/m_setting'));
 		$this->base_query->del_unused_img('assets/admin_assets/images/settings/', 'tm_sys_appareance', 'val_sys_appareance', ['type_sys_appareance' => 'img']);
+		$this->base_query->del_unused_img('assets/admin_assets/images/users/', 'tm_user', 'user_img');
 		
 		$data = [];
 		$this->load->section('sidebar_menu', 'templates/admin_tpl/sidebar_menu', $data);

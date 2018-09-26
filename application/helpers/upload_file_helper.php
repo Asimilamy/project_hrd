@@ -21,10 +21,13 @@ function do_upload_config($path = '', $exts = '', $max_name = '50') {
 	return $config;
 }
 
-function process_image_conf($path, $img_name) {
+function process_image_conf($path = '', $width = '') {
+	$CI =& get_instance();
 	$config['image_library'] = 'gd2';
-	$config['source_image'] = $path.$img_name;
+	$config['source_image'] = $path;
 	$config['maintain_ratio'] = TRUE;
-	$config['width'] = 150;
-	return $config;
+	$config['width'] = $width;
+	$CI->load->library('image_lib', $config);
+
+	$CI->image_lib->resize();
 }
