@@ -40,7 +40,7 @@ class Data_pegawai extends MY_Controller {
 	*/
 	public function index() {
 		parent::admin_tpl();
-		parent::datatimepicker_assets();
+		parent::datetimepicker_assets();
 		$this->get_table();
 	}
 

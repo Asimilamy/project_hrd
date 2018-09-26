@@ -61,7 +61,7 @@ class Tm_karyawan extends CI_Model {
 		$this->load->model(array('model_basic/base_query'));
 		$row = $this->base_query->get_row($this->tbl_name, array($this->p_key => $id));
 		if (!empty($row)) :
-			$data = array('kd_karyawan' => $row->kd_karyawan, 'nik_karyawan' => $row->nik_karyawan, 'nm_karyawan' => $row->nm_karyawan, 'status_kerja_kd' => $row->status_kerja_kd, 'unit_kd' => $row->unit_kd, 'bagian_kd' => $row->bagian_kd, 'jabatan_kd' => $row->jabatan_kd, 'tgl_masuk' => $row->tgl_masuk);
+			$data = array('kd_karyawan' => $row->kd_karyawan, 'nik_karyawan' => $row->nik_karyawan, 'nm_karyawan' => $row->nm_karyawan, 'status_kerja_kd' => $row->status_kerja_kd, 'unit_kd' => $row->unit_kd, 'bagian_kd' => $row->bagian_kd, 'jabatan_kd' => $row->jabatan_kd, 'tgl_masuk' => format_date($row->tgl_masuk, 'd-m-Y'));
 		else :
 			$data = array('kd_karyawan' => '', 'nik_karyawan' => '', 'nm_karyawan' => '', 'status_kerja_kd' => '', 'unit_kd' => '', 'bagian_kd' => '', 'jabatan_kd' => '', 'tgl_masuk' => '');
 		endif;

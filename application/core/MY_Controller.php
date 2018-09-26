@@ -27,8 +27,11 @@ class MY_Controller extends CI_Controller {
 		$this->output->set_template('admin_tpl/admin_tpl');
 		$this->load->helper(array('menu_renderer_helper'));
 		$this->load->model(array('model_basic/base_query', 'model_setting/m_setting'));
+
+		$this->db->trans_start();
 		$this->base_query->del_unused_img('assets/admin_assets/images/settings/', 'tm_sys_appareance', 'val_sys_appareance', ['type_sys_appareance' => 'img']);
 		$this->base_query->del_unused_img('assets/admin_assets/images/users/', 'tm_user', 'user_img');
+		$this->db->trans_complete();
 		
 		$data = [];
 		$this->load->section('sidebar_menu', 'templates/admin_tpl/sidebar_menu', $data);
@@ -78,5 +81,11 @@ class MY_Controller extends CI_Controller {
 	public function icheck_assets() {
 		$this->load->css('assets/admin_assets/vendors/iCheck/skins/flat/blue.css');
 		$this->load->js('assets/admin_assets/vendors/iCheck/icheck.min.js');
+	}
+
+	public function datetimepicker_assets() {
+		$this->load->css('assets/admin_assets/vendors/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.min.css');
+		$this->load->js('assets/admin_assets/js/moment/moment.min.js');
+		$this->load->js('assets/admin_assets/vendors/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js');
 	}
 }
