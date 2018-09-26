@@ -3,13 +3,15 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 class Base_query extends CI_Model {
 	public function get_all($tbl = '', $params = []) {
-		$this->db->from($tbl)
-			->where($params);
+		$this->db->from($tbl);
+		if (count($params) > 0) :
+			$this->db->where($params);
+		endif;
 		$query = $this->db->get();
 		$result = $query->result();
 		return $result;
 	}
-
+	
 	public function get_row($tbl = '', $params = []) {
 		$this->db->from($tbl)
 			->where($params);
@@ -42,12 +44,60 @@ class Base_query extends CI_Model {
 
 	public function submit_batch($tbl_name = '', $title_name = '', $data = []) {
 		$act = $this->db->insert_batch($tbl_name, $data);
-		$str = get_report($act, 'Menambahkan '.$title_name);
+		$str = get_report($act, 'Menambahkan '.$title_name, $data);
+		return $str;
+	}
+
+	public function edit_batch($tbl_name = '', $title_name = '', $data = [], $key_row = '') {
+		$N_row = $this->db->update_batch($tbl_name, $data, $key_row);
+		$act = $N_row > 0?TRUE:FALSE;
+		$str = get_report($act, 'Mengubah '.$title_name, $data);
 		return $str;
 	}
 
 	private function create($data = '') {
 		$act = $this->db->insert_batch($this->tbl_name, $data);
 		return $act?TRUE:FALSE;
+	}
+
+	public function form_errs($tbl_name = '', $column = '') {
+		$form_errs = [];
+		$this->db->select($column)
+			->from($tbl_name);
+		$query = $this->db->get();
+		$result = $query->result();
+		foreach ($result as $row) :
+			$form_errs[] = 'idErr'.$row->{$column};
+		endforeach;
+		return $form_errs;
+	}
+
+	function del_unused_img($path_to_img = '', $img_tbl = '', $img_col = '', $ex_params = []) {
+		$img_on_dir = glob(FCPATH . $path_to_img . '*.*');
+		$path = strlen(FCPATH . $path_to_img);
+
+		$this->db->trans_start();
+		foreach ($img_on_dir as $img) :
+			$fotos[] = substr($img, $path);
+		endforeach;
+
+		$this->db->select($img_col)
+			->from($img_tbl)
+			->where_in($img_col, $fotos);
+		if (!empty($ex_params)) :
+			$this->db->where($ex_params);
+		endif;
+		$query = $this->db->get();
+		$result = $query->result();
+		foreach ($result as $row) :
+			$imgs[] = $row->{$img_col};
+		endforeach;
+
+		foreach ($fotos as $foto) :
+			if (!in_array($foto, $imgs)) :
+				unlink($path_to_img.$foto);
+			endif;
+		endforeach;
+		$this->db->trans_complete();
 	}
 }

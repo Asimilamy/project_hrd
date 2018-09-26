@@ -5,6 +5,10 @@ if (ENVIRONMENT == 'development') :
 		$this->m_menu->register_session($_SESSION['user']['master_type_kd']);
 	endif;
 endif;
+$app_logo = $this->m_setting->get_setting('app_logo');
+$greeting_text = $this->m_setting->get_setting('greeting_text');
+$sidebar_title = $this->m_setting->get_setting('sidebar_title');
+$sidebar_name = $this->m_setting->get_setting('sidebar_name');
 ?>
 
 <div class="container body">
@@ -12,7 +16,7 @@ endif;
 		<div class="col-md-3 left_col">
 			<div class="left_col scroll-view">
 				<div class="navbar nav_title" style="border: 0;">
-					<a href="index.html" class="site_title"><i class="fa fa-building"></i> <span>Project HRD</span></a>
+					<a href="<?php echo base_url(); ?>" class="site_title"><i class="fa <?php echo $app_logo; ?>"></i> <span><?php echo $sidebar_title; ?></span></a>
 				</div>
 
 				<div class="clearfix"></div>
@@ -23,7 +27,7 @@ endif;
 						<img src="<?php echo base_url().'assets/admin_assets/'; ?>images/img.jpg" alt="..." class="img-circle profile_img">
 					</div>
 					<div class="profile_info">
-						<span>Welcome,</span>
+						<span><?php echo $greeting_text; ?>,</span>
 						<h2>John Doe</h2>
 					</div>
 					<div class="clearfix"></div>
@@ -35,7 +39,7 @@ endif;
 				<!-- sidebar menu -->
 				<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 					<div class="menu_section">
-						<h3>Test Menu</h3>
+						<h3><?php echo $sidebar_name; ?></h3>
 						<ul class="nav side-menu">
 							<?php
 							$user_menu = '';

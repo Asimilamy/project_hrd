@@ -62,10 +62,18 @@ function write_log($stat, $var, $data = array()){
     $nm_kolom = '';
     $no = 0;
     $jml = count($data);
-    foreach ($data as $key => $val) :
-        $no++;
-        $koma = $no == $jml?'':',';
-        $nm_kolom .= ' '.$key.' = '.$val.$koma;
+    foreach ($data as $key => $vals) :
+        if (is_array($vals)) :
+            foreach ($vals as $col => $val) :
+                $no++;
+                $koma = $no == $jml?'':',';
+                $nm_kolom .= ' '.$col.' = '.$val.$koma;
+            endforeach;
+        else :
+            $no++;
+            $koma = $no == $jml?'':',';
+            $nm_kolom .= ' '.$key.' = '.$vals.$koma;
+        endif;
     endforeach;
     insert_log(array('user_kd' => $user_kd, 'user_id' => $user_id, 'stat' => $stat, 'keterangan' => $var.' dengan'.$nm_kolom));
 }

@@ -1,5 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
+$last_uri = $this->uri->segment_array();
+$last_uri = ucwords(str_replace('_', ' ', end($last_uri)));
+$favicon = $this->m_setting->get_setting('favicon');
+$app_title = $this->m_setting->get_setting('app_title');
+$app_logo = $this->m_setting->get_setting('app_logo');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,9 +14,15 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="icon" href="<?php echo base_url().'assets/admin_assets/'; ?>images/favicon.ico" type="image/ico">
+		<?php
+		if (!empty($favicon)) :
+			?>
+			<link rel="icon" href="<?php echo base_url('assets/admin_assets/images/settings/'.$favicon); ?>" type="image/ico">
+			<?php
+		endif;
+		?>
 
-		<title>Project HRD | Login</title>
+		<title><?php echo $app_title; ?> | Login</title>
 
 		<!-- Bootstrap -->
 		<link href="<?php echo base_url().'assets/admin_assets/'; ?>vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -28,7 +39,20 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/jquery/dist/jquery.min.js"></script>
 	</head>
 	<body class="login">
-		<?php echo $output; ?>
+		<div class="login_wrapper">
+			<div class="animate form login_form">
+				<?php echo $output; ?>
+
+				<section style="text-align: center; font-size: 13px; font-weight: 400;">
+					<div class="separator">
+						<div>
+							<h3><i class="fa <?php echo $app_logo; ?>"></i> <?php echo $app_title; ?></h3>
+							<p>©2016 All Rights Reserved. Privacy and Terms</p>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
 
 		<?php
 		foreach($js as $file) {

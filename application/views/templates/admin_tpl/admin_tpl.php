@@ -2,6 +2,9 @@
 defined('BASEPATH') or exit('No direct script access allowed!');
 $last_uri = $this->uri->segment_array();
 $last_uri = ucwords(str_replace('_', ' ', end($last_uri)));
+$favicon = $this->m_setting->get_setting('favicon');
+$app_title = $this->m_setting->get_setting('app_title');
+$app_logo = $this->m_setting->get_setting('app_logo');
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,9 +14,15 @@ $last_uri = ucwords(str_replace('_', ' ', end($last_uri)));
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="icon" href="<?php echo base_url().'assets/admin_assets/'; ?>images/favicon.ico" type="image/ico">
+		<?php
+		if (!empty($favicon)) :
+			?>
+			<link rel="icon" href="<?php echo base_url('assets/admin_assets/images/settings/'.$favicon); ?>" type="image/ico">
+			<?php
+		endif;
+		?>
 
-		<title>Project HRD | <?php echo $last_uri; ?></title>
+		<title><?php echo $app_title; ?> | <?php echo $last_uri; ?></title>
 
 		<!-- Bootstrap -->
 		<link href="<?php echo base_url().'assets/admin_assets/'; ?>vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
