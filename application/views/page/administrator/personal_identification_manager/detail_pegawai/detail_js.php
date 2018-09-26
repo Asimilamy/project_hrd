@@ -2,26 +2,20 @@
 defined('BASEPATH') or exit('No direct script access allowed!');
 ?>
 <script type="text/javascript">
-	open_table();
+	open_detail('<?php echo $_SESSION['user']['kd_pegawai']; ?>');
 	first_load('<?php echo $box_loader_id; ?>', '<?php echo $box_content_id; ?>');
-
-	$(document).off('click', '#<?php echo $btn_add_id; ?>').on('click', '#<?php echo $btn_add_id; ?>', function() {
-		$(this).slideUp();
-		$('.panel_toolbox').css({"margin-right" : "-20px"});
-		get_form('');
-	});
 
 	function moveTo(element) {
 		$('html, body').animate({ scrollTop: $(element).offset().top - $('header').height() }, 1000);
 	}
 
-	function open_table() {
-		$('.panel_toolbox').css({"margin-right" : "0px"});
+	function open_detail(kd_karyawan) {
 		$('#<?php echo $btn_add_id; ?>').slideDown();
 		$('#<?php echo $box_content_id; ?>').slideUp(function(){
 			$.ajax({
 				type: 'GET',
-				url: '<?php echo base_url().$class_link.'/open_table'; ?>',
+				url: '<?php echo base_url().$class_link.'/open_detail'; ?>',
+				data: 'kd_karyawan='+kd_karyawan,
 				success: function(html) {
 					$('#<?php echo $box_content_id; ?>').html(html);
 					$('#<?php echo $box_content_id; ?>').slideDown();
@@ -46,10 +40,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	}
 
 	function get_form(id) {
-		if (id != '') {
-			$('#<?php echo $btn_add_id; ?>').slideDown();
-			$('.panel_toolbox').css({"margin-right" : "0px"});
-		}
 		$('#<?php echo $box_alert_id; ?>').fadeOut();
 		remove_box('#idBoxForm');
 		$.ajax({
@@ -72,17 +62,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 			success: function(data) {
 				$('#<?php echo $box_alert_id; ?>').html(data.alert).fadeIn();
 				open_table();
-			}
-		});
-	}
-
-	function view_detail(id) {
-		$.ajax({
-			type: 'GET',
-			url: '<?php echo base_url($class_link.'/register_detail'); ?>',
-			data: 'id='+id,
-			success: function(data) {
-				window.location.href = '<?php echo base_url('administrator/personal_identification_manager/detail_pegawai/'); ?>';
 			}
 		});
 	}

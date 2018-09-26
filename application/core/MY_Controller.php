@@ -88,4 +88,16 @@ class MY_Controller extends CI_Controller {
 		$this->load->js('assets/admin_assets/js/moment/moment.min.js');
 		$this->load->js('assets/admin_assets/vendors/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js');
 	}
+
+	public function chart_assets() {
+		$this->load->js('assets/admin_assets/vendors/raphael/raphael.min.js');
+		$this->load->js('assets/admin_assets/vendors/morris.js/morris.min.js');
+		$this->load->js('assets/admin_assets/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js');
+	}
+
+	public function daterangepicker_assets() {
+    	$this->load->css('assets/admin_assets/vendors/bootstrap-daterangepicker/daterangepicker.css');
+		$this->load->js('assets/admin_assets/js/moment/moment.min.js');
+		$this->load->js('assets/admin_assets/vendors/bootstrap-daterangepicker/daterangepicker.js');
+	}
 }
