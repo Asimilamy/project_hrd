@@ -76,3 +76,12 @@ function format_date($date, $format){
 
 	return $tgl_formatted;
 }
+
+function empty_string($str = '', $replacement = '-') {
+	if (empty($str)) :
+		$string = $replacement;
+	else :
+		$string = $str;
+	endif;
+	return $string;
+}

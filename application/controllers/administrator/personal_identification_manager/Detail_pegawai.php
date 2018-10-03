@@ -74,9 +74,16 @@ class Detail_pegawai extends MY_Controller {
 	}
 
 	public function open_detail() {
+		$this->load->model(array('model_karyawan/m_karyawan', 'model_setting/m_setting'));
 		$kd_karyawan = $this->input->get('kd_karyawan');
-		$data = [];
+		$data['class_link'] = $this->class_link;
+		$data['karyawan_info'] = $this->m_karyawan->get_data_pribadi($kd_karyawan);
 		$this->load->view('page/'.$this->class_link.'/detail_main', $data);
+	}
+
+	public function get_main_detail() {
+		$page_name = $this->input->get('page_name');
+		echo $page_name;
 	}
 
 	public function get_table() {

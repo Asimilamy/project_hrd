@@ -24,7 +24,7 @@ class Tm_karyawan extends CI_Model {
 			array( 'db' => 'c.nm_bagian', 'dt' => 5, 'field' => 'nm_bagian' ),
 			array( 'db' => 'd.nm_jabatan', 'dt' => 6, 'field' => 'nm_jabatan' ),
 			array( 'db' => 'e.nm_status_kerja', 'dt' => 7, 'field' => 'nm_status_kerja' ),
-			array( 'db' => 'a.tgl_masuk', 'dt' => 8, 'field' => 'tgl_masuk',
+			array( 'db' => 'a.tgl_aktif', 'dt' => 8, 'field' => 'tgl_aktif',
 				'formatter' => function($d) {
 					return format_date($d, 'd-m-Y');
 				} ),

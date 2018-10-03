@@ -144,7 +144,7 @@ class Data_pegawai extends MY_Controller {
 				$data['unit_kd'] = $this->input->post('selUnit');
 				$data['bagian_kd'] = $this->input->post('selBagian');
 				$data['jabatan_kd'] = $this->input->post('selJabatan');
-				$data['tgl_masuk'] = format_date($this->input->post('txtTglMasuk'), 'Y-m-d');
+				$data['tgl_aktif'] = format_date($this->input->post('txtTglMasuk'), 'Y-m-d');
 				$str = $this->base_query->submit_data('tm_karyawan', 'kd_karyawan', 'Data Karyawan', $data);
 			endif;
 			$str['alert_stat'] = 'offline';

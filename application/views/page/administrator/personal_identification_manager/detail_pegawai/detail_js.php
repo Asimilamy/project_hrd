@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed!');
 ?>
 <script type="text/javascript">
-	open_detail('<?php echo $_SESSION['user']['kd_pegawai']; ?>');
+	open_detail('<?php echo $_SESSION['user']['kd_karyawan']; ?>');
 	first_load('<?php echo $box_loader_id; ?>', '<?php echo $box_content_id; ?>');
 
 	function moveTo(element) {
@@ -14,7 +14,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		$('#<?php echo $box_content_id; ?>').slideUp(function(){
 			$.ajax({
 				type: 'GET',
-				url: '<?php echo base_url().$class_link.'/open_detail'; ?>',
+				url: '<?php echo base_url($class_link.'/open_detail'); ?>',
 				data: 'kd_karyawan='+kd_karyawan,
 				success: function(html) {
 					$('#<?php echo $box_content_id; ?>').html(html);
@@ -26,8 +26,11 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	}
 
 	function first_load(loader, content) {
-		$('#'+loader).fadeOut(500, function(e){
-			$('#'+content).slideDown();
+		$('#'+content).hide();
+		$('#'+loader).fadeIn(500, function(e) {
+			$('#'+loader).fadeOut(500, function(e){
+				$('#'+content).slideDown();
+			});
 		});
 	}
 
@@ -44,7 +47,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		remove_box('#idBoxForm');
 		$.ajax({
 			type: 'GET',
-			url: '<?php echo base_url().$class_link.'/get_form'; ?>',
+			url: '<?php echo base_url($class_link.'/get_form'); ?>',
 			data: 'id='+id,
 			success: function(html) {
 				$('#idMainContainer').prepend(html);
@@ -57,7 +60,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		remove_box('#idBoxForm');
 		$.ajax({
 			type: 'GET',
-			url: '<?php echo base_url().$class_link.'/delete_data'; ?>',
+			url: '<?php echo base_url($class_link.'/delete_data'); ?>',
 			data: 'id='+id,
 			success: function(data) {
 				$('#<?php echo $box_alert_id; ?>').html(data.alert).fadeIn();
