@@ -15,4 +15,28 @@ class M_karyawan extends CI_Model {
 		$row = $query->row();
 		return $row;
 	}
+
+	public function define_detail_table($kd_karyawan = '', $page_name = '') {
+		$query = [];
+		if ($page_name == 'data_pribadi') :
+			$query['select'] = 'a.nm_karyawan, b.no_telp_utama, b.no_telp_lain, b.email_utama, b.email_lain, b.alamat, b.tmp_lahir, b.tgl_lahir, b.foto_karyawan';
+			$query['table_a'] = 'tm_karyawan a';
+			$query['join'] = ['table_b' => 'td_karyawan_info b', 'cond' => 'b.karyawan_kd = a.kd_karyawan'];
+			$query['where'] = ['a.kd_karyawan' => $kd_karyawan];
+		endif;
+		return $query;
+	}
+
+	public function fetch_detail($kd_karyawan = '', $page_name = '') {
+		$conds = $this->define_detail_table($kd_karyawan, $page_name);
+		if (!empty($conds)) :
+			$this->db->select($conds['select'])
+				->from($conds['table_a'])
+				->join($conds['join']['table_b'], $conds['join']['cond'], 'left')
+				->where($conds['where']);
+			$query = $this->db->get();
+			$row = $query->row();
+			return $row;
+		endif;
+	}
 }

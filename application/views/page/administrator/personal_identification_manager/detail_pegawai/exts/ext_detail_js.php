@@ -33,4 +33,26 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 			});
 		});
 	}
+
+	function submit_form(form_id) {
+		$.ajax({
+			url: "<?php echo base_url($class_link.'/send_data_detail'); ?>",
+			type: "POST",
+			data:  new FormData(form_id),
+			contentType: false,
+			cache: false,
+			processData:false,
+			success: function(data){
+				if (data.alert_stat == 'online') {
+					if(!alert(data.csrf_alert)){window.location.reload();}
+				} else if (data.alert_stat == 'offline') {
+					if (data.confirm == 'success') {
+					}
+					if (data.confirm == 'error') {
+					}
+				}
+				$('input[name="<?php echo $this->config->item('csrf_token_name'); ?>"]').val(data.csrf);
+			}
+		});
+	}
 </script>

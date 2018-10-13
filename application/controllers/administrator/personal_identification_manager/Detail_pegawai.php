@@ -82,8 +82,33 @@ class Detail_pegawai extends MY_Controller {
 	}
 
 	public function get_main_detail() {
+		$this->load->model(array('model_karyawan/m_karyawan'));
+		$this->load->helper(array('form'));
+
 		$page_name = $this->input->get('page_name');
-		echo $page_name;
+		$data['page_name'] = $page_name;
+		$data = $this->m_karyawan->fetch_detail($_SESSION['user']['kd_karyawan'], $page_name);
+		$page_url = 'page/'.$this->class_link.'/form_detail/'.$page_name.'_form_main';
+		if (file_exists(FCPATH.'application/views/'.$page_url.'.php')) :
+			$this->load->view($page_url, $data);
+		else :
+			echo $page_name.' - File Not Exist!';
+		endif;
+	}
+
+	public function send_data_detail() {
+		$this->load->library('form_validation');
+		$this->load->model('model_basic/base_query');
+		$this->load->helper('date');
+		if ($this->input->is_ajax_request()) :
+			$str['form_data'] = $this->input->post();
+			$str['alert_stat'] = 'offline';
+			$str['csrf_alert'] = '';
+			$str['csrf'] = $this->security->get_csrf_hash();
+
+			header('Content-Type: application/json');
+			echo json_encode($str);
+		endif;
 	}
 
 	public function get_table() {
