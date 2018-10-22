@@ -39,4 +39,39 @@ class M_karyawan extends CI_Model {
 			return $row;
 		endif;
 	}
+
+	public function form_detail_errs($form_name = '') {
+		$form_errs = [];
+		if ($form_name == 'data_pribadi') :
+			$form_errs = ['idErrNm', 'idErrFoto', 'idErrTmpLahir', 'idErrTglLahir', 'idErrAlamat', 'idErrTelpUtama', 'idErrTelpLain', 'idErrEmailUtama', 'idErrEmailLain'];
+		endif;
+		return $form_errs;
+	}
+
+	public function form_detail_rules($form_name = '') {
+		if ($form_name == 'data_pribadi') :
+			$rules = array(
+				array('field' => 'txtNm', 'label' => 'Nama Karyawan', 'rules' => 'required'),
+				array('field' => 'fileFoto', 'label' => 'Foto Karyawan', 'rules' => 'required'),
+				array('field' => 'txtTmpLahir', 'label' =>  'Tempat Lahir', 'rules' => 'required'),
+				array('field' => 'txtTglLahir', 'label' => 'Tanggal Lahir', 'rules' => 'required'),
+				array('field' => 'txtAlamat', 'label' => 'Alamat Karyawan', 'rules' => 'required'),
+				array('field' => 'txtTelpUtama', 'label' => 'Telp Utama', 'rules' => 'required'),
+				array('field' => 'txtTelpLain', 'label' => 'Telp Lain', 'rules' => 'required'),
+				array('field' => 'txtEmailUtama', 'label' => 'Email Utama', 'rules' => 'required'),
+				array('field' => 'txtEmailLain', 'label' => 'Email Lain', 'rules' => 'required'),
+			);
+		endif;
+		return $rules;
+	}
+
+	public function form_detail_warning($form_name = '', $datas = '') {
+		if ($form_name == 'data_pribadi') :
+			$forms = array('txtNm', 'fileFoto', 'txtTmpLahir', 'txtTglLahir', 'txtAlamat', 'txtTelpUtama', 'txtTelpLain', 'txtEmailUtama', 'txtEmailLain');
+			foreach ($datas as $key => $data) :
+				$str[$data] = (!empty(form_error($forms[$key])))?build_label('warning', form_error($forms[$key], '"', '"')):'';
+			endforeach;
+			return $str;
+		endif;
+	}
 }

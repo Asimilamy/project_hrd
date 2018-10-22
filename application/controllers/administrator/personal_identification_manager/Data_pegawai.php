@@ -169,6 +169,6 @@ class Data_pegawai extends MY_Controller {
 
 	public function register_detail() {
 		$id = $this->input->get('id');
-		$_SESSION['user']['kd_karyawan'] = $id;
+		$_SESSION['user']['detail_karyawan']['kd_karyawan'] = $id;
 	}
 }

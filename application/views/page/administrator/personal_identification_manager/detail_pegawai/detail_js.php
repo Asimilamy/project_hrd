@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed!');
 ?>
 <script type="text/javascript">
-	open_detail('<?php echo $_SESSION['user']['kd_karyawan']; ?>');
+	open_detail('<?php echo $_SESSION['user']['detail_karyawan']['kd_karyawan']; ?>');
 	first_load('<?php echo $box_loader_id; ?>', '<?php echo $box_content_id; ?>');
 
 	function moveTo(element) {
