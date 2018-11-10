@@ -6,8 +6,10 @@ $master_var = 'DataDetailKaryawan';
 $form_id = 'idForm'.$master_var;
 $data['class_link'] = $class_link;
 $data['form_errs'] = $form_errs;
+$data['page_name'] = $page_name;
 echo form_open_multipart('', array('id' => $form_id, 'style' => 'margin-top: -15px;'));
 echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $_SESSION['user']['detail_karyawan']['kd_karyawan']));
+echo form_input(array('type' => 'hidden', 'name' => 'txtKdKaryawanInfo', 'value' => $detail_row->kd_karyawan_info));
 ?>
 <div class="form-group col-sm-6 col-xs-12">
 	<label for="idTxtNm">Nama Karyawan</label>
@@ -20,6 +22,7 @@ echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $_SESSIO
 	<label for="idFileFoto">Foto Karyawan</label>
 	<div>
 		<div id="idErrFoto"></div>
+		<?php echo form_input(array('type' => 'hidden', 'name' => 'txtFileFotoLama', 'value' => $detail_row->foto_karyawan)); ?>
 		<?php echo form_upload(array('name' => 'fileFoto', 'id' => 'idFileFoto', 'class' => 'form-control')); ?>
 	</div>
 </div>

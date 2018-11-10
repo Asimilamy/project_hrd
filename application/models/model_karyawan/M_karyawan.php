@@ -19,7 +19,7 @@ class M_karyawan extends CI_Model {
 	public function define_detail_table($kd_karyawan = '', $page_name = '') {
 		$query = [];
 		if ($page_name == 'data_pribadi') :
-			$query['select'] = 'a.nm_karyawan, b.no_telp_utama, b.no_telp_lain, b.email_utama, b.email_lain, b.alamat, b.tmp_lahir, b.tgl_lahir, b.foto_karyawan';
+			$query['select'] = 'a.nm_karyawan, b.kd_karyawan_info, b.no_telp_utama, b.no_telp_lain, b.email_utama, b.email_lain, b.alamat, b.tmp_lahir, b.tgl_lahir, b.foto_karyawan';
 			$query['table_a'] = 'tm_karyawan a';
 			$query['join'] = ['table_b' => 'td_karyawan_info b', 'cond' => 'b.karyawan_kd = a.kd_karyawan'];
 			$query['where'] = ['a.kd_karyawan' => $kd_karyawan];
@@ -44,6 +44,8 @@ class M_karyawan extends CI_Model {
 		$form_errs = [];
 		if ($form_name == 'data_pribadi') :
 			$form_errs = ['idErrNm', 'idErrFoto', 'idErrTmpLahir', 'idErrTglLahir', 'idErrAlamat', 'idErrTelpUtama', 'idErrTelpLain', 'idErrEmailUtama', 'idErrEmailLain'];
+		elseif ($form_name == 'data_asuransi') :
+			$form_errs = ['idErrAsuransi', 'idErrNoAsuransi', 'idErrTglMasuk', 'idErrStatusAsuransi'];
 		endif;
 		return $form_errs;
 	}
@@ -52,15 +54,25 @@ class M_karyawan extends CI_Model {
 		if ($form_name == 'data_pribadi') :
 			$rules = array(
 				array('field' => 'txtNm', 'label' => 'Nama Karyawan', 'rules' => 'required'),
-				array('field' => 'fileFoto', 'label' => 'Foto Karyawan', 'rules' => 'required'),
 				array('field' => 'txtTmpLahir', 'label' =>  'Tempat Lahir', 'rules' => 'required'),
 				array('field' => 'txtTglLahir', 'label' => 'Tanggal Lahir', 'rules' => 'required'),
 				array('field' => 'txtAlamat', 'label' => 'Alamat Karyawan', 'rules' => 'required'),
 				array('field' => 'txtTelpUtama', 'label' => 'Telp Utama', 'rules' => 'required'),
-				array('field' => 'txtTelpLain', 'label' => 'Telp Lain', 'rules' => 'required'),
-				array('field' => 'txtEmailUtama', 'label' => 'Email Utama', 'rules' => 'required'),
-				array('field' => 'txtEmailLain', 'label' => 'Email Lain', 'rules' => 'required'),
+				array('field' => 'txtEmailUtama', 'label' => 'Email Utama', 'rules' => 'required|valid_email'),
 			);
+			if (!empty($this->input->post('txtTelpLain'))) :
+				$rules = array_merge($rules, [['field' => 'txtTelpLain', 'label' => 'Telp Lain', 'rules' => 'differs[txtTelpUtama]']]);
+			endif;
+			if (!empty($this->input->post('txtEmailLain'))) :
+				$rules = array_merge($rules, [['field' => 'txtEmailLain', 'label' => 'Email Lain', 'rules' => 'required|valid_email|differs[txtEmailUtama]']]);
+			endif;
+		elseif ($form_name == 'data_asuransi') :
+			$rules = [
+				['field' => 'selAsuransi', 'label' => 'Nama Asuransi', 'rules' => 'required'],
+				['field' => 'txtNoAsuransi', 'label' => 'No Asuransi', 'rules' => 'required'],
+				['field' => 'txtTglMasuk', 'label' => 'Tgl Masuk', 'rules' => 'required'],
+				['field' => 'selStatusAsuransi', 'label' => 'Status Asuransi', 'rules' => 'required'],
+			];
 		endif;
 		return $rules;
 	}
@@ -68,10 +80,60 @@ class M_karyawan extends CI_Model {
 	public function form_detail_warning($form_name = '', $datas = '') {
 		if ($form_name == 'data_pribadi') :
 			$forms = array('txtNm', 'fileFoto', 'txtTmpLahir', 'txtTglLahir', 'txtAlamat', 'txtTelpUtama', 'txtTelpLain', 'txtEmailUtama', 'txtEmailLain');
-			foreach ($datas as $key => $data) :
-				$str[$data] = (!empty(form_error($forms[$key])))?build_label('warning', form_error($forms[$key], '"', '"')):'';
-			endforeach;
-			return $str;
+		elseif ($form_name == 'data_asuransi') :
+			$forms = ['selAsuransi', 'txtNoAsuransi', 'txtTglMasuk', 'selStatusAsuransi'];
 		endif;
+		foreach ($datas as $key => $data) :
+			$str[$data] = (!empty(form_error($forms[$key])))?build_label('warning', form_error($forms[$key], '"', '"')):'';
+		endforeach;
+		return $str;
+	}
+
+	public function submit_form_detail($page_name = '') {
+		$this->load->model('model_basic/base_query');
+		$this->load->helper('upload_file_helper');
+		if ($page_name == 'data_pribadi') :
+			$file_img = $_FILES['fileFoto'];
+			if (!empty($file_img['name'])) :
+				$path = 'assets/admin_assets/images/employees/';
+				$upload = upload_file('fileFoto', $path, 'jpg|png|gif', 'idErrFoto');
+				if (isset($upload['confirm']) && $upload['confirm'] == 'error') :
+					header('Content-Type: application/json');
+					echo json_encode($upload);
+					exit();
+				else :
+					$user_img = $upload['upload_data']['file_name'];
+					process_image_conf($path.$user_img, '150');
+				endif;
+			else :
+				$user_img = $this->input->post('txtFileFotoLama');
+			endif;
+			$master['kd_karyawan'] = $this->input->post('txtKd');
+			$master['nm_karyawan'] = $this->input->post('txtNm');
+			$detail['karyawan_kd'] = $master['kd_karyawan'];
+			$detail['kd_karyawan_info'] = $this->input->post('txtKdKaryawanInfo');
+			$detail['no_telp_utama'] = $this->input->post('txtTelpUtama');
+			$detail['no_telp_lain'] = $this->input->post('txtTelpLain');
+			$detail['email_utama'] = $this->input->post('txtEmailUtama');
+			$detail['email_lain'] = $this->input->post('txtEmailLain');
+			$detail['tmp_lahir'] = $this->input->post('txtTmpLahir');
+			$detail['tgl_lahir'] = format_date($this->input->post('txtTglLahir'), 'Y-m-d');
+			$detail['alamat'] = $this->input->post('txtAlamat');
+			$detail['foto_karyawan'] = $user_img;
+			$str = $this->base_query->submit_data('tm_karyawan', 'kd_karyawan', 'Data Info Karyawan', $master);
+			if ($str['confirm'] == 'success') :
+				$str = [];
+				$str = $this->base_query->submit_data('td_karyawan_info', 'kd_karyawan_info', 'Data Info Karyawan', $detail);
+			endif;
+		elseif ($page_name == 'data_asuransi') :
+			$data['kd_karyawan_asuransi'] = $this->input->post('txtKd');
+			$data['asuransi_kd'] = $this->input->post('selAsuransi');
+			$data['karyawan_kd'] = $this->input->post('txtKdKaryawan');
+			$data['no_asuransi'] = $this->input->post('txtNoAsuransi');
+			$data['tgl_masuk'] = format_date($this->input->post('txtTglMasuk'), 'Y-m-d');
+			$data['status_asuransi'] = $this->input->post('selStatusAsuransi');
+			$str = $this->base_query->submit_data('td_karyawan_asuransi', 'kd_karyawan_asuransi', 'Data Asuransi Karyawan', $data);
+		endif;
+		return $str;
 	}
 }

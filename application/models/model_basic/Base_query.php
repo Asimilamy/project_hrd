@@ -82,8 +82,10 @@ class Base_query extends CI_Model {
 		endforeach;
 
 		$this->db->select($img_col)
-			->from($img_tbl)
-			->where_in($img_col, $fotos);
+			->from($img_tbl);
+		if (isset($fotos)) :
+			$this->db->where_in($img_col, $fotos);
+		endif;
 		if (!empty($ex_params)) :
 			$this->db->where($ex_params);
 		endif;
@@ -93,11 +95,17 @@ class Base_query extends CI_Model {
 			$imgs[] = $row->{$img_col};
 		endforeach;
 
-		foreach ($fotos as $foto) :
-			if (!in_array($foto, $imgs)) :
-				unlink($path_to_img.$foto);
-			endif;
-		endforeach;
+		if (isset($fotos)) :
+			foreach ($fotos as $foto) :
+				if (isset($imgs)) :
+					if (!in_array($foto, $imgs)) :
+						unlink($path_to_img.$foto);
+					endif;
+				else :
+					unlink($path_to_img.$foto);
+				endif;
+			endforeach;
+		endif;
 		$this->db->trans_complete();
 	}
 }

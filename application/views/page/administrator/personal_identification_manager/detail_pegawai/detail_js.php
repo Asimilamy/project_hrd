@@ -3,10 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 ?>
 <script type="text/javascript">
 	open_detail('<?php echo $_SESSION['user']['detail_karyawan']['kd_karyawan']; ?>');
-	first_load('<?php echo $box_loader_id; ?>', '<?php echo $box_content_id; ?>');
+	first_load('#<?php echo $box_loader_id; ?>', '#<?php echo $box_content_id; ?>');
 
 	function moveTo(element) {
-		$('html, body').animate({ scrollTop: $(element).offset().top - $('header').height() }, 1000);
+		$('html, body').animate({ scrollTop: $(element).offset().top - $('header').height() }, 'fast');
 	}
 
 	function open_detail(kd_karyawan) {
@@ -19,17 +19,16 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 				success: function(html) {
 					$('#<?php echo $box_content_id; ?>').html(html);
 					$('#<?php echo $box_content_id; ?>').slideDown();
-					moveTo('.main_container');
 				}
 			});
 		});
 	}
 
 	function first_load(loader, content) {
-		$('#'+content).hide();
-		$('#'+loader).fadeIn(500, function(e) {
-			$('#'+loader).fadeOut(500, function(e){
-				$('#'+content).slideDown();
+		$(content).hide();
+		$(loader).fadeIn(500, function(e) {
+			$(loader).fadeOut(500, function(e){
+				$(content).slideDown();
 			});
 		});
 	}

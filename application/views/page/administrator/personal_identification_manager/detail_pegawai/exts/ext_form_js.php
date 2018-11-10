@@ -4,6 +4,16 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 <script type="text/javascript">
 	function submit_form(form_id) {
+		$(form_id).parents('.box-page-detail-karyawan').prev('.form-err-class').slideUp();
+		<?php
+		$no = 0;
+		foreach ($form_errs as $form_err) {
+			echo $no == 0?"":"\n\t\t";
+			echo '$(\'#'.$form_err.'\').slideUp();';
+			$no++;
+		}
+		echo "\n";
+		?>
 		$.ajax({
 			url: "<?php echo base_url($class_link.'/send_data_detail'); ?>",
 			type: "POST",
@@ -16,6 +26,9 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 					if(!alert(data.csrf_alert)){window.location.reload();}
 				} else if (data.alert_stat == 'offline') {
 					if (data.confirm == 'success') {
+						$(form_id).parents('.box-page-detail-karyawan').prev('.form-err-class').html(data.alert).slideDown();
+						get_main_detail('<?php echo $page_name; ?>');
+						first_load('.box-loader-detail-karyawan', '.box-page-detail-karyawan');
 					}
 					if (data.confirm == 'error') {
 						<?php

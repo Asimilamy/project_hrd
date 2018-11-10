@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	});
 
 	function moveTo(element) {
-		$('html, body').animate({ scrollTop: $(element).offset().top - $('header').height() }, 1000);
+		$('html, body').animate({ scrollTop: $(element).offset().top - $('header').height() }, 'fast');
 	}
 
 	function open_table() {

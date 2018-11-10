@@ -13,11 +13,11 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 					<?php
 					if (!empty($karyawan_info->foto_karyawan) && file_exists('assets/admin_assets/images/employees/'.$karyawan_info->foto_karyawan)) :
 						?>
-						<img class="img-responsive avatar-view" src="<?php echo base_url('assets/admin_assets/images/employees/'.$karyawan_info->foto_karyawan); ?>" alt="<?php echo $karyawan_info->nm_karyawan; ?>" width="195px" height="195px">
+						<img class="img-responsive avatar-view" src="<?php echo base_url('assets/admin_assets/images/employees/'.$karyawan_info->foto_karyawan); ?>" alt="<?php echo $karyawan_info->nm_karyawan; ?>" width="253px" height="253px">
 						<?php
 					else :
 						?>
-						<img class="img-responsive avatar-view" src="<?php echo base_url('assets/admin_assets/images/settings/'.$default_user_img); ?>" alt="<?php echo $karyawan_info->nm_karyawan; ?>" width="195px" height="195px">
+						<img class="img-responsive avatar-view" src="<?php echo base_url('assets/admin_assets/images/settings/'.$default_user_img); ?>" alt="<?php echo $karyawan_info->nm_karyawan; ?>" width="253px" height="253px">
 						<?php
 					endif;
 					?>
@@ -62,6 +62,12 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 					<a href="javascript:void(0);" data-page-link="data_jabatan">Jabatan</a>
 				</li>
 				<li role="presentation">
+					<a href="javascript:void(0);" data-page-link="data_asuransi">Asuransi</a>
+				</li>
+				<li role="presentation">
+					<a href="javascript:void(0);" data-page-link="histori_kontrak">Histori Kontrak</a>
+				</li>
+				<li role="presentation">
 					<a href="javascript:void(0);" data-page-link="data_skills">Skills</a>
 				</li>
 			</ul>
@@ -76,10 +82,11 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 	<div class="panel panel-primary">
 		<div class="panel-heading"><h4 class="panel-title">Detail Pegawai Title</h4></div>
 		<div class="panel-body">
-			<div id="idBoxLoaderDetailKaryawan" align="middle">
+			<div class="box-loader-detail-karyawan" align="middle">
 				<i class="fa fa-spinner fa-pulse fa-2x" style="color:#31708f;"></i>
 			</div>
-			<div id="idBoxPageDetailKaryawan"></div>
+			<div class="form-err-class"></div>
+			<div class="box-page-detail-karyawan"></div>
 		</div>
 	</div>
 </div>

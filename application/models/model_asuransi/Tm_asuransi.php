@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
 
-class Tm_karyawan extends CI_Model {
-	private $tbl_name = 'tm_karyawan';
-	private $p_key = 'kd_karyawan';
-	private $title_name = 'Data Pegawai';
+class Tm_asuransi extends CI_Model {
+	private $tbl_name = 'tm_asuransi';
+	private $p_key = 'kd_asuransi';
+	private $title_name = 'Data Asuransi';
 
 	public function ssp_table() {
 		$data['table'] = $this->tbl_name;

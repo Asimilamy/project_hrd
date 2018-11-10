@@ -31,6 +31,7 @@ class MY_Controller extends CI_Controller {
 		$this->db->trans_start();
 		$this->base_query->del_unused_img('assets/admin_assets/images/settings/', 'tm_sys_appareance', 'val_sys_appareance', ['type_sys_appareance' => 'img']);
 		$this->base_query->del_unused_img('assets/admin_assets/images/users/', 'tm_user', 'user_img');
+		$this->base_query->del_unused_img('assets/admin_assets/images/employees/', 'td_karyawan_info', 'foto_karyawan');
 		$this->db->trans_complete();
 		
 		$data = [];

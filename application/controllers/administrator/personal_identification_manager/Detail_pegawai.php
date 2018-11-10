@@ -95,7 +95,12 @@ class Detail_pegawai extends MY_Controller {
 		if (file_exists(FCPATH.'application/views/'.$page_url.'.php')) :
 			$this->load->view($page_url, $data);
 		else :
-			echo $page_name.' - File Not Exist!';
+			$page_url = 'page/'.$this->class_link.'/form_detail/'.$page_name.'/'.$page_name.'_form_main';
+			if (file_exists(FCPATH.'application/views/'.$page_url.'.php')) :
+				$this->load->view($page_url, $data);
+			else :
+				echo $page_name.' - File Not Exist!';
+			endif;
 		endif;
 	}
 
@@ -110,6 +115,7 @@ class Detail_pegawai extends MY_Controller {
 				$str = $this->m_karyawan->form_detail_warning($page_name, $this->m_karyawan->form_detail_errs($page_name));
 				$str['confirm'] = 'error';
 			else :
+				$str = $this->m_karyawan->submit_form_detail($page_name);
 			endif;
 			$str['form_data'] = $this->input->post();
 			$str['alert_stat'] = 'offline';
@@ -119,6 +125,45 @@ class Detail_pegawai extends MY_Controller {
 			header('Content-Type: application/json');
 			echo json_encode($str);
 		endif;
+	}
+
+	public function get_complete_detail() {
+		$this->load->model(array('model_basic/base_query', 'model_karyawan/m_karyawan'));
+		$this->load->helper(array('form'));
+		
+		$file_type = $this->input->get('file_type');
+		$kd_karyawan = $_SESSION['user']['detail_karyawan']['kd_karyawan'];
+		$page_name = $_SESSION['user']['detail_karyawan']['page_name'];
+		$data['page_name'] = $page_name;
+		$data['class_link'] = $this->class_link;
+		if ($file_type == 'table') :
+		elseif ($file_type == 'form') :
+			if ($page_name == 'data_asuransi') :
+				$this->load->model(array('model_karyawan/td_karyawan_asuransi'));
+				$kd_karyawan_asuransi = $this->input->get('kd_karyawan_asuransi');
+				$data['form_errs'] = $this->m_karyawan->form_detail_errs($page_name);
+				$data['opts_asuransi'] = render_dropdown('Asuransi', $this->base_query->get_all('tm_asuransi'), 'kd_asuransi', 'nm_asuransi');
+				$data['form_data'] = $this->td_karyawan_asuransi->get_data($kd_karyawan_asuransi);
+			endif;
+		endif;
+		$page_url = 'page/'.$this->class_link.'/form_detail/'.$page_name.'/'.$file_type.'_main';
+		if (file_exists(FCPATH.'application/views/'.$page_url.'.php')) :
+			$this->load->view($page_url, $data);
+		else :
+			echo $page_name.' - File Not Exist!';
+		endif;
+	}
+
+	public function table_detail_data() {
+		$this->load->library(array('custom_ssp'));
+
+		if ($_SESSION['user']['detail_karyawan']['page_name'] == 'data_asuransi') :
+			$this->load->model(array('model_karyawan/td_karyawan_asuransi'));
+			$data = $this->td_karyawan_asuransi->ssp_table();
+		endif;
+		echo json_encode(
+			Custom_SSP::simple( $_GET, $data['sql_details'], $data['table'], $data['primaryKey'], $data['columns'], $data['joinQuery'], $data['where'] )
+		);
 	}
 
 	public function get_table() {
