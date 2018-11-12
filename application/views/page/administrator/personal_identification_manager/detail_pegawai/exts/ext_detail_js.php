@@ -33,4 +33,18 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 			});
 		});
 	}
+
+	function hapus_data(id) {
+		$('.form-err-class').slideUp();
+		remove_box('#idBoxForm');
+		$.ajax({
+			type: 'GET',
+			url: '<?php echo base_url().$class_link.'/delete_data_detail'; ?>',
+			data: 'id='+id,
+			success: function(data) {
+				$('.form-err-class').html(data.alert).fadeIn();
+				open_detail_page({'file_type' : 'table'});
+			}
+		});
+	}
 </script>

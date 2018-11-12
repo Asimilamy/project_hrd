@@ -45,7 +45,7 @@ class Td_karyawan_asuransi extends CI_Model {
 		$delete_access = $_SESSION['user']['access']['delete'];
 
 		$btns = array();
-		$btns[] = get_btn(array('access' => $read_access, 'title' => 'Detail '.$this->title_name, 'icon' => 'search', 'onclick' => 'view_detail(\''.$id.'\')'));
+		// $btns[] = get_btn(array('access' => $read_access, 'title' => 'Detail '.$this->title_name, 'icon' => 'search', 'onclick' => 'view_detail(\''.$id.'\')'));
 		$btns[] = get_btn(array('access' => $update_access, 'title' => 'Ubah', 'icon' => 'pencil', 'onclick' => 'open_detail_page({\'file_type\' : \'form\', \'kd_karyawan_asuransi\' : \''.$id.'\'})'));
 		$btns[] = get_btn_divider();
 		$btns[] = get_btn(array('access' => $delete_access, 'title' => 'Hapus', 'icon' => 'trash',
@@ -64,26 +64,5 @@ class Td_karyawan_asuransi extends CI_Model {
 			$data = (object) array('kd_karyawan_asuransi' => '', 'asuransi_kd' => '', 'karyawan_kd' => '', 'no_asuransi' => '', 'tgl_masuk' => '', 'status_asuransi' => '');
 		endif;
 		return $data;
-	}
-
-	public function form_rules() {
-		$rules = array(
-			array('field' => 'txtNik', 'label' => 'NIK Karyawan', 'rules' => 'required'),
-			array('field' => 'txtNm', 'label' => 'Nama Karyawan', 'rules' => 'required'),
-			array('field' => 'selStatusKerja', 'label' =>  'Status Kerja', 'rules' => 'required'),
-			array('field' => 'selUnit', 'label' => 'Unit', 'rules' => 'required'),
-			array('field' => 'selBagian', 'label' => 'Bagian', 'rules' => 'required'),
-			array('field' => 'selJabatan', 'label' => 'Jabatan', 'rules' => 'required'),
-			array('field' => 'txtTglMasuk', 'label' => 'Tanggal Masuk', 'rules' => 'required'),
-		);
-		return $rules;
-	}
-
-	public function form_warning($datas = '') {
-		$forms = array('txtNik', 'txtNm', 'selStatusKerja', 'selUnit', 'selBagian', 'selJabatan', 'txtTglMasuk');
-		foreach ($datas as $key => $data) :
-			$str[$data] = (!empty(form_error($forms[$key])))?build_label('warning', form_error($forms[$key], '"', '"')):'';
-		endforeach;
-		return $str;
 	}
 }

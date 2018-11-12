@@ -11,35 +11,42 @@ $data['page_name'] = $page_name;
 	<div class="col-md-12">
 		<?php
 		echo form_open_multipart('', array('id' => 'idFormAsuransi', 'class' => 'form-horizontal form-label-left'));
-		echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $form_data->kd_karyawan_asuransi));
+		echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $form_data->kd_karyawan_kontak));
 		echo form_input(array('type' => 'hidden', 'name' => 'txtKdKaryawan', 'value' => $_SESSION['user']['detail_karyawan']['kd_karyawan']));
 		?>
 		<div class="form-group">
-			<label for="idSelAsuransi" class="control-label col-md-2 col-sm-12 col-xs-12">Nama Asuransi</label>
+			<label for="idTxtNmKontak" class="control-label col-md-2 col-sm-12 col-xs-12">Nama Kontak</label>
 			<div class="col-md-6 col-sm-12 col-xs-12">
-				<div id="idErrAsuransi"></div>
-				<?php echo form_dropdown('selAsuransi', $opts_asuransi, $form_data->asuransi_kd, array('id' => 'idSelAsuransi', 'class' => 'form-control',)); ?>
+				<div id="idErrNamaKontak"></div>
+				<?php echo form_input(['name' => 'txtNmKontak', 'id' => 'idTxtNmKontak', 'class' => 'form-control', 'value' => $form_data->nm_kontak, 'placeholder' => 'Nama Kontak']); ?>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="idTxtNoAsuransi" class="control-label col-md-2 col-sm-12 col-xs-12">No Asuransi</label>
-			<div class="col-md-4 col-sm-12 col-xs-12">
-				<div id="idErrNoAsuransi"></div>
-				<?php echo form_input(array('name' => 'txtNoAsuransi', 'id' => 'idTxtNoAsuransi', 'class' => 'form-control', 'value' => $form_data->no_asuransi, 'placeholder' => 'No Asuransi')); ?>
+			<label for="idTxtAlamat" class="control-label col-md-2 col-sm-12 col-xs-12">Alamat</label>
+			<div class="col-md-6 col-sm-12 col-xs-12">
+				<div id="idErrAlamat"></div>
+				<?php echo form_textarea(array('name' => 'txtAlamat', 'id' => 'idTxtAlamat', 'class' => 'form-control', 'value' => $form_data->alamat, 'placeholder' => 'Alamat', 'rows' => '5')); ?>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="idTxtTglMasuk" class="control-label col-md-2 col-sm-12 col-xs-12">Tgl Masuk</label>
+			<label for="idSelHubungan" class="control-label col-md-2 col-sm-12 col-xs-12">Hubungan</label>
 			<div class="col-md-3 col-sm-12 col-xs-12">
-				<div id="idErrTglMasuk"></div>
-				<?php echo form_input(array('name' => 'txtTglMasuk', 'id' => 'idTxtTglMasuk', 'class' => 'form-control datetimepicker', 'value' => $form_data->tgl_masuk, 'placeholder' => 'Tgl Masuk')); ?>
+				<div id="idErrHubungan"></div>
+				<?php echo form_dropdown('selHubungan', ['' => '-- Pilih Hubungan --', 'Keluarga' => 'Keluarga', 'Saudara' => 'Saudara', 'Teman' => 'Teman'], $form_data->hubungan, ['id' => 'idSelHubungan', 'class' => 'form-control']); ?>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="idSelStatusAsuransi" class="control-label col-md-2 col-sm-12 col-xs-12">Status Asuransi</label>
+			<label for="idTxtTelp" class="control-label col-md-2 col-sm-12 col-xs-12">Telp Utama</label>
 			<div class="col-md-3 col-sm-12 col-xs-12">
-				<div id="idErrStatusAsuransi"></div>
-				<?php echo form_dropdown('selStatusAsuransi', ['' => '-- Pilih Status Asuransi --', 'aktif' => 'Aktif', 'tidak aktif' => 'Tidak Aktif'], $form_data->status_asuransi, array('id' => 'idSelStatusAsuransi', 'class' => 'form-control',)); ?>
+				<div id="idErrTelpUtama"></div>
+				<?php echo form_input(['name' => 'txtTelp', 'id' => 'idTxtTelp', 'class' => 'form-control', 'value' => $form_data->telp_utama, 'placeholder' => 'Telp Utama']); ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="idTxtEmail" class="control-label col-md-2 col-sm-12 col-xs-12">Email Utama</label>
+			<div class="col-md-3 col-sm-12 col-xs-12">
+				<div id="idErrEmailUtama"></div>
+				<?php echo form_input(['name' => 'txtEmail', 'id' => 'idTxtEmail', 'class' => 'form-control', 'value' => $form_data->email_utama, 'placeholder' => 'Email Utama']); ?>
 			</div>
 		</div>
 		<hr>
