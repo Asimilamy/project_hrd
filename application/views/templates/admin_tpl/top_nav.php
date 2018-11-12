@@ -31,18 +31,18 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 						<li>
 							<a href="javascript:;"> Profile</a>
 						</li>
-						<li>
+						<!-- <li>
 							<a href="javascript:;">
 								<span class="badge bg-red pull-right">50%</span>
 								<span>Settings</span>
 							</a>
 						</li>
-						<li><a href="javascript:;">Help</a></li>
+						<li><a href="javascript:;">Help</a></li> -->
 						<li><a href="<?php echo base_url('administrator/auth/logout'); ?>"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
 					</ul>
 				</li>
 
-				<li role="presentation" class="dropdown">
+				<!-- <li role="presentation" class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
 						<i class="fa fa-envelope-o"></i>
 						<span class="badge bg-green">6</span>
@@ -105,7 +105,7 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 							</div>
 						</li>
 					</ul>
-				</li>
+				</li> -->
 			</ul>
 		</nav>
 	</div>
