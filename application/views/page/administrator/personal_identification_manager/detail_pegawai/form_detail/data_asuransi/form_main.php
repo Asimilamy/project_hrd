@@ -63,7 +63,6 @@ $this->load->view('page/'.$class_link.'/exts/ext_form_js', $data);
 	
 	$(document).off('click', '.btn-close-form').on('click', '.btn-close-form', function() {
 		open_detail_page({'file_type' : 'table'});
-		first_load('.box-loader-detail-karyawan', '.form_detail_main');
 		$('.form-err-class').slideUp();
 	});
 	

@@ -17,7 +17,7 @@ $this->load->view('page/'.$class_link.'/exts/ext_form_js', $data);
 	open_detail_page({'file_type' : 'table'});
 
 	$(document).off('click', '.btn-add-asuransi').on('click', '.btn-add-asuransi', function() {
-		open_detail_page({'file_type' : 'form', 'kd_karyawan_asuransi' : ''});
+		open_detail_page({'file_type' : 'form', 'kd_karyawan_kontrak' : ''});
 	});
 
 	function open_detail_page(params) {

@@ -93,6 +93,13 @@ class Detail_pegawai extends MY_Controller {
 		$data['detail_row'] = $this->m_karyawan->fetch_detail($_SESSION['user']['detail_karyawan']['kd_karyawan'], $page_name);
 		$page_url = 'page/'.$this->class_link.'/form_detail/'.$page_name.'_form_main';
 		if (file_exists(FCPATH.'application/views/'.$page_url.'.php')) :
+			if ($page_name == 'data_jabatan') :
+				$this->load->model(array('model_basic/base_query'));
+				$data['opts_unit'] = render_dropdown('Unit', $this->base_query->get_all('tm_unit'), 'kd_unit', 'nm_unit');
+				$data['opts_bagian'] = render_dropdown('Bagian', $this->base_query->get_all('tm_bagian'), 'kd_bagian', 'nm_bagian');
+				$data['opts_jabatan'] = render_dropdown('Jabatan', $this->base_query->get_all('tm_jabatan'), 'kd_jabatan', 'nm_jabatan');
+				$data['opts_status_kerja'] = render_dropdown('Status Kerja', $this->base_query->get_all('tm_status_kerja'), 'kd_status_kerja', 'nm_status_kerja');
+			endif;
 			$this->load->view($page_url, $data);
 		else :
 			$page_url = 'page/'.$this->class_link.'/form_detail/'.$page_name.'/'.$page_name.'_form_main';
@@ -113,25 +120,33 @@ class Detail_pegawai extends MY_Controller {
 		$page_name = $_SESSION['user']['detail_karyawan']['page_name'];
 		$data['page_name'] = $page_name;
 		$data['class_link'] = $this->class_link;
+		$data['form_errs'] = $this->m_karyawan->form_detail_errs($page_name);
 		if ($file_type == 'table') :
 		elseif ($file_type == 'form') :
 			if ($page_name == 'data_asuransi') :
 				$this->load->model(array('model_karyawan/td_karyawan_asuransi'));
-				$kd_karyawan_asuransi = $this->input->get('kd_karyawan_asuransi');
-				$data['form_errs'] = $this->m_karyawan->form_detail_errs($page_name);
 				$data['opts_asuransi'] = render_dropdown('Asuransi', $this->base_query->get_all('tm_asuransi'), 'kd_asuransi', 'nm_asuransi');
-				$data['form_data'] = $this->td_karyawan_asuransi->get_data($kd_karyawan_asuransi);
+				$table = 'td_karyawan_asuransi';
+				$p_key = $this->input->get('kd_karyawan_asuransi');
 			elseif ($page_name == 'data_kontak') :
 				$this->load->model(array('model_karyawan/td_karyawan_kontak'));
-				$kd_karyawan_kontak = $this->input->get('kd_karyawan_kontak');
-				$data['form_errs'] = $this->m_karyawan->form_detail_errs($page_name);
-				$data['form_data'] = $this->td_karyawan_kontak->get_data($kd_karyawan_kontak);
+				$table = 'td_karyawan_kontak';
+				$p_key = $this->input->get('kd_karyawan_kontak');
 			elseif ($page_name == 'data_keluarga') :
 				$this->load->model(array('model_karyawan/td_karyawan_keluarga'));
-				$kd_karyawan_keluarga = $this->input->get('kd_karyawan_keluarga');
-				$data['form_errs'] = $this->m_karyawan->form_detail_errs($page_name);
-				$data['form_data'] = $this->td_karyawan_keluarga->get_data($kd_karyawan_keluarga);
+				$table = 'td_karyawan_keluarga';
+				$p_key = $this->input->get('kd_karyawan_keluarga');
+			elseif ($page_name == 'histori_kontrak') :
+				$this->load->model(array('model_karyawan/td_karyawan_kontrak'));
+				$table = 'td_karyawan_kontrak';
+				$p_key = $this->input->get('kd_karyawan_kontrak');
+				$data['opts_client'] = render_dropdown('Client', $this->base_query->get_all('tm_client'), 'kd_client', 'nm_client');
+			elseif ($page_name == 'data_skills') :
+				$this->load->model(array('model_karyawan/td_karyawan_skill'));
+				$table = 'td_karyawan_skill';
+				$p_key = $this->input->get('kd_karyawan_skill');
 			endif;
+			$data['form_data'] = $this->{$table}->get_data($p_key);
 		endif;
 		$page_url = 'page/'.$this->class_link.'/form_detail/'.$page_name.'/'.$file_type.'_main';
 		if (file_exists(FCPATH.'application/views/'.$page_url.'.php')) :
@@ -176,6 +191,12 @@ class Detail_pegawai extends MY_Controller {
 		elseif ($_SESSION['user']['detail_karyawan']['page_name'] == 'data_keluarga') :
 			$this->load->model(array('model_karyawan/td_karyawan_keluarga'));
 			$data = $this->td_karyawan_keluarga->ssp_table();
+		elseif ($_SESSION['user']['detail_karyawan']['page_name'] == 'histori_kontrak') :
+			$this->load->model(array('model_karyawan/td_karyawan_kontrak'));
+			$data = $this->td_karyawan_kontrak->ssp_table();
+		elseif ($_SESSION['user']['detail_karyawan']['page_name'] == 'data_skills') :
+			$this->load->model(array('model_karyawan/td_karyawan_skill'));
+			$data = $this->td_karyawan_skill->ssp_table();
 		endif;
 		echo json_encode(
 			Custom_SSP::simple( $_GET, $data['sql_details'], $data['table'], $data['primaryKey'], $data['columns'], $data['joinQuery'], $data['where'] )
