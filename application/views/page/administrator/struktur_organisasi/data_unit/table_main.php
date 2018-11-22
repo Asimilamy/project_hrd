@@ -12,6 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	<tr>
 		<th style="width:1%; text-align:center;" class="all">No.</th>
 		<th style="width:4%; text-align:center;" class="all">Opsi</th>
+		<th style="text-align:center;">Kode</th>
 		<th style="width:25%; text-align:center;">User Code</th>
 		<th style="width:70%; text-align:left;">Nama Unit</th>
 	</tr>
@@ -54,9 +55,9 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		"columnDefs": [
 			{"data": null, "searchable": false, "orderable": false, "className": "dt-center", "targets": 0},
 			{"searchable": false, "orderable": false, "targets": 1},
-			{"className": "dt-center", "targets": 2, "searchable": false},
+			{"searchable": false, "visible": false, "targets": 2},
 		],
-		"order":[3, 'asc'],
+		"order":[2, 'asc'],
 		"rowCallback": function (row, data, iDisplayIndex) {
 			var info = this.fnPagingInfo();
 			var page = info.iPage;

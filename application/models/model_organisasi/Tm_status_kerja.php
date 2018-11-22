@@ -18,8 +18,9 @@ class Tm_status_kerja extends CI_Model {
 
 					return $this->tbl_btn($d, $row[2]);
 				} ),
-			array( 'db' => 'user_code', 'dt' => 2, 'field' => 'user_code' ),
-			array( 'db' => 'nm_status_kerja', 'dt' => 3, 'field' => 'nm_status_kerja' ),
+			array( 'db' => 'kd_status_kerja', 'dt' => 2, 'field' => 'kd_status_kerja' ),
+			array( 'db' => 'user_code', 'dt' => 3, 'field' => 'user_code' ),
+			array( 'db' => 'nm_status_kerja', 'dt' => 4, 'field' => 'nm_status_kerja' ),
 		);
 
 		$data['sql_details'] = sql_connect();

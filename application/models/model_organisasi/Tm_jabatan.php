@@ -18,8 +18,9 @@ class Tm_jabatan extends CI_Model {
 
 					return $this->tbl_btn($d, $row[2]);
 				} ),
-			array( 'db' => 'user_code', 'dt' => 2, 'field' => 'user_code' ),
-			array( 'db' => 'nm_jabatan', 'dt' => 3, 'field' => 'nm_jabatan' ),
+			array( 'db' => 'kd_jabatan', 'dt' => 2, 'field' => 'kd_jabatan' ),
+			array( 'db' => 'user_code', 'dt' => 3, 'field' => 'user_code' ),
+			array( 'db' => 'nm_jabatan', 'dt' => 4, 'field' => 'nm_jabatan' ),
 		);
 
 		$data['sql_details'] = sql_connect();

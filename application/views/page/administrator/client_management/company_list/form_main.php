@@ -10,14 +10,29 @@ echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $kd_clie
 <div class="form-group">
 	<label for="idSelClientJenis" class="col-sm-2 control-label">Nama Type Client</label>
 	<div class="col-sm-4 col-xs-4">
-		<div id="idErrNm"></div>
+		<div id="idErrClientJenis"></div>
 		<?php echo form_dropdown('selClientJenis', $client_jenis_opts, $client_jenis_kd, array('id' => 'idSelClientJenis', 'class' => 'form-control')); ?>
 	</div>
 </div>
 <div class="form-group">
 	<label for="idTxtNm" class="col-sm-2 control-label">Nama Client</label>
 	<div class="col-sm-6 col-xs-6">
+		<div id="idErrNm"></div>
 		<?php echo form_input(array('name' => 'txtNm', 'id' => 'idTxtNm', 'class' => 'form-control', 'value' => $nm_client, 'placeholder' => 'Nama Client')); ?>
+	</div>
+</div>
+<div class="form-group">
+	<label for="idTxtAlamat" class="col-sm-2 control-label">Alamat</label>
+	<div class="col-sm-6 col-xs-6">
+		<div id="idErrAlamat"></div>
+		<?php echo form_textarea(array('name' => 'txtAlamat', 'id' => 'idTxtAlamat', 'class' => 'form-control', 'value' => $alamat, 'rows' => '5', 'placeholder' => 'Alamat')); ?>
+	</div>
+</div>
+<div class="form-group">
+	<label for="idTxtBidangKerja" class="col-sm-2 control-label">Bidang Pekerjaan</label>
+	<div class="col-sm-6 col-xs-6">
+		<div id="idErrBidangKerja"></div>
+		<?php echo form_input(array('name' => 'txtBidangKerja', 'id' => 'idTxtBidangKerja', 'class' => 'form-control', 'value' => $bidang_pekerjaan, 'placeholder' => 'Bidang Pekerjaan')); ?>
 	</div>
 </div>
 <div class="form-group">

@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 class Company_list extends MY_Controller {
 	private $class_link = 'administrator/client_management/company_list';
-	private $form_errs = array('idErrClientJenis', 'idErrNm');
+	private $form_errs = array('idErrClientJenis', 'idErrNm', 'idErrAlamat', 'idErrBidangKerja');
 
 	public function __construct() {
 		parent::__construct();

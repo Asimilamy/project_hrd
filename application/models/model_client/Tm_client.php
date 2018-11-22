@@ -19,9 +19,12 @@ class Tm_client extends CI_Model {
 
 					return $this->tbl_btn($d, $row[2]);
 				} ),
-			array( 'db' => 'a.nm_client', 'dt' => 2, 'field' => 'nm_client' ),
-			array( 'db' => 'b.nm_client_jenis', 'dt' => 3, 'field' => 'nm_client_jenis' ),
-			array( 'db' => 'a.keterangan', 'dt' => 4, 'field' => 'keterangan',
+			array( 'db' => 'a.kd_client', 'dt' => 2, 'field' => 'kd_client' ),
+			array( 'db' => 'a.nm_client', 'dt' => 3, 'field' => 'nm_client' ),
+			array( 'db' => 'b.nm_client_jenis', 'dt' => 4, 'field' => 'nm_client_jenis' ),
+			array( 'db' => 'a.alamat', 'dt' => 5, 'field' => 'alamat' ),
+			array( 'db' => 'a.bidang_pekerjaan', 'dt' => 6, 'field' => 'bidang_pekerjaan' ),
+			array( 'db' => 'a.keterangan', 'dt' => 7, 'field' => 'keterangan',
 				'formatter' => function($d) {
 					return word_limiter($d, '100', '...');
 				} ),
@@ -58,9 +61,9 @@ class Tm_client extends CI_Model {
 		$this->load->model(array('model_basic/base_query'));
 		$row = $this->base_query->get_row($this->tbl_name, array($this->p_key => $id));
 		if (!empty($row)) :
-			$data = array('kd_client' => $row->kd_client, 'client_jenis_kd' => $row->client_jenis_kd, 'nm_client' => $row->nm_client, 'keterangan' => $row->keterangan);
+			$data = array('kd_client' => $row->kd_client, 'client_jenis_kd' => $row->client_jenis_kd, 'nm_client' => $row->nm_client, 'alamat' => $row->alamat, 'bidang_pekerjaan' => $row->bidang_pekerjaan, 'keterangan' => $row->keterangan);
 		else :
-			$data = array('kd_client' => '', 'client_jenis_kd' => '', 'nm_client' => '', 'keterangan' => '');
+			$data = array('kd_client' => '', 'client_jenis_kd' => '', 'nm_client' => '', 'alamat' => '', 'bidang_pekerjaan' => '', 'keterangan' => '');
 		endif;
 		return $data;
 	}
@@ -69,12 +72,14 @@ class Tm_client extends CI_Model {
 		$rules = array(
 			array('field' => 'selClientJenis', 'label' => 'Type Client', 'rules' => 'required'),
 			array('field' => 'txtNm', 'label' => 'Nama Client', 'rules' => 'required'),
+			array('field' => 'txtAlamat', 'label' => 'Alamat', 'rules' => 'required'),
+			array('field' => 'txtBidangKerja', 'label' => 'Bidang Pekerjaan', 'rules' => 'required'),
 		);
 		return $rules;
 	}
 
 	public function form_warning($datas = '') {
-		$forms = array('selClientJenis', 'txtNm');
+		$forms = array('selClientJenis', 'txtNm', 'txtAlamat', 'txtBidangKerja');
 		foreach ($datas as $key => $data) :
 			$str[$data] = (!empty(form_error($forms[$key])))?build_label('warning', form_error($forms[$key], '"', '"')):'';
 		endforeach;

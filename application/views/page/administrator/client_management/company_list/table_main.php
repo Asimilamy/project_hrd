@@ -12,9 +12,12 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	<tr>
 		<th style="width:1%; text-align:center;" class="all">No.</th>
 		<th style="width:4%; text-align:center;" class="all">Opsi</th>
-		<th style="width:25%; text-align:center;">Nama Client</th>
+		<th style="text-align:center;">Kode</th>
+		<th style="width:20%; text-align:center;">Nama Client</th>
 		<th style="width:20%; text-align:center;">Type Client</th>
-		<th style="width:50%; text-align:left;">Keterangan</th>
+		<th style="width:20%; text-align:center;">Alamat</th>
+		<th style="width:20%; text-align:center;">Bidang Pekerjaan</th>
+		<th style="width:20%; text-align:left;">Keterangan</th>
 	</tr>
 	</thead>
 </table>
@@ -55,9 +58,9 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		"columnDefs": [
 			{"data": null, "searchable": false, "orderable": false, "className": "dt-center", "targets": 0},
 			{"searchable": false, "orderable": false, "targets": 1},
-			{"className": "dt-center", "targets": 2, "searchable": false},
+			{"searchable": false, "visible": false, "targets": 2},
 		],
-		"order":[3, 'asc'],
+		"order":[2, 'asc'],
 		"rowCallback": function (row, data, iDisplayIndex) {
 			var info = this.fnPagingInfo();
 			var page = info.iPage;

@@ -18,8 +18,9 @@ class Tm_unit extends CI_Model {
 
 					return $this->tbl_btn($d, $row[2]);
 				} ),
-			array( 'db' => 'user_code', 'dt' => 2, 'field' => 'user_code' ),
-			array( 'db' => 'nm_unit', 'dt' => 3, 'field' => 'nm_unit' ),
+			array( 'db' => 'kd_unit', 'dt' => 2, 'field' => 'kd_unit' ),
+			array( 'db' => 'user_code', 'dt' => 3, 'field' => 'user_code' ),
+			array( 'db' => 'nm_unit', 'dt' => 4, 'field' => 'nm_unit' ),
 		);
 
 		$data['sql_details'] = sql_connect();
