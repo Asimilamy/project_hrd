@@ -2,10 +2,15 @@
 defined('BASEPATH') or exit('No direct script access allowed!');
 
 class Base_query extends CI_Model {
-	public function get_all($tbl = '', $params = []) {
+	public function get_all($tbl = '', $params = [], $orders = []) {
 		$this->db->from($tbl);
 		if (count($params) > 0) :
 			$this->db->where($params);
+		endif;
+		if (count($orders) > 0) :
+			foreach ($orders as $col => $ordering) :
+				$this->db->order_by($col, $ordering);
+			endforeach;
 		endif;
 		$query = $this->db->get();
 		$result = $query->result();
@@ -55,11 +60,6 @@ class Base_query extends CI_Model {
 		return $str;
 	}
 
-	private function create($data = '') {
-		$act = $this->db->insert_batch($this->tbl_name, $data);
-		return $act?TRUE:FALSE;
-	}
-
 	public function form_errs($tbl_name = '', $column = '') {
 		$form_errs = [];
 		$this->db->select($column)
@@ -72,7 +72,7 @@ class Base_query extends CI_Model {
 		return $form_errs;
 	}
 
-	function del_unused_img($path_to_img = '', $img_tbl = '', $img_col = '', $ex_params = []) {
+	public function del_unused_img($path_to_img = '', $img_tbl = '', $img_col = '', $ex_params = []) {
 		$img_on_dir = glob(FCPATH . $path_to_img . '*.*');
 		$path = strlen(FCPATH . $path_to_img);
 

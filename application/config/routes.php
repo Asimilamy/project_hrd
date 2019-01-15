@@ -62,3 +62,8 @@ $route['translate_uri_dashes'] = FALSE;
 $route['(:any)/master_type'] = 'administrator/developer/master_type';
 $route['(:any)/(:any)/master_type'] = 'administrator/developer/master_type';
 $route['(:any)/(:any)/(:any)/master_type'] = 'administrator/developer/master_type';
+
+$route['(:any)/code_format'] = 'administrator/developer/code_format';
+$route['(:any)/(:any)/code_format'] = 'administrator/developer/code_format';
+$route['(:any)/(:any)/(:any)/code_format'] = 'administrator/developer/code_format';
+$route['(:any)/(:any)/(:any)/(:any)/code_format'] = 'administrator/developer/code_format';
