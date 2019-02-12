@@ -160,6 +160,13 @@ class Data_pegawai extends MY_Controller {
 		$this->load->model('model_basic/base_query');
 		if ($this->input->is_ajax_request()) :
 			$id = $this->input->get('id');
+			$str = $this->base_query->delete_data('td_karyawan_asuransi', array('karyawan_kd' => $id), 'Data Karyawan');
+			$str = $this->base_query->delete_data('td_karyawan_info', array('karyawan_kd' => $id), 'Data Karyawan');
+			$str = $this->base_query->delete_data('td_karyawan_jabatan', array('karyawan_kd' => $id), 'Data Karyawan');
+			$str = $this->base_query->delete_data('td_karyawan_keluarga', array('karyawan_kd' => $id), 'Data Karyawan');
+			$str = $this->base_query->delete_data('td_karyawan_kontak', array('karyawan_kd' => $id), 'Data Karyawan');
+			$str = $this->base_query->delete_data('td_karyawan_kontrak', array('karyawan_kd' => $id), 'Data Karyawan');
+			$str = $this->base_query->delete_data('td_karyawan_skill', array('karyawan_kd' => $id), 'Data Karyawan');
 			$str = $this->base_query->delete_data('tm_karyawan', array('kd_karyawan' => $id), 'Data Karyawan');
 			
 			header('Content-Type: application/json');

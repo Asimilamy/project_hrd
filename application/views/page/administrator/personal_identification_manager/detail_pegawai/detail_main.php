@@ -13,11 +13,11 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 					<?php
 					if (!empty($karyawan_info->foto_karyawan) && file_exists('assets/admin_assets/images/employees/'.$karyawan_info->foto_karyawan)) :
 						?>
-						<img class="img-responsive avatar-view" src="<?php echo base_url('assets/admin_assets/images/employees/'.$karyawan_info->foto_karyawan); ?>" alt="<?php echo $karyawan_info->nm_karyawan; ?>" width="253px" height="253px">
+						<img class="img-responsive avatar-view" src="<?php echo base_url('assets/admin_assets/images/employees/'.$karyawan_info->foto_karyawan); ?>" alt="<?php echo $karyawan_info->nm_karyawan; ?>" width="253px" height="253px" style="margin-left: auto; margin-right: auto;">
 						<?php
 					else :
 						?>
-						<img class="img-responsive avatar-view" src="<?php echo base_url('assets/admin_assets/images/settings/'.$default_user_img); ?>" alt="<?php echo $karyawan_info->nm_karyawan; ?>" width="253px" height="253px">
+						<img class="img-responsive avatar-view" src="<?php echo base_url('assets/admin_assets/images/settings/'.$default_user_img); ?>" alt="<?php echo $karyawan_info->nm_karyawan; ?>" width="253px" height="253px" style="margin-left: auto; margin-right: auto;">
 						<?php
 					endif;
 					?>
@@ -49,24 +49,30 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 				<li role="presentation">
 					<a href="javascript:void(0);" data-page-link="data_pribadi">Data Pribadi</a>
 				</li>
-				<li role="presentation">
-					<a href="javascript:void(0);" data-page-link="data_kontak">Kontak Lain</a>
-				</li>
-				<li role="presentation">
-					<a href="javascript:void(0);" data-page-link="data_keluarga">Keluarga</a>
-				</li>
-				<li role="presentation">
-					<a href="javascript:void(0);" data-page-link="data_jabatan">Jabatan</a>
-				</li>
-				<li role="presentation">
-					<a href="javascript:void(0);" data-page-link="data_asuransi">Asuransi</a>
-				</li>
-				<li role="presentation">
-					<a href="javascript:void(0);" data-page-link="histori_kontrak">Histori Kontrak</a>
-				</li>
-				<li role="presentation">
-					<a href="javascript:void(0);" data-page-link="data_skills">Skills</a>
-				</li>
+				<?php
+				if (!empty($karyawan_info->kd_karyawan)) :
+					?>
+					<li role="presentation">
+						<a href="javascript:void(0);" data-page-link="data_kontak">Kontak Lain</a>
+					</li>
+					<li role="presentation">
+						<a href="javascript:void(0);" data-page-link="data_keluarga">Keluarga</a>
+					</li>
+					<li role="presentation">
+						<a href="javascript:void(0);" data-page-link="data_jabatan">Jabatan</a>
+					</li>
+					<li role="presentation">
+						<a href="javascript:void(0);" data-page-link="data_asuransi">Asuransi</a>
+					</li>
+					<li role="presentation">
+						<a href="javascript:void(0);" data-page-link="histori_kontrak">Histori Kontrak</a>
+					</li>
+					<li role="presentation">
+						<a href="javascript:void(0);" data-page-link="data_skills">Skills</a>
+					</li>
+					<?php
+				endif;
+				?>
 			</ul>
 		</div>
 	</div>

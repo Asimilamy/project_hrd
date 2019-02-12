@@ -12,19 +12,29 @@ class Tm_karyawan extends CI_Model {
 		$data['primaryKey'] = 'a.'.$this->p_key;
 
 		$data['columns'] = array(
-			array( 'db' => $this->p_key,
+			array( 'db' => 'a.'.$this->p_key,
 				'dt' => 1, 'field' => $this->p_key,
 				'formatter' => function($d, $row){
 
 					return $this->tbl_btn($d, $row[2]);
 				} ),
-			array( 'db' => 'a.nik_karyawan', 'dt' => 2, 'field' => 'nik_karyawan' ),
-			array( 'db' => 'a.nm_karyawan', 'dt' => 3, 'field' => 'nm_karyawan' ),
-			array( 'db' => 'b.nm_unit', 'dt' => 4, 'field' => 'nm_unit' ),
-			array( 'db' => 'c.nm_bagian', 'dt' => 5, 'field' => 'nm_bagian' ),
-			array( 'db' => 'd.nm_jabatan', 'dt' => 6, 'field' => 'nm_jabatan' ),
-			array( 'db' => 'e.nm_status_kerja', 'dt' => 7, 'field' => 'nm_status_kerja' ),
-			array( 'db' => 'a.tgl_aktif', 'dt' => 8, 'field' => 'tgl_aktif',
+			array( 'db' => 'a.'.$this->p_key, 'dt' => 2, 'field' => $this->p_key ),
+			array( 'db' => 'a.nik_karyawan', 'dt' => 3, 'field' => 'nik_karyawan' ),
+			array( 'db' => 'a.nm_karyawan', 'dt' => 4, 'field' => 'nm_karyawan' ),
+			array( 'db' => 'b.nm_unit', 'dt' => 5, 'field' => 'nm_unit',
+				'formatter' => function($d) {
+					return empty($d)?'-':$d;
+				} ),
+			array( 'db' => 'c.nm_bagian', 'dt' => 6, 'field' => 'nm_bagian',
+				'formatter' => function($d) {
+					return empty($d)?'-':$d;
+				} ),
+			array( 'db' => 'd.nm_jabatan', 'dt' => 7, 'field' => 'nm_jabatan',
+				'formatter' => function($d) {
+					return empty($d)?'-':$d;
+				} ),
+			array( 'db' => 'e.nm_status_kerja', 'dt' => 8, 'field' => 'nm_status_kerja' ),
+			array( 'db' => 'a.tgl_aktif', 'dt' => 9, 'field' => 'tgl_aktif',
 				'formatter' => function($d) {
 					return format_date($d, 'd-m-Y');
 				} ),

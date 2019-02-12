@@ -46,18 +46,12 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	}
 
 	function get_form(id) {
-		if (id != '') {
-			$('#<?php echo $btn_add_id; ?>').slideDown();
-			$('.panel_toolbox').css({"margin-right" : "0px"});
-		}
-		$('#<?php echo $box_alert_id; ?>').fadeOut();
-		remove_box('#idBoxForm');
 		$.ajax({
 			type: 'GET',
-			url: '<?php echo base_url().$class_link.'/get_form'; ?>',
+			url: '<?php echo base_url($class_link.'/register_detail'); ?>',
 			data: 'id='+id,
 			success: function(html) {
-				$('#idMainContainer').prepend(html);
+				window.location.href = '<?php echo base_url('administrator/personal_identification_manager/detail_pegawai/'); ?>';
 			}
 		});
 	}

@@ -35,6 +35,15 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		submit_form(this);
 	});
 
+	$(document).off('change', 'select[name="selCodePart[]"]').on('change', 'select[name="selCodePart[]"]', function() {
+		var sel_value = $(this).val();
+		if (sel_value == 'urutan_angka' || sel_value == 'kode_huruf') {
+			$(this).parents('.form-group').find('.cl-form-unique').fadeIn();
+		} else {
+			$(this).parents('.form-group').find('.cl-form-unique').fadeOut();
+		}
+	});
+
 	function moveTo(element) {
 		$('html, body').animate({ scrollTop: $(element).offset().top - $('header').height() }, 'fast');
 	}
@@ -68,6 +77,9 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	}
 
 	function open_form(id, code_for) {
+		$('#idAlertBoxView').slideUp(function() {
+			$(this).html('');
+		});
 		$('#idContainerFormCodeFormat').slideUp(function() {
 			$.ajax({
 				type: 'GET',
@@ -99,7 +111,9 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	}
 
 	function submit_form(form_id) {
-		$('#<?php echo $box_alert_id; ?>').html('');
+		$('#idAlertBoxView').slideUp(function() {
+			$(this).html('');
+		});
 		<?php
 		$no = 0;
 		foreach ($form_errs as $form_err) {
@@ -121,12 +135,11 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 					if(!alert(data.csrf_alert)){window.location.reload();}
 				} else if (data.alert_stat == 'offline') {
 					if (data.confirm == 'success') {
-						remove_box('#<?php echo $box_id;?>');
-						$('#idAlertBoxTable').html(data.alert).fadeIn();
+						$('#idAlertBoxView').html(data.alert).slideDown();
 						open_view();
 					}
 					if (data.confirm == 'error') {
-						$('#<?php echo $box_alert_id; ?>').html(data.alert);
+						$('#idAlertBoxView').html(data.alert).slideDown();
 						<?php
 						$no = 0;
 						foreach ($form_errs as $form_err) {

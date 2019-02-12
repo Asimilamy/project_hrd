@@ -169,6 +169,10 @@ class Detail_pegawai extends MY_Controller {
 			else :
 				$str = $this->m_karyawan->submit_form_detail($page_name);
 			endif;
+			if (empty($_SESSION['user']['detail_karyawan']['kd_karyawan']) && $str['confirm'] == 'success') :
+				$_SESSION['user']['detail_karyawan']['kd_karyawan'] = $str['key'];
+				$str['reload'] = 'yes';
+			endif;
 			$str['form_data'] = $this->input->post();
 			$str['alert_stat'] = 'offline';
 			$str['csrf_alert'] = '';

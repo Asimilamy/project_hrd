@@ -3,6 +3,18 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 ?>
 
 <script type="text/javascript">
+	$(document).off('click', 'button[name="btnReset"]').on('click', 'button[name="btnReset"]', function() {
+		<?php
+		$no = 0;
+		foreach ($form_errs as $form_err) {
+			echo $no == 0?"":"\n\t\t";
+			echo '$(\'#'.$form_err.'\').slideUp();';
+			$no++;
+		}
+		echo "\n";
+		?>
+	});
+	
 	function submit_form(form_id) {
 		$(form_id).parents('.box-page-detail-karyawan').prev('.form-err-class').slideUp();
 		<?php
@@ -29,15 +41,16 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 						$(form_id).parents('.box-page-detail-karyawan').prev('.form-err-class').html(data.alert).slideDown();
 						get_main_detail('<?php echo $page_name; ?>');
 						first_load('.box-loader-detail-karyawan', '.box-page-detail-karyawan');
+						if (data.reload == 'yes') {
+							location.reload();
+						}
 					}
 					if (data.confirm == 'error') {
 						<?php
 						$no = 0;
 						foreach ($form_errs as $form_err) {
 							echo $no == 0?"":"\n\t\t\t\t\t\t";
-							echo 'if (data.'.$form_err.' != \'\') {';
-								echo '$(\'#'.$form_err.'\').html(data.'.$form_err.').slideDown();';
-							echo '}';
+							echo '$(\'#'.$form_err.'\').html(data.'.$form_err.').slideDown();';
 							$no++;
 						}
 						echo "\n";

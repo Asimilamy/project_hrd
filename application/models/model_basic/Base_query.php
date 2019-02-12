@@ -17,12 +17,25 @@ class Base_query extends CI_Model {
 		return $result;
 	}
 	
-	public function get_row($tbl = '', $params = []) {
+	public function get_row($tbl = '', $params = [], $orders = []) {
 		$this->db->from($tbl)
 			->where($params);
+		if (count($orders) > 0) :
+			foreach ($orders as $col => $ordering) :
+				$this->db->order_by($col, $ordering);
+			endforeach;
+		endif;
 		$query = $this->db->get();
 		$row = $query->row();
 		return $row;
+	}
+
+	public function count_data($tbl = '', $params = []) {
+		$this->db->from($tbl)
+			->where($params);
+		$query = $this->db->get();
+		$num = $query->num_rows();
+		return $num;
 	}
 
 	public function submit_data($tbl_name = '', $p_key = '', $title_name = '', $data = []) {

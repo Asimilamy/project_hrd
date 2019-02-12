@@ -190,16 +190,19 @@ class Code_format extends MY_Controller {
 				$data['code_for'] = $this->input->post('txtCodeFor');
 				$data['code_reset'] = $this->input->post('selReset');
 				$str = $this->base_query->submit_data('tm_code_format', 'kd_code_format', 'Code Format', $data);
+				$m_alert = $str['alert'];
 				if ($str['confirm'] == 'success') :
 					$kd_code_format = $str['key'];
 					$data_detail['code_format_kd'] = $str['key'];
 					$data_detail['code_part'] = $this->input->post('selCodePart');
+					$data_detail['code_unique'] = $this->input->post('txtCodeUnique');
 					$data_detail['code_separator'] = $this->input->post('selSeparator');
 					$str = [];
 					$str = $this->m_code_format->submit_code_part($data_detail);
 					if ($str['confirm'] == 'success') :
 						$data['code_format'] = $str['code_format'];
 						$act = $this->db->update('tm_code_format', ['code_format' => $data['code_format']], ['kd_code_format' => $kd_code_format]);
+						$str['alert'] = $m_alert;
 					endif;
 				endif;
 				if ($this->db->trans_status() === FALSE) :

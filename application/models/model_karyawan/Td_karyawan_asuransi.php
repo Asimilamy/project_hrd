@@ -21,7 +21,10 @@ class Td_karyawan_asuransi extends CI_Model {
 			array( 'db' => 'a.'.$this->p_key, 'dt' => 2, 'field' => $this->p_key ),
 			array( 'db' => 'b.nm_asuransi', 'dt' => 3, 'field' => 'nm_asuransi' ),
 			array( 'db' => 'a.no_asuransi', 'dt' => 4, 'field' => 'no_asuransi' ),
-			array( 'db' => 'a.tgl_masuk', 'dt' => 5, 'field' => 'tgl_masuk' ),
+			array( 'db' => 'a.tgl_masuk', 'dt' => 5, 'field' => 'tgl_masuk',
+				'formatter' => function($d) {
+					return format_date($d, 'd-m-Y');
+				} ),
 			array( 'db' => 'a.status_asuransi', 'dt' => 6, 'field' => 'status_asuransi',
 				'formatter' => function($d) {
 					return ucwords($d);

@@ -12,13 +12,14 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	<tr>
 		<th style="width:1%; text-align:center;" class="all">No.</th>
 		<th style="width:4%; text-align:center;" class="all">Opsi</th>
+		<th style="width:1%; text-align:center;">Kode</th>
 		<th style="width:15%; text-align:center;">NIK Karyawan</th>
 		<th style="width:30%; text-align:left;">Nama Karyawan</th>
-		<th style="width:10%; text-align:left;">Nama Unit</th>
-		<th style="width:10%; text-align:left;">Nama Bagian</th>
-		<th style="width:10%; text-align:left;">Nama Jabatan</th>
-		<th style="width:10%; text-align:left;">Status Kerja</th>
-		<th style="width:10%; text-align:left;">Tgl Masuk</th>
+		<th style="width:10%; text-align:center;">Nama Unit</th>
+		<th style="width:10%; text-align:center;">Nama Bagian</th>
+		<th style="width:10%; text-align:center;">Nama Jabatan</th>
+		<th style="width:10%; text-align:center;">Status Kerja</th>
+		<th style="width:10%; text-align:center;">Tgl Masuk</th>
 	</tr>
 	</thead>
 </table>
@@ -59,9 +60,15 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		"columnDefs": [
 			{"data": null, "searchable": false, "orderable": false, "className": "dt-center", "targets": 0},
 			{"searchable": false, "orderable": false, "targets": 1},
-			{"className": "dt-center", "targets": 2, "searchable": false},
+			{"visible": false, "targets": 2, "searchable": false},
+			{"className": "dt-center", "targets": 3},
+			{"className": "dt-center", "targets": 5},
+			{"className": "dt-center", "targets": 6},
+			{"className": "dt-center", "targets": 7},
+			{"className": "dt-center", "targets": 8},
+			{"className": "dt-center", "targets": 9},
 		],
-		"order":[3, 'asc'],
+		"order":[2, 'asc'],
 		"rowCallback": function (row, data, iDisplayIndex) {
 			var info = this.fnPagingInfo();
 			var page = info.iPage;

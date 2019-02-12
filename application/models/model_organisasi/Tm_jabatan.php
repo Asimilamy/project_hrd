@@ -63,7 +63,7 @@ class Tm_jabatan extends CI_Model {
 
 	public function form_rules() {
 		$rules = array(
-			array('field' => 'txtCode', 'label' => 'User Code', 'rules' => 'required'),
+			array('field' => 'txtCode', 'label' => 'User Code', 'rules' => 'required|callback_code_check'),
 			array('field' => 'txtNm', 'label' => 'Nama Unit', 'rules' => 'required')
 		);
 		return $rules;

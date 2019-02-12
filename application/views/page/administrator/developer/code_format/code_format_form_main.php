@@ -12,8 +12,8 @@ if (!empty($code_format_parts)) :
 	foreach($code_format_parts as $row) :
 		$no++;
 		$btn = $no == 1?'plus':'minus';
-		echo render_form_codeformat($row->code_part, $row->code_separator, $btn);
+		echo render_form_codeformat($row->code_part, $row->code_unique, $row->code_separator, $btn);
 	endforeach;
 else :
-	echo render_form_codeformat('', '', 'plus');
+	echo render_form_codeformat('', '', '', 'plus');
 endif;

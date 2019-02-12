@@ -154,4 +154,22 @@ class Data_status_kerja extends MY_Controller {
 			echo json_encode($str);
 		endif;
 	}
+
+    public function code_check($str) {
+		if ($str == 'test' || $str == 'TEST') :
+			$this->form_validation->set_message('code_check', '{field} tidak boleh menggunakan kata "'.$str.'"');
+			return FALSE;
+		else :
+			$this->db->from('tm_status_kerja')
+				->where(array('user_code' => $str, 'kd_status_kerja !=' => $this->input->post('txtKd')));
+			$query = $this->db->get();
+			$return = $query->num_rows();
+			if ($return > 0) :
+				$this->form_validation->set_message('code_check', '{field} sudah digunakan, gunakan {field} lain!');
+				return FALSE;
+			else :
+				return TRUE;
+			endif;
+		endif;
+    }
 }

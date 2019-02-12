@@ -37,18 +37,24 @@ function render_form_dropdown($label = '', $dropdown_name = '', $options = [], $
 	return $form;
 }
 
-function render_form_codeformat($code_part_val = '', $code_separator_val = '', $btn = 'plus') {
+function render_form_codeformat($code_part_val = '', $code_unique_val = '', $code_separator_val = '', $btn = 'plus') {
 	$CI =& get_instance();
 	$CI->load->model(['model_code_format/m_code_format']);
 	$CI->load->helper(['form']);
 	$code_part_opts = render_dropdown('Code Part', $CI->m_code_format->code_part_opts(), 'key', 'value');
 	$code_separator_opts = render_dropdown('Code Separator', $CI->m_code_format->code_separator_opts(), 'key', 'value');
-	$hidden = $btn == 'minus'?'style=\'display: none;\'':'';
+	$is_hidden = $btn == 'minus'?'style=\'display: none;\'':'';
+	$is_unique_hidden = $code_part_val == 'urutan_angka' || $code_part_val == 'kode_huruf'?'':'style=\'display: none;\'';
 
-	$form = '<div class="form-group" '.$hidden.'>';
+	$form = '<div class="form-group" '.$is_hidden.'>';
 		$form .= '<label class="col-sm-2 col-xs-1 control-label"></label>';
 		$form .= '<div class="col-sm-2 col-xs-4">';
 			$form .= form_dropdown('selCodePart[]', $code_part_opts, $code_part_val, array('class' => 'form-control'));
+		$form .= '</div>';
+		$form .= '<div class="cl-form-unique" '.$is_unique_hidden.'>';
+			$form .= '<div class = "col-sm-2 col-xs-4">';
+				$form .= form_input(['name' => 'txtCodeUnique[]', 'class' => 'form-control', 'value' => $code_unique_val]);
+			$form .= '</div>';
 		$form .= '</div>';
 		$form .= '<div class="col-sm-2 col-xs-4">';
 			$form .= form_dropdown('selSeparator[]', $code_separator_opts, $code_separator_val, array('class' => 'form-control'));

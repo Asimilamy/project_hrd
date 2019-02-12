@@ -8,6 +8,7 @@ function create_pkey($tbl_name = '', $key_column = '', $key_before = '', $inc = 
     if ($inc < 1) :
         $CI->db->select('tgl_input, '.$key_column)
             ->from($tbl_name)
+            ->where(['DATE(tgl_input)' => date('Y-m-d')])
             ->order_by($key_column.' DESC, tgl_input DESC');
         $query = $CI->db->get();
         $num_row = $query->num_rows();
