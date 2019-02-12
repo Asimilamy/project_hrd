@@ -76,4 +76,8 @@ class Tm_unit extends CI_Model {
 		endforeach;
 		return $str;
 	}
+
+	public function i_just_create() {
+		echo 'New Function!';
+	}
 }
