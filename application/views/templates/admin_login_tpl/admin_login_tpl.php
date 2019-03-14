@@ -38,7 +38,7 @@ $app_logo = $this->m_setting->get_setting('app_logo');
 		<!-- jQuery -->
 		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/jquery/dist/jquery.min.js"></script>
 	</head>
-	<body class="login">
+	<body class="login" style="background: #ffffff; color: #000000; height: 0%;">
 		<div class="login_wrapper">
 			<div class="animate form login_form">
 				<?php echo $output; ?>
@@ -47,7 +47,9 @@ $app_logo = $this->m_setting->get_setting('app_logo');
 					<div class="separator">
 						<div>
 							<h3><i class="fa <?php echo $app_logo; ?>"></i> <?php echo $app_title; ?></h3>
-							<p>©2016 All Rights Reserved. Privacy and Terms</p>
+							<p>©2019 All Rights Reserved CV. Ali Insan Jaya.</p>
+							<p>Privacy and Terms</p>
+							<p>V <?php echo $_SERVER['APP_VERSION']; ?></p>
 						</div>
 					</div>
 				</section>

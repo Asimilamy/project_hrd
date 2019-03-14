@@ -51,7 +51,7 @@ class M_karyawan extends CI_Model {
 			$this->db->where($conds['where']);
 			$query = $this->db->get();
 			$row = $query->row();
-			$data = new \stdClass();
+			$data = new stdClass();
 			if (!empty($row)) :
 				foreach ($conds['get_column'] as $col) :
 					$data->{$col} = $row->{$col};

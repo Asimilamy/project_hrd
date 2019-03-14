@@ -91,6 +91,9 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 				</div>
 				<!-- /sidebar menu -->
 
+				<div class="sidebar-footer hidden-small"></div>
+				<?php
+				/*
 				<!-- /menu footer buttons -->
 				<div class="sidebar-footer hidden-small">
 					<a data-toggle="tooltip" data-placement="top" title="Settings">
@@ -107,5 +110,7 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 					</a>
 				</div>
 				<!-- /menu footer buttons -->
+				*/
+				?>
 			</div>
 		</div>

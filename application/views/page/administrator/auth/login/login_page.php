@@ -11,8 +11,9 @@ $data['field_focus'] = 'idTxtUsername';
 /* --END OF BOX DEFAULT PROPERTY-- */
 ?>
 <section class="login_content">
+	<img src="<?php echo base_url('assets/admin_assets/images/01.jpg'); ?>" style="width: 100%; margin-bottom: 25px;">
 	<?php echo form_open_multipart('', array('class' => 'myform form-label-left', 'id' => $data['form_id'])); ?>
-		<h1><?php echo $box_title; ?></h1>
+		<?php // echo '<h1>'.$box_title.'</h1>'; ?>
 		<div id="idAlert" style="display: none;"></div>
 		<div class="form-group">
 			<span id="idErrUsername" class="label label-warning pull-left" style="font-size: 100%;display: none;">

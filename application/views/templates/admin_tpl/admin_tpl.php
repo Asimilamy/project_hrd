@@ -57,7 +57,7 @@ $app_logo = $this->m_setting->get_setting('app_logo');
 		<!-- jQuery -->
 		<script src="<?php echo base_url().'assets/admin_assets/'; ?>vendors/jquery/dist/jquery.min.js"></script>
 	</head>
-	<body class="nav-md">
+	<body class="nav-md fixed_footer">
 		<?php echo $this->load->get_section('sidebar_menu'); ?>
 
 		<?php echo $this->load->get_section('top_nav'); ?>
