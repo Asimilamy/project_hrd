@@ -1,5 +1,4 @@
 application/cache/
-application/config/database.php
 application/hooks/
 application/logs/
 application/.htaccess
