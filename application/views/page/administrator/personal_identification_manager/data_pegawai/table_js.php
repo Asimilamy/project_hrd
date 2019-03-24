@@ -6,9 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	first_load('<?php echo $box_loader_id; ?>', '<?php echo $box_content_id; ?>');
 
 	$(document).off('click', '#<?php echo $btn_add_id; ?>').on('click', '#<?php echo $btn_add_id; ?>', function() {
-		$(this).slideUp();
-		$('.panel_toolbox').css({"margin-right" : "-20px"});
-		get_form('');
+		view_detail('');
 	});
 
 	function moveTo(element) {
@@ -42,17 +40,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 			$(this).fadeOut(500, function() {
 				$(this).remove();
 			});
-		});
-	}
-
-	function get_form(id) {
-		$.ajax({
-			type: 'GET',
-			url: '<?php echo base_url($class_link.'/register_detail'); ?>',
-			data: 'id='+id,
-			success: function(html) {
-				window.location.href = '<?php echo base_url('administrator/personal_identification_manager/detail_pegawai/'); ?>';
-			}
 		});
 	}
 

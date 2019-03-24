@@ -18,7 +18,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 				data: 'kd_karyawan='+kd_karyawan,
 				success: function(html) {
 					$('#<?php echo $box_content_id; ?>').html(html);
-					$('#<?php echo $box_content_id; ?>').slideDown();
 				}
 			});
 		});
@@ -26,8 +25,8 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 	function first_load(loader, content) {
 		$(content).hide();
-		$(loader).fadeIn(500, function(e) {
-			$(loader).fadeOut(500, function(e){
+		$(loader).fadeIn('slow', function(e) {
+			$(loader).fadeOut('slow', function(e){
 				$(content).slideDown();
 			});
 		});

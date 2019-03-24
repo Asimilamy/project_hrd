@@ -58,6 +58,8 @@ $this->load->view('page/'.$class_link.'/exts/ext_form_js', $data);
 ?>
 
 <script type="text/javascript">
+	first_load('.box-loader-detail-karyawan', '.box-page-detail-karyawan');
+	
 	$(document).off('submit', '#idFormDataJabatanKaryawan').on('submit', '#idFormDataJabatanKaryawan', function(e) {
 		e.preventDefault();
 		submit_form(this);

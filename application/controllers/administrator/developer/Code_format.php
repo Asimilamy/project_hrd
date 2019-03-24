@@ -29,7 +29,7 @@ class Code_format extends MY_Controller {
 		else :
 			$flash = 'Halaman anda direset dikarenakan sesi browser anda telah habis.&nbsp; Silahkan coba lagi.';
 			$this->session->set_flashdata('message', $flash);
-			redirect($class_link, 'location');
+			redirect($this->class_link, 'location');
 		endif;
 	}
 
@@ -172,7 +172,7 @@ class Code_format extends MY_Controller {
 
 	public function add_code_format() {
 		$this->load->helper(array('form_generator_helper'));
-		echo render_form_codeformat('', '', 'minus');
+		echo render_form_codeformat('', '', '', 'minus');
 	}
 
 	public function send_data() {

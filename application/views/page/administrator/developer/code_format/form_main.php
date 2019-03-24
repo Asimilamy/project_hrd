@@ -26,17 +26,13 @@ if ($_SESSION['user']['access']['read']) :
 	<div class="cl-group-code-format"></div>
 	<hr>
 	<div class="form-group">
-		<div class="col-sm-1 col-sm-offset-2 col-xs-12">
+		<div class="col-sm-6 col-sm-offset-6 col-xs-12">
 			<button type="button" name="btnKembali" id="idBtnKembali" class="btn btn-warning btn-flat" title="Kembali">
 				<i class="fa fa-arrow-left"></i> Kembali
 			</button>
-		</div>
-		<div class="col-sm-1 col-xs-12">
 			<button type="reset" name="btnReset" class="btn btn-default btn-flat">
 				<i class="fa fa-refresh"></i> Reset
 			</button>
-		</div>
-		<div class="col-sm-1 col-xs-12">
 			<button type="submit" name="btnSubmit" class="btn btn-primary btn-flat">
 				<i class="fa fa-save"></i> Submit
 			</button>

@@ -134,6 +134,8 @@ $this->load->view('page/'.$class_link.'/exts/ext_form_js', $data);
 ?>
 
 <script type="text/javascript">
+	first_load('.box-loader-detail-karyawan', '.box-page-detail-karyawan');
+	
 	$('.datetimepicker').datetimepicker({
 		format: 'DD-MM-YYYY',
 	});
