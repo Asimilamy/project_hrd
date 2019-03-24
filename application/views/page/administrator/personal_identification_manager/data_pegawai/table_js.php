@@ -9,6 +9,17 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		view_detail('');
 	});
 
+	$(document).off('click', '#<?php echo $btn_close_id; ?>').on('click', '#<?php echo $btn_close_id; ?>', function() {
+		$.ajax({
+			type: 'GET',
+			url: '<?php echo base_url('administrator/personal_identification_manager/data_pegawai/get_table'); ?>',
+			success: function(data) {
+				remove_box('#<?php echo $box_id; ?>');
+				$('#idMainContainer').html(data);
+			}
+		});
+	});
+
 	function moveTo(element) {
 		$('html, body').animate({ scrollTop: $(element).offset().top - $('header').height() }, 'fast');
 	}
@@ -60,10 +71,11 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	function view_detail(id) {
 		$.ajax({
 			type: 'GET',
-			url: '<?php echo base_url($class_link.'/register_detail'); ?>',
+			url: '<?php echo base_url('administrator/personal_identification_manager/detail_pegawai/register_detail'); ?>',
 			data: 'id='+id,
 			success: function(data) {
-				window.location.href = '<?php echo base_url('administrator/personal_identification_manager/detail_pegawai/'); ?>';
+				remove_box('#<?php echo $box_id; ?>');
+				$('#idMainContainer').html(data);
 			}
 		});
 	}

@@ -46,6 +46,12 @@ class Detail_pegawai extends MY_Controller {
 		$this->get_detail();
 	}
 
+	public function register_detail() {
+		$id = $this->input->get('id');
+		$_SESSION['user']['detail_karyawan']['kd_karyawan'] = $id;
+		$this->get_detail();
+	}
+
 	public function get_detail() {
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Pegawai';

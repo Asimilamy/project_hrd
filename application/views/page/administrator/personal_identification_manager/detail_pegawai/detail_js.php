@@ -54,6 +54,13 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	}
 
 	$(document).off('click', '#idBtnCloseDetail').on('click', '#idBtnCloseDetail', function() {
-		window.location.href = '<?php echo base_url('administrator/personal_identification_manager/data_pegawai'); ?>';
+		$.ajax({
+			type: 'GET',
+			url: '<?php echo base_url('administrator/personal_identification_manager/data_pegawai/get_table'); ?>',
+			success: function(data) {
+				remove_box('#<?php echo $box_id; ?>');
+				$('#idMainContainer').html(data);
+			}
+		});
 	});
 </script>

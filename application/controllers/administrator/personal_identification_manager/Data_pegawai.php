@@ -173,9 +173,4 @@ class Data_pegawai extends MY_Controller {
 			echo json_encode($str);
 		endif;
 	}
-
-	public function register_detail() {
-		$id = $this->input->get('id');
-		$_SESSION['user']['detail_karyawan']['kd_karyawan'] = $id;
-	}
 }
