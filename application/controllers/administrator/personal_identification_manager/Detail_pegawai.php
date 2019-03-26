@@ -190,6 +190,18 @@ class Detail_pegawai extends MY_Controller {
 		endif;
 	}
 
+	public function compare_date() {
+		$tgl_mulai = strtotime($this->input->post('txtTglMulai'));
+		$tgl_habis = strtotime($this->input->post('txtTglHabis'));
+	  
+		if ($tgl_habis >= $tgl_mulai)
+			return TRUE;
+		else {
+			$this->form_validation->set_message('compare_date', 'Tanggal Habis tidak boleh kurang dari Tanggal Mulai');
+			return FALSE;
+		}
+	}
+
 	public function table_detail_data() {
 		$this->load->library(array('custom_ssp'));
 

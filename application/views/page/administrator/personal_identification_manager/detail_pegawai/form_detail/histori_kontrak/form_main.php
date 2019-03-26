@@ -114,6 +114,15 @@ $this->load->view('page/'.$class_link.'/exts/ext_form_js', $data);
 	$(document).off('click', 'button[name="btnReset"]').on('click', 'button[name="btnReset"]', function() {
 		type_karyawan_change('');
 		status_kerja_change('<?php echo $form_data->has_contract; ?>');
+		<?php
+		$no = 0;
+		foreach ($form_errs as $form_err) {
+			echo $no == 0?"":"\n\t\t";
+			echo '$(\'#'.$form_err.'\').slideUp();';
+			$no++;
+		}
+		echo "\n";
+		?>
 		$('#idFormKontrak').trigger('reset');
 	});
 

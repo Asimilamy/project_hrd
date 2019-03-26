@@ -128,13 +128,21 @@ class M_karyawan extends CI_Model {
 				['field' => 'selBagian', 'label' => 'Bagian', 'rules' => 'required'],
 				['field' => 'selJabatan', 'label' => 'Jabatan', 'rules' => 'required'],
 				['field' => 'selStatusKerja', 'label' => 'Status Kerja', 'rules' => 'required'],
-				['field' => 'txtTglMulai', 'label' => 'Tgl Mulai', 'rules' => 'required'],
 			];
 			if ($this->input->post('selTypeKaryawan') == 'outsourcing') :
-				$rules = array_merge($rules, [['field' => 'selClient', 'label' => 'Client', 'rules' => 'required']]);
+				$rules = array_merge($rules, [
+					['field' => 'selClient', 'label' => 'Client', 'rules' => 'required']
+				]);
 			endif;
 			if ($_SESSION['user']['detail_karyawan']['has_contract'] == '1') :
-				$rules = array_merge($rules, [['field' => 'txtTglHabis', 'label' => 'Tgl Habis', 'rules' => 'required']]);
+				$rules = array_merge($rules, [
+					['field' => 'txtTglMulai', 'label' => 'Tgl Mulai', 'rules' => 'required|callback_compare_date'],
+					['field' => 'txtTglHabis', 'label' => 'Tgl Habis', 'rules' => 'required|callback_compare_date']
+				]);
+			else :
+				$rules = array_merge($rules, [
+					['field' => 'txtTglMulai', 'label' => 'Tgl Mulai', 'rules' => 'required']
+				]);
 			endif;
 		elseif ($form_name == 'data_skills') :
 			$rules = [
@@ -250,7 +258,8 @@ class M_karyawan extends CI_Model {
 			*/
 			$this->db->select('kd_karyawan_kontrak')
 				->from('td_karyawan_kontrak')
-				->where(['tgl_habis >=' => $data['tgl_mulai'], 'karyawan_kd' => $data['karyawan_kd']]);
+				->where(['tgl_habis >=' => $data['tgl_mulai'], 'karyawan_kd' => $data['karyawan_kd']])
+				->order_by('tgl_habis', 'DESC');
 			$query = $this->db->get();
 			$row = $query->row();
 			if (!empty($row)) :
