@@ -53,6 +53,7 @@ class Detail_pegawai extends MY_Controller {
 	}
 
 	public function get_detail() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Pegawai';
 		$data['box_type'] = 'Detail';
@@ -67,14 +68,7 @@ class Detail_pegawai extends MY_Controller {
 		/* --END OF BOX BUTTON PROPERTY-- */
 
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
 		$this->load->view('containers/view_box', $data);
 	}
@@ -99,13 +93,6 @@ class Detail_pegawai extends MY_Controller {
 		$data['detail_row'] = $this->m_karyawan->fetch_detail($_SESSION['user']['detail_karyawan']['kd_karyawan'], $page_name);
 		$page_url = 'page/'.$this->class_link.'/form_detail/'.$page_name.'_form_main';
 		if (file_exists(FCPATH.'application/views/'.$page_url.'.php')) :
-			if ($page_name == 'data_jabatan') :
-				$this->load->model(array('model_basic/base_query'));
-				$data['opts_unit'] = render_dropdown('Unit', $this->base_query->get_all('tm_unit'), 'kd_unit', 'nm_unit');
-				$data['opts_bagian'] = render_dropdown('Bagian', $this->base_query->get_all('tm_bagian'), 'kd_bagian', 'nm_bagian');
-				$data['opts_jabatan'] = render_dropdown('Jabatan', $this->base_query->get_all('tm_jabatan'), 'kd_jabatan', 'nm_jabatan');
-				$data['opts_status_kerja'] = render_dropdown('Status Kerja', $this->base_query->get_all('tm_status_kerja'), 'kd_status_kerja', 'nm_status_kerja');
-			endif;
 			$this->load->view($page_url, $data);
 		else :
 			$page_url = 'page/'.$this->class_link.'/form_detail/'.$page_name.'/'.$page_name.'_form_main';
@@ -127,8 +114,7 @@ class Detail_pegawai extends MY_Controller {
 		$data['page_name'] = $page_name;
 		$data['class_link'] = $this->class_link;
 		$data['form_errs'] = $this->m_karyawan->form_detail_errs($page_name);
-		if ($file_type == 'table') :
-		elseif ($file_type == 'form') :
+		if ($file_type == 'form') :
 			if ($page_name == 'data_asuransi') :
 				$this->load->model(array('model_karyawan/td_karyawan_asuransi'));
 				$data['opts_asuransi'] = render_dropdown('Asuransi', $this->base_query->get_all('tm_asuransi'), 'kd_asuransi', 'nm_asuransi');
@@ -146,7 +132,12 @@ class Detail_pegawai extends MY_Controller {
 				$this->load->model(array('model_karyawan/td_karyawan_kontrak'));
 				$table = 'td_karyawan_kontrak';
 				$p_key = $this->input->get('kd_karyawan_kontrak');
+				$data['opts_type_karyawan'] = render_dropdown('Type Karyawan', (object) ['0' => (object) ['key' => 'internal', 'value' => 'Internal'], '1' => (object) ['key' => 'outsourcing', 'value' => 'Outsourcing']], 'key', 'value');
 				$data['opts_client'] = render_dropdown('Client', $this->base_query->get_all('tm_client'), 'kd_client', 'nm_client');
+				$data['opts_unit'] = render_dropdown('Unit', $this->base_query->get_all('tm_unit'), 'kd_unit', 'nm_unit');
+				$data['opts_bagian'] = render_dropdown('Bagian', $this->base_query->get_all('tm_bagian'), 'kd_bagian', 'nm_bagian');
+				$data['opts_jabatan'] = render_dropdown('Jabatan', $this->base_query->get_all('tm_jabatan'), 'kd_jabatan', 'nm_jabatan');
+				$data['opts_status_kerja'] = render_dropdown('Status Kerja', $this->base_query->get_all('tm_status_kerja'), 'kd_status_kerja', 'nm_status_kerja');
 			elseif ($page_name == 'data_skills') :
 				$this->load->model(array('model_karyawan/td_karyawan_skill'));
 				$table = 'td_karyawan_skill';
@@ -160,6 +151,16 @@ class Detail_pegawai extends MY_Controller {
 		else :
 			echo $page_name.' - File Not Exist!';
 		endif;
+	}
+
+	public function define_status_kerja() {
+		$this->load->model(['model_basic/base_query']);
+		$kd_status_kerja = $this->input->get('kd_status_kerja');
+		$row = $this->base_query->get_row('tm_status_kerja', ['kd_status_kerja' => $kd_status_kerja]);
+		$str['has_contract'] = !empty($row)?$row->has_contract:'0';
+		$_SESSION['user']['detail_karyawan']['has_contract'] = $str['has_contract'];
+		header('Content-Type: application/json');
+		echo json_encode($str);
 	}
 
 	public function send_data_detail() {
@@ -227,6 +228,7 @@ class Detail_pegawai extends MY_Controller {
 	}
 
 	public function get_table() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Karyawan';
 		$data['box_type'] = 'Table';
@@ -241,14 +243,7 @@ class Detail_pegawai extends MY_Controller {
 		/* --END OF BOX BUTTON PROPERTY-- */
 
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
 		$this->load->view('containers/view_box', $data);
 	}
@@ -268,32 +263,26 @@ class Detail_pegawai extends MY_Controller {
 	}
 
 	public function get_form() {
-		$data['data']['id'] = $this->input->get('id');
-
+		$this->load->model(['model_basic/base_query']);
+		
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Karyawan';
 		$data['box_type'] = 'Form';
 		$data['page_search'] = FALSE;
 		$data['js_file'] = 'form_js';
 		/* --END OF BOX DEFAULT PROPERTY-- */
-
+		
 		/* --START OF BOX BUTTON PROPERTY-- */
 		$data['btn_add'] = FALSE;
 		$data['btn_hide'] = TRUE;
 		$data['btn_close'] = TRUE;
 		/* --END OF BOX BUTTON PROPERTY-- */
-
+		
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
-		$data['data']['form_errs'] = $this->form_errs;
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
+		$data['data']['id'] = $this->input->get('id');
+		$data['data']['form_errs'] = $this->form_errs;
 		$this->load->view('containers/view_box', $data);
 	}
 

@@ -3,11 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 class Data_status_kerja extends MY_Controller {
 	private $class_link = 'administrator/struktur_organisasi/data_status_kerja';
-	private $form_errs = array('idErrCode', 'idErrNm');
+	private $form_errs = array('idErrCode', 'idErrNm', 'idErrHasContract');
 
 	public function __construct() {
 		parent::__construct();
-		parent::datatables_assets();
 		$this->load->model(array('model_auth/m_access', 'model_organisasi/tm_status_kerja'));
 
 		$access = $this->m_access->read_user_access('data_status_kerja', 'Struktur Organisasi');
@@ -28,7 +27,7 @@ class Data_status_kerja extends MY_Controller {
 		else :
 			$flash = 'Halaman anda direset dikarenakan sesi browser anda telah habis.&nbsp; Silahkan coba lagi.';
 			$this->session->set_flashdata('message', $flash);
-			redirect($class_link, 'location');
+			redirect($this->class_link, 'location');
 		endif;
 	}
 
@@ -40,10 +39,12 @@ class Data_status_kerja extends MY_Controller {
 	*/
 	public function index() {
 		parent::admin_tpl();
+		parent::datatables_assets();
 		$this->get_table();
 	}
 
 	public function get_table() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Status Kerja';
 		$data['box_type'] = 'Table';
@@ -58,14 +59,7 @@ class Data_status_kerja extends MY_Controller {
 		/* --END OF BOX BUTTON PROPERTY-- */
 
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
 		$this->load->view('containers/view_box', $data);
 	}
@@ -85,8 +79,7 @@ class Data_status_kerja extends MY_Controller {
 	}
 
 	public function get_form() {
-		$data['data']['id'] = $this->input->get('id');
-
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Status Kerja';
 		$data['box_type'] = 'Form';
@@ -101,16 +94,10 @@ class Data_status_kerja extends MY_Controller {
 		/* --END OF BOX BUTTON PROPERTY-- */
 
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
-		$data['data']['form_errs'] = $this->form_errs;
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
+		$data['data']['id'] = $this->input->get('id');
+		$data['data']['form_errs'] = $this->form_errs;
 		$this->load->view('containers/view_box', $data);
 	}
 

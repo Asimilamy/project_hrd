@@ -9,32 +9,27 @@ class Tm_karyawan extends CI_Model {
 	public function ssp_table() {
 		$data['table'] = $this->tbl_name;
 
-		$data['primaryKey'] = 'a.'.$this->p_key;
+		$data['primaryKey'] = $this->p_key;
 
 		$data['columns'] = array(
-			array( 'db' => 'a.'.$this->p_key,
-				'dt' => 1, 'field' => $this->p_key,
-				'formatter' => function($d, $row){
-
-					return $this->tbl_btn($d, $row[2]);
+			array( 'db' => $this->p_key, 'dt' => 1, 'field' => $this->p_key,
+				'formatter' => function($d, $row) {
+					return $this->tbl_btn($d, $row[3]);
 				} ),
-			array( 'db' => 'a.'.$this->p_key, 'dt' => 2, 'field' => $this->p_key ),
-			array( 'db' => 'a.nik_karyawan', 'dt' => 3, 'field' => 'nik_karyawan' ),
-			array( 'db' => 'a.nm_karyawan', 'dt' => 4, 'field' => 'nm_karyawan' ),
-			array( 'db' => 'b.nm_unit', 'dt' => 5, 'field' => 'nm_unit',
-				'formatter' => function($d) {
-					return empty($d)?'-':$d;
+			array( 'db' => $this->p_key, 'dt' => 2, 'field' => $this->p_key ),
+			array( 'db' => 'nik_karyawan', 'dt' => 3, 'field' => 'nik_karyawan' ),
+			array( 'db' => 'nm_karyawan', 'dt' => 4, 'field' => 'nm_karyawan' ),
+			array( 'db' => 'alamat', 'dt' => 5, 'field' => 'alamat' ),
+			array( 'db' => 'tmp_lahir', 'dt' => 6, 'field' => 'tmp_lahir',
+				'formatter' => function($d, $row) {
+					if (!empty($d)) {
+						return $d.', '.format_date($row[6], 'd-m-Y');
+					} else {
+						return '-';
+					}
 				} ),
-			array( 'db' => 'c.nm_bagian', 'dt' => 6, 'field' => 'nm_bagian',
-				'formatter' => function($d) {
-					return empty($d)?'-':$d;
-				} ),
-			array( 'db' => 'd.nm_jabatan', 'dt' => 7, 'field' => 'nm_jabatan',
-				'formatter' => function($d) {
-					return empty($d)?'-':$d;
-				} ),
-			array( 'db' => 'e.nm_status_kerja', 'dt' => 8, 'field' => 'nm_status_kerja' ),
-			array( 'db' => 'a.tgl_aktif', 'dt' => 9, 'field' => 'tgl_aktif',
+			array( 'db' => 'tgl_lahir', 'dt' => 7, 'field' => 'tgl_lahir' ),
+			array( 'db' => 'tgl_aktif', 'dt' => 8, 'field' => 'tgl_aktif',
 				'formatter' => function($d) {
 					return format_date($d, 'd-m-Y');
 				} ),
@@ -42,7 +37,7 @@ class Tm_karyawan extends CI_Model {
 
 		$data['sql_details'] = sql_connect();
 
-		$data['joinQuery'] = 'FROM '.$this->tbl_name.' a LEFT JOIN tm_unit b ON b.kd_unit = a.unit_kd LEFT JOIN tm_bagian c ON c.kd_bagian = a.bagian_kd LEFT JOIN tm_jabatan d ON d.kd_jabatan = a.jabatan_kd LEFT JOIN tm_status_kerja e ON e.kd_status_kerja = a.status_kerja_kd';
+		$data['joinQuery'] = '';
 
 		$data['where'] = '';
 

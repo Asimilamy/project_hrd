@@ -21,6 +21,13 @@ echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $kd_stat
 		<?php echo form_input(array('name' => 'txtNm', 'id' => 'idTxtNm', 'class' => 'form-control', 'value' => $nm_status_kerja, 'placeholder' => 'Nama Status Kerja')); ?>
 	</div>
 </div>
+<div class="form-group">
+	<label for="idSelHasContract" class="col-sm-2 control-label">Pilihan Kontrak</label>
+	<div class="col-sm-4 col-xs-4">
+		<div id="idErrHasContract"></div>
+		<?php echo form_dropdown('selHasContract', ['' => '-- Pilihan Kontrak --', '0' => 'Tidak', '1' => 'Ya'], $has_contract, array('id' => 'idSelHasContract', 'class' => 'form-control')); ?>
+	</div>
+</div>
 <hr>
 <div class="form-group">
 	<div class="col-sm-1 col-sm-offset-2 col-xs-12">

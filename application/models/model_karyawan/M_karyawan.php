@@ -3,20 +3,22 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 class M_karyawan extends CI_Model {
 	public function get_data_pribadi($kd_karyawan = '') {
-		$this->db->select('a.kd_karyawan, a.nik_karyawan, a.nm_karyawan, a.no_ktp, a.jekel, a.tmp_lahir, a.tgl_lahir, a.alamat, a.tgl_aktif, b.nm_status_kerja, c.nm_unit, d.nm_bagian, e.nm_jabatan, f.no_telp_utama, f.no_telp_lain, f.email_utama, f.email_lain, f.foto_karyawan')
+		$this->db->select('a.kd_karyawan, a.nik_karyawan, a.nm_karyawan, a.no_ktp, a.jekel, a.tmp_lahir, a.tgl_lahir, a.alamat, a.tgl_aktif, b.no_telp_utama, b.no_telp_lain, b.email_utama, b.email_lain, b.foto_karyawan, d.nm_client, e.nm_status_kerja, f.nm_unit, g.nm_bagian, h.nm_jabatan')
 			->from('tm_karyawan a')
-			->join('tm_status_kerja b', 'b.kd_status_kerja = a.status_kerja_kd', 'left')
-			->join('tm_unit c', 'c.kd_unit = a.unit_kd', 'left')
-			->join('tm_bagian d', 'd.kd_bagian = a.bagian_kd', 'left')
-			->join('tm_jabatan e', 'e.kd_jabatan = a.jabatan_kd', 'left')
-			->join('td_karyawan_info f', 'f.karyawan_kd = a.kd_karyawan', 'left')
+			->join('td_karyawan_info b', 'b.karyawan_kd = a.kd_karyawan', 'left')
+			->join('td_karyawan_kontrak c', 'c.karyawan_kd = a.kd_karyawan', 'left')
+			->join('tm_client d', 'd.kd_client = c.client_kd', 'left')
+			->join('tm_status_kerja e', 'e.kd_status_kerja = c.status_kerja_kd', 'left')
+			->join('tm_unit f', 'f.kd_unit = c.unit_kd', 'left')
+			->join('tm_bagian g', 'g.kd_bagian = c.bagian_kd', 'left')
+			->join('tm_jabatan h', 'h.kd_jabatan = c.jabatan_kd', 'left')
 			->where(array('a.kd_karyawan' => $kd_karyawan));
 		$query = $this->db->get();
 		$row = $query->row();
 		if (!empty($row)) :
-			$data = (object) ['kd_karyawan' => $row->kd_karyawan, 'nik_karyawan' => $row->nik_karyawan, 'nm_karyawan' => $row->nm_karyawan, 'no_ktp' => $row->no_ktp, 'jekel' => $row->jekel, 'tgl_aktif' => $row->tgl_aktif, 'nm_status_kerja' => $row->nm_status_kerja, 'nm_unit' => $row->nm_unit, 'nm_bagian' => $row->nm_bagian, 'nm_jabatan' => $row->nm_jabatan, 'no_telp_utama' => $row->no_telp_utama, 'no_telp_lain' => $row->no_telp_lain, 'email_utama' => $row->email_utama, 'email_lain' => $row->email_lain, 'tmp_lahir' => $row->tmp_lahir, 'tgl_lahir' => $row->tgl_lahir, 'alamat' => $row->alamat, 'foto_karyawan' => $row->foto_karyawan];
+			$data = (object) ['kd_karyawan' => $row->kd_karyawan, 'nik_karyawan' => $row->nik_karyawan, 'nm_karyawan' => $row->nm_karyawan, 'no_ktp' => $row->no_ktp, 'jekel' => $row->jekel, 'tmp_lahir' => $row->tmp_lahir, 'tgl_lahir' => $row->tgl_lahir, 'alamat' => $row->alamat, 'tgl_aktif' => $row->tgl_aktif, 'no_telp_utama' => $row->no_telp_utama, 'no_telp_lain' => $row->no_telp_lain, 'email_utama' => $row->email_utama, 'email_lain' => $row->email_lain, 'foto_karyawan' => $row->foto_karyawan, 'nm_client' => $row->nm_client, 'nm_status_kerja' => $row->nm_status_kerja, 'nm_unit' => $row->nm_unit, 'nm_bagian' => $row->nm_bagian, 'nm_jabatan' => $row->nm_jabatan];
 		else :
-			$data = (object) ['kd_karyawan' => '', 'nik_karyawan' => '', 'nm_karyawan' => '', 'no_ktp' => '', 'jekel' => '', 'tgl_aktif' => '', 'nm_status_kerja' => '', 'nm_unit' => '', 'nm_bagian' => '', 'nm_jabatan' => '', 'no_telp_utama' => '', 'no_telp_lain' => '', 'email_utama' => '', 'email_lain' => '', 'tmp_lahir' => '', 'tgl_lahir' => '', 'alamat' => '', 'foto_karyawan' => ''];
+			$data = (object) ['kd_karyawan' => '', 'nik_karyawan' => '', 'nm_karyawan' => '', 'no_ktp' => '', 'jekel' => '', 'tmp_lahir' => '', 'tgl_lahir' => '', 'alamat' => '', 'tgl_aktif' => '', 'no_telp_utama' => '', 'no_telp_lain' => '', 'email_utama' => '', 'email_lain' => '', 'foto_karyawan' => '', 'nm_client' => '', 'nm_status_kerja' => '', 'nm_unit' => '', 'nm_bagian' => '', 'nm_jabatan' => ''];
 		endif;
 		$_SESSION['user']['detail_karyawan']['nik_karyawan'] = $data->nik_karyawan;
 		return $data;
@@ -30,12 +32,6 @@ class M_karyawan extends CI_Model {
 			$query['join'] = ['table_b' => 'td_karyawan_info b', 'cond' => 'b.karyawan_kd = a.kd_karyawan'];
 			$query['where'] = ['a.kd_karyawan' => $kd_karyawan];
 			$query['get_column'] = (object) ['nm_karyawan', 'nik_karyawan', 'no_ktp', 'jekel', 'tgl_aktif', 'kd_karyawan_info', 'no_telp_utama', 'no_telp_lain', 'no_telp_lain', 'email_utama', 'email_lain', 'alamat', 'tmp_lahir', 'tgl_lahir', 'foto_karyawan'];
-		elseif ($page_name == 'data_jabatan') :
-			$query['select'] = 'kd_karyawan, unit_kd, bagian_kd, jabatan_kd, status_kerja_kd';
-			$query['table_a'] = 'tm_karyawan';
-			$query['join'] = [];
-			$query['where'] = ['kd_karyawan' => $kd_karyawan];
-			$query['get_column'] = (object) ['kd_karyawan', 'unit_kd', 'bagian_kd', 'jabatan_kd', 'status_kerja_kd'];
 		endif;
 		return $query;
 	}
@@ -75,10 +71,8 @@ class M_karyawan extends CI_Model {
 			$form_errs = ['idErrNamaKontak', 'idErrAlamat', 'idErrHubungan', 'idErrTelpUtama', 'idErrEmailUtama'];
 		elseif ($form_name == 'data_keluarga') :
 			$form_errs = ['idErrNamaKeluarga', 'idErrAlamat', 'idErrHubungan', 'idErrTelpUtama', 'idErrEmailUtama'];
-		elseif ($form_name == 'data_jabatan') :
-			$form_errs = ['idErrUnit', 'idErrBagian', 'idErrJabatan', 'idErrStatusKerja'];
 		elseif ($form_name == 'histori_kontrak') :
-			$form_errs = ['idErrClient', 'idErrUnit', 'idErrBagian', 'idErrJabatan', 'idErrTglMulai', 'idErrTglHabis'];
+			$form_errs = ['idErrTypeKaryawan', 'idErrClient', 'idErrUnit', 'idErrBagian', 'idErrJabatan', 'idErrStatusKerja', 'idErrTglMulai', 'idErrTglHabis'];
 		elseif ($form_name == 'data_skills') :
 			$form_errs = ['idErrSkill', 'idErrLevel'];
 		endif;
@@ -127,22 +121,21 @@ class M_karyawan extends CI_Model {
 				['field' => 'txtTelp', 'label' => 'Telp Utama', 'rules' => 'required'],
 				['field' => 'txtEmail', 'label' => 'Email Utama', 'rules' => 'required|valid_email'],
 			];
-		elseif ($form_name == 'data_jabatan') :
+		elseif ($form_name == 'histori_kontrak') :
 			$rules = [
+				['field' => 'selTypeKaryawan', 'label' => 'Type Karyawan', 'rules' => 'required'],
 				['field' => 'selUnit', 'label' => 'Unit', 'rules' => 'required'],
 				['field' => 'selBagian', 'label' => 'Bagian', 'rules' => 'required'],
 				['field' => 'selJabatan', 'label' => 'Jabatan', 'rules' => 'required'],
 				['field' => 'selStatusKerja', 'label' => 'Status Kerja', 'rules' => 'required'],
-			];
-		elseif ($form_name == 'histori_kontrak') :
-			$rules = [
-				['field' => 'selClient', 'label' => 'Client', 'rules' => 'required'],
-				['field' => 'txtUnit', 'label' => 'Unit', 'rules' => 'required'],
-				['field' => 'txtBagian', 'label' => 'Bagian', 'rules' => 'required'],
-				['field' => 'txtJabatan', 'label' => 'Jabatan', 'rules' => 'required'],
 				['field' => 'txtTglMulai', 'label' => 'Tgl Mulai', 'rules' => 'required'],
-				['field' => 'txtTglHabis', 'label' => 'Tgl Habis', 'rules' => 'required'],
 			];
+			if ($this->input->post('selTypeKaryawan') == 'outsourcing') :
+				$rules = array_merge($rules, [['field' => 'selClient', 'label' => 'Client', 'rules' => 'required']]);
+			endif;
+			if ($_SESSION['user']['detail_karyawan']['has_contract'] == '1') :
+				$rules = array_merge($rules, [['field' => 'txtTglHabis', 'label' => 'Tgl Habis', 'rules' => 'required']]);
+			endif;
 		elseif ($form_name == 'data_skills') :
 			$rules = [
 				['field' => 'txtSkill', 'label' => 'Nama Skill', 'rules' => 'required'],
@@ -161,10 +154,8 @@ class M_karyawan extends CI_Model {
 			$forms = ['txtNmKontak', 'txtAlamat', 'selHubungan', 'txtTelp', 'txtEmail'];
 		elseif ($form_name == 'data_keluarga') :
 			$forms = ['txtNmKeluarga', 'txtAlamat', 'selHubungan', 'txtTelp', 'txtEmail'];
-		elseif ($form_name == 'data_jabatan') :
-			$forms = ['selUnit', 'selBagian', 'selJabatan', 'selStatusKerja'];
 		elseif ($form_name == 'histori_kontrak') :
-			$forms = ['selClient', 'txtUnit', 'txtBagian', 'txtJabatan', 'txtTglMulai', 'txtTglHabis'];
+			$forms = ['selTypeKaryawan', 'selClient', 'selUnit', 'selBagian', 'selJabatan', 'selStatusKerja', 'txtTglMulai', 'txtTglHabis'];
 		elseif ($form_name == 'data_skills') :
 			$forms = ['txtSkill', 'selLevel'];
 		endif;
@@ -243,20 +234,15 @@ class M_karyawan extends CI_Model {
 			$data['telp_utama'] = $this->input->post('txtTelp');
 			$data['email_utama'] = $this->input->post('txtEmail');
 			$str = $this->base_query->submit_data('td_karyawan_keluarga', 'kd_karyawan_keluarga', 'Data Keluarga Karyawan', $data);
-		elseif ($page_name == 'data_jabatan') :
-			$data['kd_karyawan'] = $_SESSION['user']['detail_karyawan']['kd_karyawan'];
-			$data['unit_kd'] = $this->input->post('selUnit');
-			$data['bagian_Kd'] = $this->input->post('selBagian');
-			$data['jabatan_kd'] = $this->input->post('selJabatan');
-			$data['status_kerja_kd'] = $this->input->post('selStatusKerja');
-			$str = $this->base_query->submit_data('tm_karyawan', 'kd_karyawan', 'Data Jabatan Karyawan', $data);
 		elseif ($page_name == 'histori_kontrak') :
 			$data['karyawan_kd'] = $_SESSION['user']['detail_karyawan']['kd_karyawan'];
 			$data['kd_karyawan_kontrak'] = $this->input->post('txtKd');
+			$data['type_karyawan'] = $this->input->post('selTypeKaryawan');
 			$data['client_kd'] = $this->input->post('selClient');
-			$data['unit_kontrak'] = $this->input->post('txtUnit');
-			$data['bagian_kontrak'] = $this->input->post('txtBagian');
-			$data['jabatan_kontrak'] = $this->input->post('txtJabatan');
+			$data['unit_kd'] = $this->input->post('selUnit');
+			$data['bagian_kd'] = $this->input->post('selBagian');
+			$data['jabatan_kd'] = $this->input->post('selJabatan');
+			$data['status_kerja_kd'] = $this->input->post('selStatusKerja');
 			$data['tgl_mulai'] = format_date($this->input->post('txtTglMulai'), 'Y-m-d');
 			$data['tgl_habis'] = format_date($this->input->post('txtTglHabis'), 'Y-m-d');
 			$str = $this->base_query->submit_data('td_karyawan_kontrak', 'kd_karyawan_kontrak', 'Data Kontrak Karyawan', $data);

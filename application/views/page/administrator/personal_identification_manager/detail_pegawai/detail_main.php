@@ -59,9 +59,6 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 						<a href="javascript:void(0);" data-page-link="data_keluarga">Keluarga</a>
 					</li>
 					<li role="presentation">
-						<a href="javascript:void(0);" data-page-link="data_jabatan">Jabatan</a>
-					</li>
-					<li role="presentation">
 						<a href="javascript:void(0);" data-page-link="data_asuransi">Asuransi</a>
 					</li>
 					<li role="presentation">

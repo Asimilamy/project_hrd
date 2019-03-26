@@ -13,12 +13,11 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		<th style="width:1%; text-align:center;" class="all">No.</th>
 		<th style="width:4%; text-align:center;" class="all">Opsi</th>
 		<th style="width:1%; text-align:center;">Kode</th>
-		<th style="width:15%; text-align:center;">NIK Karyawan</th>
-		<th style="width:30%; text-align:left;">Nama Karyawan</th>
-		<th style="width:10%; text-align:center;">Nama Unit</th>
-		<th style="width:10%; text-align:center;">Nama Bagian</th>
-		<th style="width:10%; text-align:center;">Nama Jabatan</th>
-		<th style="width:10%; text-align:center;">Status Kerja</th>
+		<th style="width:14%; text-align:center;">NIK</th>
+		<th style="width:15%; text-align:left;">Nama</th>
+		<th style="width:30%; text-align:center;">Alamat</th>
+		<th style="width:14%; text-align:center;">Tempat / Tanggal Lahir</th>
+		<th style="width:1%; text-align:center;">Tanggal Lahir</th>
 		<th style="width:10%; text-align:center;">Tgl Masuk</th>
 	</tr>
 	</thead>
@@ -62,11 +61,9 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 			{"searchable": false, "orderable": false, "targets": 1},
 			{"visible": false, "targets": 2, "searchable": false},
 			{"className": "dt-center", "targets": 3},
-			{"className": "dt-center", "targets": 5},
 			{"className": "dt-center", "targets": 6},
-			{"className": "dt-center", "targets": 7},
+			{"visible": false, "targets": 7, "searchable": false},
 			{"className": "dt-center", "targets": 8},
-			{"className": "dt-center", "targets": 9},
 		],
 		"order":[2, 'asc'],
 		"rowCallback": function (row, data, iDisplayIndex) {

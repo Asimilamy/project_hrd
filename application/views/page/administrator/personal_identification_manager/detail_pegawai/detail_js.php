@@ -25,7 +25,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 	function first_load(loader, content) {
 		$(content).hide();
-		$(loader).fadeIn('slow', function(e) {
+		$(loader).fadeIn('fast', function(e) {
 			$(loader).fadeOut('slow', function(e){
 				$(content).slideDown();
 			});

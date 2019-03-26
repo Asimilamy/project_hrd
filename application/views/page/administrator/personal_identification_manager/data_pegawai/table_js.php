@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 ?>
 <script type="text/javascript">
 	open_table();
-	first_load('<?php echo $box_loader_id; ?>', '<?php echo $box_content_id; ?>');
+	first_load('#<?php echo $box_loader_id; ?>', '#<?php echo $box_content_id; ?>');
 
 	$(document).off('click', '#<?php echo $btn_add_id; ?>').on('click', '#<?php echo $btn_add_id; ?>', function() {
 		view_detail('');
@@ -41,8 +41,11 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	}
 
 	function first_load(loader, content) {
-		$('#'+loader).fadeOut(500, function(e){
-			$('#'+content).slideDown();
+		$(content).hide();
+		$(loader).fadeIn('fast', function(e) {
+			$(loader).fadeOut('slow', function(e){
+				$(content).slideDown();
+			});
 		});
 	}
 

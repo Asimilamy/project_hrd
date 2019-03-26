@@ -7,20 +7,23 @@ class Tm_status_kerja extends CI_Model {
 	private $title_name = 'Data Status Kerja';
 
 	public function ssp_table() {
+		$this->load->helper(['basic_helper']);
 		$data['table'] = $this->tbl_name;
 
 		$data['primaryKey'] = $this->p_key;
 
 		$data['columns'] = array(
-			array( 'db' => $this->p_key,
-				'dt' => 1, 'field' => $this->p_key,
-				'formatter' => function($d, $row){
-
+			array( 'db' => $this->p_key, 'dt' => 1, 'field' => $this->p_key,
+				'formatter' => function($d, $row) {
 					return $this->tbl_btn($d, $row[2]);
 				} ),
 			array( 'db' => 'kd_status_kerja', 'dt' => 2, 'field' => 'kd_status_kerja' ),
 			array( 'db' => 'user_code', 'dt' => 3, 'field' => 'user_code' ),
 			array( 'db' => 'nm_status_kerja', 'dt' => 4, 'field' => 'nm_status_kerja' ),
+			array( 'db' => 'has_contract', 'dt' => 5, 'field' => 'has_contract',
+				'formatter' => function($d) {
+					return ya_tidak($d);
+				} ),
 		);
 
 		$data['sql_details'] = sql_connect();
@@ -54,9 +57,9 @@ class Tm_status_kerja extends CI_Model {
 		$this->load->model(array('model_basic/base_query'));
 		$row = $this->base_query->get_row($this->tbl_name, array($this->p_key => $id));
 		if (!empty($row)) :
-			$data = array('kd_status_kerja' => $row->kd_status_kerja, 'user_code' => $row->user_code, 'nm_status_kerja' => $row->nm_status_kerja);
+			$data = array('kd_status_kerja' => $row->kd_status_kerja, 'user_code' => $row->user_code, 'nm_status_kerja' => $row->nm_status_kerja, 'has_contract' => $row->has_contract);
 		else :
-			$data = array('kd_status_kerja' => '', 'user_code' => '', 'nm_status_kerja' => '');
+			$data = array('kd_status_kerja' => '', 'user_code' => '', 'nm_status_kerja' => '', 'has_contract' => '');
 		endif;
 		return $data;
 	}
@@ -64,7 +67,8 @@ class Tm_status_kerja extends CI_Model {
 	public function form_rules() {
 		$rules = array(
 			array('field' => 'txtCode', 'label' => 'User Code', 'rules' => 'required|callback_code_check'),
-			array('field' => 'txtNm', 'label' => 'Nama Unit', 'rules' => 'required')
+			array('field' => 'txtNm', 'label' => 'Nama Unit', 'rules' => 'required'),
+			array('field' => 'selHasContract', 'label' => 'Pilihan Kontrak', 'rules' => 'required'),
 		);
 		return $rules;
 	}

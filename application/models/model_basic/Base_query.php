@@ -121,4 +121,16 @@ class Base_query extends CI_Model {
 		endif;
 		$this->db->trans_complete();
 	}
+
+	public function define_container($class_link = '', $box_type = '') {
+		$data['class_link'] = $class_link;
+		$data['box_id'] = 'idBox'.$box_type;
+		$data['box_alert_id'] = 'idAlertBox'.$box_type;
+		$data['box_loader_id'] = 'idLoaderBox'.$box_type;
+		$data['box_content_id'] = 'idContentBox'.$box_type;
+		$data['btn_hide_id'] = 'idBtnHide'.$box_type;
+		$data['btn_add_id'] = 'idBtnAdd'.$box_type;
+		$data['btn_close_id'] = 'idBtnClose'.$box_type;
+		return $data;
+	}
 }

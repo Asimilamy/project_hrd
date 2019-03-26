@@ -28,7 +28,7 @@ class Data_user extends MY_Controller {
 		else :
 			$flash = 'Halaman anda direset dikarenakan sesi browser anda telah habis.&nbsp; Silahkan coba lagi.';
 			$this->session->set_flashdata('message', $flash);
-			redirect($class_link, 'location');
+			redirect($this->class_link, 'location');
 		endif;
 	}
 
@@ -44,6 +44,7 @@ class Data_user extends MY_Controller {
 	}
 
 	public function get_table() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data User';
 		$data['box_type'] = 'Table';
@@ -58,14 +59,7 @@ class Data_user extends MY_Controller {
 		/* --END OF BOX BUTTON PROPERTY-- */
 
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
 		$this->load->view('containers/view_box', $data);
 	}
@@ -85,11 +79,8 @@ class Data_user extends MY_Controller {
 	}
 
 	public function get_form() {
+		$this->load->model(['model_basic/base_query']);
 		$id = $this->input->get('id');
-		$data['data']['id'] = $id;
-		$user_row = $this->tm_user->get_data($id);
-		$data['data']['kd_master_type'] = $user_row['master_type_kd'];
-		$data['data']['content_type'] = 'administrator';
 
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data User';
@@ -105,16 +96,13 @@ class Data_user extends MY_Controller {
 		/* --END OF BOX BUTTON PROPERTY-- */
 
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
-		$data['data']['form_errs'] = $this->form_errs;
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
+		$data['data']['id'] = $id;
+		$user_row = $this->tm_user->get_data($id);
+		$data['data']['kd_master_type'] = $user_row['master_type_kd'];
+		$data['data']['content_type'] = 'administrator';
+		$data['data']['form_errs'] = $this->form_errs;
 		$this->load->view('containers/view_box', $data);
 	}
 
