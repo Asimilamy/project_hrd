@@ -19,13 +19,16 @@ $data['page_name'] = $page_name;
 			<tr>
 				<th style="width:1%; text-align:center;" class="all">No.</th>
 				<th style="width:4%; text-align:center;" class="all">Opsi</th>
-				<th style="width:1%; text-align:center;">Kode</th>
-				<th style="width:50%; text-align:left;">Nama Client</th>
+				<th style="width:0%; text-align:center;">Kode</th>
+				<th style="width:10%; text-align:left;">Tipe Karyawan</th>
+				<th style="width:25%; text-align:left;">Nama Client</th>
 				<th style="width:10%; text-align:left;">Unit</th>
 				<th style="width:10%; text-align:left;">Bagian</th>
 				<th style="width:10%; text-align:left;">Jabatan</th>
-				<th style="width:6%; text-align:left;">Tgl Mulai</th>
-				<th style="width:6%; text-align:left;">Tgl Habis</th>
+				<th style="width:10%; text-align:left;">Status Kerja</th>
+				<th style="width:10%; text-align:left;">Tgl Mulai</th>
+				<th style="width:10%; text-align:left;">Tgl Habis</th>
+				<th style="width:0%; text-align:left;">Has Contract</th>
 			</tr>
 			</thead>
 		</table>
@@ -72,6 +75,7 @@ $data['page_name'] = $page_name;
 			{"data": null, "searchable": false, "orderable": false, "className": "dt-center", "targets": 0},
 			{"searchable": false, "orderable": false, "className": "dt-center", "targets": 1},
 			{"searchable": false, "visible": false, "targets": 2},
+			{"searchable": false, "visible": false, "targets": 11},
 		],
 		"order":[2, 'desc'],
 		"rowCallback": function (row, data, iDisplayIndex) {

@@ -17,24 +17,32 @@ class Td_karyawan_kontrak extends CI_Model {
 					return $this->tbl_btn($d, $row[2]);
 				} ),
 			array( 'db' => 'a.'.$this->p_key, 'dt' => 2, 'field' => $this->p_key ),
-			array( 'db' => 'b.nm_client', 'dt' => 3, 'field' => 'nm_client' ),
-			array( 'db' => 'c.nm_status_kerja', 'dt' => 4, 'field' => 'nm_status_kerja' ),
-			array( 'db' => 'd.nm_unit', 'dt' => 5, 'field' => 'nm_unit' ),
-			array( 'db' => 'e.nm_bagian', 'dt' => 6, 'field' => 'nm_bagian' ),
-			array( 'db' => 'f.nm_jabatan', 'dt' => 7, 'field' => 'nm_jabatan' ),
-			array( 'db' => 'a.type_karyawan', 'dt' => 8, 'field' => 'type_karyawan',
+			array( 'db' => 'a.type_karyawan', 'dt' => 3, 'field' => 'type_karyawan',
 				'formatter' => function($d) {
 					return ucwords($d);
 				} ),
+			array( 'db' => 'b.nm_client', 'dt' => 4, 'field' => 'nm_client',
+				'formatter' => function($d, $row) {
+					if ($row[2] == 'outsourcing') {
+						return $d;
+					} else {
+						return '-';
+					}
+				} ),
+			array( 'db' => 'd.nm_unit', 'dt' => 5, 'field' => 'nm_unit' ),
+			array( 'db' => 'e.nm_bagian', 'dt' => 6, 'field' => 'nm_bagian' ),
+			array( 'db' => 'f.nm_jabatan', 'dt' => 7, 'field' => 'nm_jabatan' ),
+			array( 'db' => 'c.nm_status_kerja', 'dt' => 8, 'field' => 'nm_status_kerja' ),
 			array( 'db' => 'a.tgl_mulai', 'dt' => 9, 'field' => 'tgl_mulai' ),
 			array( 'db' => 'a.tgl_habis', 'dt' => 10, 'field' => 'tgl_habis',
 				'formatter' => function($d, $row) {
-					if ($row[7] == 'outsourcing') {
+					if ($row[10] == '1') {
 						return format_date($d, 'd-m-Y');
 					} else {
 						return '-';
 					}
 				} ),
+			array( 'db' => 'c.has_contract', 'dt' => 11, 'field' => 'has_contract' )
 		);
 
 		$data['sql_details'] = sql_connect();

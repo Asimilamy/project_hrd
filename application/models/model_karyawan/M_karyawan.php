@@ -245,6 +245,19 @@ class M_karyawan extends CI_Model {
 			$data['status_kerja_kd'] = $this->input->post('selStatusKerja');
 			$data['tgl_mulai'] = format_date($this->input->post('txtTglMulai'), 'Y-m-d');
 			$data['tgl_habis'] = format_date($this->input->post('txtTglHabis'), 'Y-m-d');
+			/**
+			 * Check apakah tgl mulai sebelum tgl habis kontrak lama
+			*/
+			$this->db->select('kd_karyawan_kontrak')
+				->from('td_karyawan_kontrak')
+				->where(['tgl_habis >=' => $data['tgl_mulai'], 'karyawan_kd' => $data['karyawan_kd']]);
+			$query = $this->db->get();
+			$row = $query->row();
+			if (!empty($row)) :
+				$update['kd_karyawan_kontrak'] = $row->kd_karyawan_kontrak;
+				$update['tgl_habis'] = $data['tgl_mulai'];
+				$this->base_query->submit_data('td_karyawan_kontrak', 'kd_karyawan_kontrak', 'Data Kontrak Karyawan', $update);
+			endif;
 			$str = $this->base_query->submit_data('td_karyawan_kontrak', 'kd_karyawan_kontrak', 'Data Kontrak Karyawan', $data);
 		elseif ($page_name == 'data_skills') :
 			$data['karyawan_kd'] = $_SESSION['user']['detail_karyawan']['kd_karyawan'];
