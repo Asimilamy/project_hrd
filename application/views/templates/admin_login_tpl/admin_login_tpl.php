@@ -49,7 +49,7 @@ $app_logo = $this->m_setting->get_setting('app_logo');
 							<h3><i class="fa <?php echo $app_logo; ?>"></i> <?php echo $app_title; ?></h3>
 							<p>©2019 All Rights Reserved CV. Ali Insan Jaya.</p>
 							<p>Privacy and Terms</p>
-							<p>V <?php echo $_SERVER['APP_VERSION']; ?></p>
+							<p>v<?php echo $_SERVER['APP_VERSION']; ?></p>
 						</div>
 					</div>
 				</section>
