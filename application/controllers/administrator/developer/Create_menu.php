@@ -80,6 +80,7 @@ class Create_menu extends MY_Controller {
 	}
 
 	public function get_form() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Menu';
 		$data['box_type'] = 'Form';

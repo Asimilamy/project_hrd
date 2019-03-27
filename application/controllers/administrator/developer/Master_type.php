@@ -80,6 +80,7 @@ class Master_type extends MY_Controller {
 	}
 
 	public function get_form() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Type';
 		$data['box_type'] = 'Form';

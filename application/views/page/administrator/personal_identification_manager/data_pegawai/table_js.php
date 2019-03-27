@@ -25,7 +25,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	}
 
 	function open_table() {
-		$('.panel_toolbox').css({"margin-right" : "0px"});
 		$('#<?php echo $btn_add_id; ?>').slideDown();
 		$('#<?php echo $box_content_id; ?>').slideUp(function(){
 			$.ajax({
@@ -36,15 +35,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 					$('#<?php echo $box_content_id; ?>').slideDown();
 					moveTo('.main_container');
 				}
-			});
-		});
-	}
-
-	function first_load(loader, content) {
-		$(content).hide();
-		$(loader).fadeIn('fast', function(e) {
-			$(loader).fadeOut('slow', function(e){
-				$(content).slideDown();
 			});
 		});
 	}

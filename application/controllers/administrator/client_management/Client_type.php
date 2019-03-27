@@ -79,6 +79,7 @@ class Client_type extends MY_Controller {
 	}
 
 	public function get_form() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Type Client';
 		$data['box_type'] = 'Form';

@@ -7,7 +7,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 	$(document).off('click', '#<?php echo $btn_add_id; ?>').on('click', '#<?php echo $btn_add_id; ?>', function() {
 		$(this).slideUp();
-		$('.panel_toolbox').css({"margin-right" : "-20px"});
 		get_form('');
 	});
 
@@ -16,7 +15,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	}
 
 	function open_table() {
-		$('.panel_toolbox').css({"margin-right" : "0px"});
 		$('#<?php echo $btn_add_id; ?>').slideDown();
 		$('#<?php echo $box_content_id; ?>').slideUp(function(){
 			$.ajax({

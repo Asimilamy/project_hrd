@@ -6,16 +6,16 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		<div class="x_panel">
 			<div class="x_title">
 				<h2><?php echo $box_type.' '.$page_title; ?></h2>
-				<ul class="nav navbar-right panel_toolbox" <?php echo $btn_add == TRUE && $_SESSION['user']['access']['create']?'':'style="margin-right: -20px;"'; ?>>
+				<ul class="nav navbar-right panel_toolbox" style="padding-left: 50px;">
 					<?php
-					if ($btn_hide == TRUE) :
-						?>
-						<li><a id="<?php echo $data['btn_hide_id']; ?>" class="collapse-link" title="Sembunyikan"><i class="fa fa-chevron-up"></i></a></li>
-						<?php
-					endif;
 					if ($btn_add == TRUE && $_SESSION['user']['access']['create']) :
 						?>
 						<li><a id="<?php echo $data['btn_add_id']; ?>" class="add-data-link" title="Tambah Data"><i class="fa fa-plus"></i></a></li>
+						<?php
+					endif;
+					if ($btn_hide == TRUE) :
+						?>
+						<li><a id="<?php echo $data['btn_hide_id']; ?>" class="collapse-link" title="Sembunyikan"><i class="fa fa-chevron-up"></i></a></li>
 						<?php
 					endif;
 					if ($btn_close == TRUE) :

@@ -11,7 +11,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		open_table();
 		remove_box('#<?php echo $box_id;?>');
 		first_load('idLoaderBoxTable', 'idContentBoxTable');
-		$('.panel_toolbox').css({"margin-right" : "0px"});
 	});
 
 	$(document).off('submit', '#idFormDataUnit').on('submit', '#idFormDataUnit', function(e) {

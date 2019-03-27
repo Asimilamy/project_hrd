@@ -41,11 +41,11 @@ class Data_pegawai extends MY_Controller {
 	public function index() {
 		parent::admin_tpl();
 		parent::datetimepicker_assets();
+		$this->get_filter();
 		$this->get_table();
 	}
 
 	public function get_table() {
-		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Karyawan';
 		$data['box_type'] = 'Table';
@@ -79,13 +79,12 @@ class Data_pegawai extends MY_Controller {
 		);
 	}
 
-	public function get_form() {
-		$this->load->model(['model_basic/base_query']);
+	public function get_filter() {
 		/* --START OF BOX DEFAULT PROPERTY-- */
-		$data['page_title'] = 'Data Karyawan';
+		$data['page_title'] = 'Filter Karyawan';
 		$data['box_type'] = 'Form';
 		$data['page_search'] = FALSE;
-		$data['js_file'] = 'form_js';
+		$data['js_file'] = 'form_filter_js';
 		/* --END OF BOX DEFAULT PROPERTY-- */
 
 		/* --START OF BOX BUTTON PROPERTY-- */
@@ -97,50 +96,13 @@ class Data_pegawai extends MY_Controller {
 		/* --START OF BOX DATA PROPERTY-- */
 		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
-		$data['data']['id'] = $this->input->get('id');
-		$data['data']['form_errs'] = $this->form_errs;
 		$this->load->view('containers/view_box', $data);
 	}
 
-	public function open_form() {
-		$this->load->model('model_organisasi/model_organisasi');
-		$this->load->helper(array('form'));
-		$id = $this->input->get('id');
-		$data = $this->tm_karyawan->get_data($id);
-		$data['opts_unit'] = render_dropdown('Unit', $this->model_organisasi->get_organisasi('tm_unit', [], []), 'kd_unit', 'nm_unit');
-		$data['opts_bagian'] = render_dropdown('Bagian', $this->model_organisasi->get_organisasi('tm_bagian', [], []), 'kd_bagian', 'nm_bagian');
-		$data['opts_jabatan'] = render_dropdown('Bagian', $this->model_organisasi->get_organisasi('tm_jabatan', [], []), 'kd_jabatan', 'nm_jabatan');
-		$data['opts_status_kerja'] = render_dropdown('Bagian', $this->model_organisasi->get_organisasi('tm_status_kerja', [], []), 'kd_status_kerja', 'nm_status_kerja');
-		$this->load->view('page/'.$this->class_link.'/form_main', $data);
-	}
-
-	public function send_data() {
-		$this->load->library('form_validation');
-		$this->load->model('model_basic/base_query');
-		$this->load->helper('date');
-		if ($this->input->is_ajax_request()) :
-			$this->form_validation->set_rules($this->tm_karyawan->form_rules());
-			if ($this->form_validation->run() == FALSE) :
-				$str = $this->tm_karyawan->form_warning($this->form_errs);
-				$str['confirm'] = 'error';
-			else :
-				$data['kd_karyawan'] = $this->input->post('txtKd');
-				$data['nik_karyawan'] = $this->input->post('txtNik');
-				$data['nm_karyawan'] = $this->input->post('txtNm');
-				$data['status_kerja_kd'] = $this->input->post('selStatusKerja');
-				$data['unit_kd'] = $this->input->post('selUnit');
-				$data['bagian_kd'] = $this->input->post('selBagian');
-				$data['jabatan_kd'] = $this->input->post('selJabatan');
-				$data['tgl_aktif'] = format_date($this->input->post('txtTglMasuk'), 'Y-m-d');
-				$str = $this->base_query->submit_data('tm_karyawan', 'kd_karyawan', 'Data Karyawan', $data);
-			endif;
-			$str['alert_stat'] = 'offline';
-			$str['csrf_alert'] = '';
-			$str['csrf'] = $this->security->get_csrf_hash();
-
-			header('Content-Type: application/json');
-			echo json_encode($str);
-		endif;
+	public function open_filter() {
+		$this->load->helper(['form']);
+		$data['class_link'] = $this->class_link;
+		$this->load->view('page/'.$this->class_link.'/filter_main', $data);
 	}
 
 	public function delete_data() {
