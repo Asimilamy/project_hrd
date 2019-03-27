@@ -6,7 +6,7 @@ Project_HRD is an Custom Human Resource Management System created on PHP and Cod
 this system is still in development process and I hope it will serve any purpose of its User.
 Cheers :)
 
-`My Links <https://github.com/Asimilamy/Garuda-CMS>`_
+`My Links <https://github.com/Asimilamy/project_hrd>`_
 
 *******************
 Release Information
