@@ -22,10 +22,17 @@ echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $kd_stat
 	</div>
 </div>
 <div class="form-group">
-	<label for="idSelHasContract" class="col-sm-2 control-label">Pilihan Kontrak</label>
+	<label for="idChkHasContract" class="col-sm-2 control-label" style="padding: 1px 5px 5px;">Pilihan Kontrak</label>
 	<div class="col-sm-4 col-xs-4">
 		<div id="idErrHasContract"></div>
-		<?php echo form_dropdown('selHasContract', ['' => '-- Pilihan Kontrak --', '0' => 'Tidak', '1' => 'Ya'], $has_contract, array('id' => 'idSelHasContract', 'class' => 'form-control')); ?>
+		<?php echo form_checkbox(['name' => 'chkHasContract', 'id' => 'idChkHasContract', 'class' => 'iCheck', 'value' => '1', 'checked' => $has_contract?TRUE:FALSE]); ?>
+	</div>
+</div>
+<div class="form-group">
+	<label for="idChkIsVisible" class="col-sm-2 control-label" style="padding: 1px 5px 5px;">Data Ditampilkan</label>
+	<div class="col-sm-4 col-xs-4">
+		<div id="idErrIsVisible"></div>
+		<?php echo form_checkbox(['name' => 'chkIsVisible', 'id' => 'idChkIsVisible', 'class' => 'iCheck', 'value' => '1', 'checked' => $is_visible?TRUE:FALSE]); ?>
 	</div>
 </div>
 <hr>

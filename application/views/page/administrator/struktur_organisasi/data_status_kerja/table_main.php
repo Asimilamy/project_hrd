@@ -13,9 +13,10 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		<th style="width:1%; text-align:center;" class="all">No.</th>
 		<th style="width:4%; text-align:center;" class="all">Opsi</th>
 		<th style="text-align:center;">Kode</th>
-		<th style="width:25%; text-align:center;">User Code</th>
+		<th style="width:30%; text-align:center;">User Code</th>
 		<th style="width:50%; text-align:left;">Nama Status Kerja</th>
-		<th style="width:25%; text-align:left;">Pilihan Kontrak</th>
+		<th style="width:10%; text-align:left;">Kontrak</th>
+		<th style="width:10%; text-align:left;">Ditampilkan</th>
 	</tr>
 	</thead>
 </table>

@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 class Data_status_kerja extends MY_Controller {
 	private $class_link = 'administrator/struktur_organisasi/data_status_kerja';
-	private $form_errs = array('idErrCode', 'idErrNm', 'idErrHasContract');
+	private $form_errs = array('idErrCode', 'idErrNm', 'idErrHasContract', 'idErrIsVisible');
 
 	public function __construct() {
 		parent::__construct();
@@ -40,6 +40,7 @@ class Data_status_kerja extends MY_Controller {
 	public function index() {
 		parent::admin_tpl();
 		parent::datatables_assets();
+		parent::icheck_assets();
 		$this->get_table();
 	}
 
@@ -120,6 +121,8 @@ class Data_status_kerja extends MY_Controller {
 				$data['kd_status_kerja'] = $this->input->post('txtKd');
 				$data['user_code'] = $this->input->post('txtCode');
 				$data['nm_status_kerja'] = $this->input->post('txtNm');
+				$data['has_contract'] = empty($this->input->post('chkHasContract'))?'0':'1';
+				$data['is_visible'] = empty($this->input->post('chkIsVisible'))?'0':'1';
 				$str = $this->base_query->submit_data('tm_status_kerja', 'kd_status_kerja', 'Data Status Kerja', $data);
 			endif;
 			$str['alert_stat'] = 'offline';

@@ -24,6 +24,10 @@ class Tm_status_kerja extends CI_Model {
 				'formatter' => function($d) {
 					return ya_tidak($d);
 				} ),
+			array( 'db' => 'is_visible', 'dt' => 6, 'field' => 'is_visible',
+				'formatter' => function($d) {
+					return ya_tidak($d);
+				} ),
 		);
 
 		$data['sql_details'] = sql_connect();
@@ -57,9 +61,9 @@ class Tm_status_kerja extends CI_Model {
 		$this->load->model(array('model_basic/base_query'));
 		$row = $this->base_query->get_row($this->tbl_name, array($this->p_key => $id));
 		if (!empty($row)) :
-			$data = array('kd_status_kerja' => $row->kd_status_kerja, 'user_code' => $row->user_code, 'nm_status_kerja' => $row->nm_status_kerja, 'has_contract' => $row->has_contract);
+			$data = array('kd_status_kerja' => $row->kd_status_kerja, 'user_code' => $row->user_code, 'nm_status_kerja' => $row->nm_status_kerja, 'has_contract' => $row->has_contract, 'is_visible' => $row->is_visible);
 		else :
-			$data = array('kd_status_kerja' => '', 'user_code' => '', 'nm_status_kerja' => '', 'has_contract' => '');
+			$data = array('kd_status_kerja' => '', 'user_code' => '', 'nm_status_kerja' => '', 'has_contract' => '', 'is_visible' => '');
 		endif;
 		return $data;
 	}
@@ -68,7 +72,6 @@ class Tm_status_kerja extends CI_Model {
 		$rules = array(
 			array('field' => 'txtCode', 'label' => 'User Code', 'rules' => 'required|callback_code_check'),
 			array('field' => 'txtNm', 'label' => 'Nama Unit', 'rules' => 'required'),
-			array('field' => 'selHasContract', 'label' => 'Pilihan Kontrak', 'rules' => 'required'),
 		);
 		return $rules;
 	}

@@ -30,6 +30,9 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 					$('#<?php echo $box_content_id; ?>').slideDown();
 					moveTo('.main_container');
 					$('#idTxtNim').focus();
+					$('.iCheck').iCheck({
+						checkboxClass: 'icheckbox_flat-blue'
+					});
 				}
 			});
 		});
