@@ -54,7 +54,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 $_SERVER['CI_ENV'] = 'development';
-$_SERVER['APP_VERSION'] = '1.0.1';
+$_SERVER['APP_VERSION'] = '1.0.2';
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
