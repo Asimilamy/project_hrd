@@ -74,12 +74,12 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'mysql:host=localhost; dbname=db_project_hrd; charset=utf8;',
-	'hostname' => 'localhost',
-	'username' => 'root',
+	'dsn'	=> '',
+	'hostname' => '',
+	'username' => '',
 	'password' => '',
-	'database' => 'db_project_hrd',
-	'dbdriver' => 'pdo',
+	'database' => '',
+	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
