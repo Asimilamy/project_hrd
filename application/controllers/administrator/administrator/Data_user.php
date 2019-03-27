@@ -170,7 +170,7 @@ class Data_user extends MY_Controller {
 		endif;
 	}
 
-    public function username_check($str) {
+	public function username_check($str) {
 		if ($str == 'test') :
 			$this->form_validation->set_message('username_check', '{field} tidak boleh menggunakan kata "test"');
 			return FALSE;
@@ -186,5 +186,5 @@ class Data_user extends MY_Controller {
 				return TRUE;
 			endif;
 		endif;
-    }
+	}
 }

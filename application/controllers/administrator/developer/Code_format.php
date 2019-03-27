@@ -61,16 +61,9 @@ class Code_format extends MY_Controller {
 		/* --END OF BOX BUTTON PROPERTY-- */
 
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
-		$data['data']['form_errs'] = $this->form_errs;
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
+		$data['data']['form_errs'] = $this->form_errs;
 		$this->load->view('containers/view_box', $data);
 	}
 
@@ -82,74 +75,26 @@ class Code_format extends MY_Controller {
 		$this->load->view('page/'.$this->class_link.'/view_main', $data);
 	}
 
-	public function get_table() {
-		/* --START OF BOX DEFAULT PROPERTY-- */
-		$data['page_title'] = 'Data Type';
-		$data['box_type'] = 'Table';
-		$data['page_search'] = FALSE;
-		$data['js_file'] = 'table_js';
-		/* --END OF BOX DEFAULT PROPERTY-- */
-
-		/* --START OF BOX BUTTON PROPERTY-- */
-		$data['btn_add'] = TRUE;
-		$data['btn_hide'] = TRUE;
-		$data['btn_close'] = FALSE;
-		/* --END OF BOX BUTTON PROPERTY-- */
-
-		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
-		/* --END OF BOX DATA PROPERTY-- */
-		$this->load->view('containers/view_box', $data);
-	}
-
-	public function open_table() {
-		$data['class_link'] = $this->class_link;
-		$this->load->view('page/'.$this->class_link.'/table_main', $data);
-	}
-
-	public function table_data() {
-		$this->load->library(array('custom_ssp'));
-
-		$data = $this->tm_master_type->ssp_table($_SESSION['master_type_tipe']);
-		echo json_encode(
-			Custom_ssp::simple( $_GET, $data['sql_details'], $data['table'], $data['primaryKey'], $data['columns'], $data['joinQuery'], $data['where'] )
-		);
-	}
-
 	public function get_form() {
-		$data['data']['id'] = $this->input->get('id');
-
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Type';
 		$data['box_type'] = 'Form';
 		$data['page_search'] = FALSE;
 		$data['js_file'] = 'form_js';
 		/* --END OF BOX DEFAULT PROPERTY-- */
-
+		
 		/* --START OF BOX BUTTON PROPERTY-- */
 		$data['btn_add'] = FALSE;
 		$data['btn_hide'] = TRUE;
 		$data['btn_close'] = TRUE;
 		/* --END OF BOX BUTTON PROPERTY-- */
-
+		
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
-		$data['data']['form_errs'] = $this->form_errs;
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
+		
+		$data['data']['id'] = $this->input->get('id');
+		$data['data']['form_errs'] = $this->form_errs;
 		$this->load->view('containers/view_box', $data);
 	}
 
@@ -216,17 +161,6 @@ class Code_format extends MY_Controller {
 			$str['csrf_alert'] = '';
 			$str['csrf'] = $this->security->get_csrf_hash();
 
-			header('Content-Type: application/json');
-			echo json_encode($str);
-		endif;
-	}
-
-	public function delete_data() {
-		$this->load->model('model_basic/base_query');
-		if ($this->input->is_ajax_request()) :
-			$id = $this->input->get('id');
-			$str = $this->base_query->delete_data('tm_master_type', array('kd_master_type' => $id), 'Data Master Type');
-			
 			header('Content-Type: application/json');
 			echo json_encode($str);
 		endif;

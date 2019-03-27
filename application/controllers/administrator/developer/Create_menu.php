@@ -28,7 +28,7 @@ class Create_menu extends MY_Controller {
 		else :
 			$flash = 'Halaman anda direset dikarenakan sesi browser anda telah habis.&nbsp; Silahkan coba lagi.';
 			$this->session->set_flashdata('message', $flash);
-			redirect($class_link, 'location');
+			redirect($this->class_link, 'location');
 		endif;
 	}
 
@@ -60,14 +60,7 @@ class Create_menu extends MY_Controller {
 		/* --END OF BOX BUTTON PROPERTY-- */
 
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
 		$this->load->view('containers/view_box', $data);
 	}
@@ -87,32 +80,25 @@ class Create_menu extends MY_Controller {
 	}
 
 	public function get_form() {
-		$data['data']['id'] = $this->input->get('id');
-
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Menu';
 		$data['box_type'] = 'Form';
 		$data['page_search'] = FALSE;
 		$data['js_file'] = 'form_js';
 		/* --END OF BOX DEFAULT PROPERTY-- */
-
+		
 		/* --START OF BOX BUTTON PROPERTY-- */
 		$data['btn_add'] = FALSE;
 		$data['btn_hide'] = TRUE;
 		$data['btn_close'] = TRUE;
 		/* --END OF BOX BUTTON PROPERTY-- */
-
+		
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
-		$data['data']['form_errs'] = $this->form_errs;
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
+		
+		$data['data']['id'] = $this->input->get('id');
+		$data['data']['form_errs'] = $this->form_errs;
 		$this->load->view('containers/view_box', $data);
 	}
 
@@ -184,7 +170,7 @@ class Create_menu extends MY_Controller {
 	private function process_user_access_batch($menu_kd = '') {
 		$this->load->model('model_basic/base_query');
 		$this->db->trans_begin();
-		$act_del = $this->delete_user_access($menu_kd);
+		$this->delete_user_access($menu_kd);
 		$kd_user_access = create_pkey('td_user_access', 'kd_user_access');
 		$master_type_kds = $this->input->post('selMasterType');
 		$create_accesss = $this->input->post('chkAccessCreate');
@@ -197,7 +183,7 @@ class Create_menu extends MY_Controller {
 			$read_access = isset($read_accesss[$i])?$read_accesss[$i]:'0';
 			$update_access = isset($update_accesss[$i])?$update_accesss[$i]:'0';
 			$delete_access = isset($delete_accesss[$i])?$delete_accesss[$i]:'0';
-			$data_batch[] = array('kd_user_access' => $kd_user_access, 'master_type_kd' => $master_type_kd, 'menu_kd' => $menu_kd, 'create_access' => $create_access, 'read_access' => $read_access, 'update_access' => $read_access, 'delete_access' => $delete_access, 'tgl_input' => date('Y-m-d H:i:s'), 'user_kd' => $_SESSION['user']['kd_user']);
+			$data_batch[] = array('kd_user_access' => $kd_user_access, 'master_type_kd' => $master_type_kd, 'menu_kd' => $menu_kd, 'create_access' => $create_access, 'read_access' => $read_access, 'update_access' => $update_access, 'delete_access' => $delete_access, 'tgl_input' => date('Y-m-d H:i:s'), 'user_kd' => $_SESSION['user']['kd_user']);
 			$kd_user_access = create_pkey('td_user_access', 'kd_user_access', $kd_user_access, 1);
 		endfor;
 		$str = $this->base_query->submit_batch('td_user_access', 'Data User Access', $data_batch);

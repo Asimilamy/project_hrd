@@ -28,7 +28,7 @@ class System_appareance extends MY_Controller {
 		else :
 			$flash = 'Halaman anda direset dikarenakan sesi browser anda telah habis.&nbsp; Silahkan coba lagi.';
 			$this->session->set_flashdata('message', $flash);
-			redirect($class_link, 'location');
+			redirect($this->class_link, 'location');
 		endif;
 	}
 
@@ -45,32 +45,25 @@ class System_appareance extends MY_Controller {
 
 	public function get_form() {
 		$this->load->model(array('model_basic/base_query'));
-		$data['data']['id'] = $this->input->get('id');
-
+		
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'System Appareance';
 		$data['box_type'] = 'Form';
 		$data['page_search'] = FALSE;
 		$data['js_file'] = 'form_js';
 		/* --END OF BOX DEFAULT PROPERTY-- */
-
+		
 		/* --START OF BOX BUTTON PROPERTY-- */
 		$data['btn_add'] = FALSE;
 		$data['btn_hide'] = TRUE;
 		$data['btn_close'] = FALSE;
 		/* --END OF BOX BUTTON PROPERTY-- */
-
+		
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data']['class_link'] = $this->class_link;
-		$data['data']['box_id'] = 'idBox'.$data['box_type'];
-		$data['data']['box_alert_id'] = 'idAlertBox'.$data['box_type'];
-		$data['data']['box_loader_id'] = 'idLoaderBox'.$data['box_type'];
-		$data['data']['box_content_id'] = 'idContentBox'.$data['box_type'];
-		$data['data']['btn_hide_id'] = 'idBtnHide'.$data['box_type'];
-		$data['data']['btn_add_id'] = 'idBtnAdd'.$data['box_type'];
-		$data['data']['btn_close_id'] = 'idBtnClose'.$data['box_type'];
-		$data['data']['form_errs'] = $this->base_query->form_errs('tm_sys_appareance', 'kd_sys_appareance');
+		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
+		$data['data']['id'] = $this->input->get('id');
+		$data['data']['form_errs'] = $this->base_query->form_errs('tm_sys_appareance', 'kd_sys_appareance');
 		$this->load->view('containers/view_box', $data);
 	}
 

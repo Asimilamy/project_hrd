@@ -24,7 +24,7 @@ class Login extends MY_Controller {
 		else :
 			$flash = 'Halaman anda direset dikarenakan sesi browser anda telah habis.&nbsp; Silahkan coba lagi.';
 			$this->session->set_flashdata('message', $flash);
-			redirect($class_link, 'location');
+			redirect($this->class_link, 'location');
 		endif;
 	}
 
