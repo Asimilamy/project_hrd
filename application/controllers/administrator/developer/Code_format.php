@@ -47,6 +47,7 @@ class Code_format extends MY_Controller {
 	}
 
 	public function get_view() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Format Kode - '.ucwords(str_replace('_', ' ', $_SESSION['master_type_tipe']));
 		$data['box_type'] = 'View';
@@ -76,6 +77,7 @@ class Code_format extends MY_Controller {
 	}
 
 	public function get_form() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Type';
 		$data['box_type'] = 'Form';

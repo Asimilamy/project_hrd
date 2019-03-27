@@ -56,7 +56,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	$(document).off('click', '#idBtnCloseDetail').on('click', '#idBtnCloseDetail', function() {
 		$.ajax({
 			type: 'GET',
-			url: '<?php echo base_url('administrator/personal_identification_manager/data_pegawai/get_table'); ?>',
+			url: '<?php echo base_url('administrator/personal_identification_manager/data_pegawai/first_load'); ?>',
 			success: function(data) {
 				remove_box('#<?php echo $box_id; ?>');
 				$('#idMainContainer').html(data);

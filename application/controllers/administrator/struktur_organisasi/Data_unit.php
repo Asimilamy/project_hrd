@@ -44,6 +44,7 @@ class Data_unit extends MY_Controller {
 	}
 
 	public function get_table() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Unit';
 		$data['box_type'] = 'Table';

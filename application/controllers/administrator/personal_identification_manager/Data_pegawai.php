@@ -41,11 +41,16 @@ class Data_pegawai extends MY_Controller {
 	public function index() {
 		parent::admin_tpl();
 		parent::datetimepicker_assets();
+		$this->first_load();
+	}
+
+	public function first_load() {
 		$this->get_filter();
 		$this->get_table();
 	}
 
 	public function get_table() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Data Karyawan';
 		$data['box_type'] = 'Table';
@@ -80,6 +85,7 @@ class Data_pegawai extends MY_Controller {
 	}
 
 	public function get_filter() {
+		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
 		$data['page_title'] = 'Filter Karyawan';
 		$data['box_type'] = 'Form';
