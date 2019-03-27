@@ -61,20 +61,73 @@ class M_karyawan extends CI_Model {
 		endif;
 	}
 
+	public function get_complete_detail($page_name = '') {
+		if ($page_name == 'histori_kontrak') :
+			$this->load->model(array('model_karyawan/td_karyawan_kontrak'));
+			$table = 'td_karyawan_kontrak';
+			$p_key = $this->input->get('kd_karyawan_kontrak');
+			$data['opts_type_karyawan'] = render_dropdown('Type Karyawan', (object) ['0' => (object) ['key' => 'internal', 'value' => 'Internal'], '1' => (object) ['key' => 'outsourcing', 'value' => 'Outsourcing']], 'key', 'value');
+			$data['opts_client'] = render_dropdown('Client', $this->base_query->get_all('tm_client'), 'kd_client', 'nm_client');
+			$data['opts_unit'] = render_dropdown('Unit', $this->base_query->get_all('tm_unit'), 'kd_unit', 'nm_unit');
+			$data['opts_bagian'] = render_dropdown('Bagian', $this->base_query->get_all('tm_bagian'), 'kd_bagian', 'nm_bagian');
+			$data['opts_jabatan'] = render_dropdown('Jabatan', $this->base_query->get_all('tm_jabatan'), 'kd_jabatan', 'nm_jabatan');
+			$data['opts_status_kerja'] = render_dropdown('Status Kerja', $this->base_query->get_all('tm_status_kerja'), 'kd_status_kerja', 'nm_status_kerja');
+		elseif ($page_name == 'data_skills') :
+			$this->load->model(array('model_karyawan/td_karyawan_skill'));
+			$table = 'td_karyawan_skill';
+			$p_key = $this->input->get('kd_karyawan_skill');
+		elseif ($page_name == 'data_asuransi') :
+			$this->load->model(array('model_karyawan/td_karyawan_asuransi'));
+			$data['opts_asuransi'] = render_dropdown('Asuransi', $this->base_query->get_all('tm_asuransi'), 'kd_asuransi', 'nm_asuransi');
+			$table = 'td_karyawan_asuransi';
+			$p_key = $this->input->get('kd_karyawan_asuransi');
+		elseif ($page_name == 'data_keluarga') :
+			$this->load->model(array('model_karyawan/td_karyawan_keluarga'));
+			$table = 'td_karyawan_keluarga';
+			$p_key = $this->input->get('kd_karyawan_keluarga');
+		elseif ($page_name == 'data_kontak') :
+			$this->load->model(array('model_karyawan/td_karyawan_kontak'));
+			$table = 'td_karyawan_kontak';
+			$p_key = $this->input->get('kd_karyawan_kontak');
+		endif;
+		$data['form_data'] = $this->{$table}->get_data($p_key);
+		return $data;
+	}
+
+	public function get_ssp($page_name = '') {
+		if ($page_name == 'histori_kontrak') :
+			$this->load->model(array('model_karyawan/td_karyawan_kontrak'));
+			$data = $this->td_karyawan_kontrak->ssp_table();
+		elseif ($page_name == 'data_skills') :
+			$this->load->model(array('model_karyawan/td_karyawan_skill'));
+			$data = $this->td_karyawan_skill->ssp_table();
+		elseif ($page_name == 'data_asuransi') :
+			$this->load->model(array('model_karyawan/td_karyawan_asuransi'));
+			$data = $this->td_karyawan_asuransi->ssp_table();
+		elseif ($page_name == 'data_keluarga') :
+			$this->load->model(array('model_karyawan/td_karyawan_keluarga'));
+			$data = $this->td_karyawan_keluarga->ssp_table();
+		elseif ($page_name == 'data_kontak') :
+			$this->load->model(array('model_karyawan/td_karyawan_kontak'));
+			$data = $this->td_karyawan_kontak->ssp_table();
+		endif;
+		return $data;
+	}
+
 	public function form_detail_errs($form_name = '') {
 		$form_errs = [];
 		if ($form_name == 'data_pribadi') :
 			$form_errs = ['idErrNm', 'idErrTglMasuk', 'idErrFoto', 'idErrNoKtp', 'idErrJekel', 'idErrTmpLahir', 'idErrTglLahir', 'idErrAlamat', 'idErrTelpUtama', 'idErrTelpLain', 'idErrEmailUtama', 'idErrEmailLain'];
-		elseif ($form_name == 'data_asuransi') :
-			$form_errs = ['idErrAsuransi', 'idErrNoAsuransi', 'idErrTglMasuk', 'idErrStatusAsuransi'];
-		elseif ($form_name == 'data_kontak') :
-			$form_errs = ['idErrNamaKontak', 'idErrAlamat', 'idErrHubungan', 'idErrTelpUtama', 'idErrEmailUtama'];
-		elseif ($form_name == 'data_keluarga') :
-			$form_errs = ['idErrNamaKeluarga', 'idErrAlamat', 'idErrHubungan', 'idErrTelpUtama', 'idErrEmailUtama'];
 		elseif ($form_name == 'histori_kontrak') :
 			$form_errs = ['idErrTypeKaryawan', 'idErrClient', 'idErrUnit', 'idErrBagian', 'idErrJabatan', 'idErrStatusKerja', 'idErrTglMulai', 'idErrTglHabis'];
 		elseif ($form_name == 'data_skills') :
 			$form_errs = ['idErrSkill', 'idErrLevel'];
+		elseif ($form_name == 'data_asuransi') :
+			$form_errs = ['idErrAsuransi', 'idErrNoAsuransi', 'idErrTglMasuk', 'idErrStatusAsuransi'];
+		elseif ($form_name == 'data_keluarga') :
+			$form_errs = ['idErrNamaKeluarga', 'idErrAlamat', 'idErrHubungan', 'idErrTelpUtama', 'idErrEmailUtama'];
+		elseif ($form_name == 'data_kontak') :
+			$form_errs = ['idErrNamaKontak', 'idErrAlamat', 'idErrHubungan', 'idErrTelpUtama', 'idErrEmailUtama'];
 		endif;
 		return $form_errs;
 	}
@@ -98,29 +151,6 @@ class M_karyawan extends CI_Model {
 			if (!empty($this->input->post('txtEmailLain'))) :
 				$rules = array_merge($rules, [['field' => 'txtEmailLain', 'label' => 'Email Lain', 'rules' => 'required|valid_email|differs[txtEmailUtama]']]);
 			endif;
-		elseif ($form_name == 'data_asuransi') :
-			$rules = [
-				['field' => 'selAsuransi', 'label' => 'Nama Asuransi', 'rules' => 'required'],
-				['field' => 'txtNoAsuransi', 'label' => 'No Asuransi', 'rules' => 'required'],
-				['field' => 'txtTglMasuk', 'label' => 'Tgl Masuk', 'rules' => 'required'],
-				['field' => 'selStatusAsuransi', 'label' => 'Status Asuransi', 'rules' => 'required'],
-			];
-		elseif ($form_name == 'data_kontak') :
-			$rules = [
-				['field' => 'txtNmKontak', 'label' => 'Nama Kontak', 'rules' => 'required'],
-				['field' => 'txtAlamat', 'label' => 'Alamat', 'rules' => 'required'],
-				['field' => 'selHubungan', 'label' => 'Hubungan', 'rules' => 'required'],
-				['field' => 'txtTelp', 'label' => 'Telp Utama', 'rules' => 'required'],
-				['field' => 'txtEmail', 'label' => 'Email Utama', 'rules' => 'required|valid_email'],
-			];
-		elseif ($form_name == 'data_keluarga') :
-			$rules = [
-				['field' => 'txtNmKeluarga', 'label' => 'Nama Keluarga', 'rules' => 'required'],
-				['field' => 'txtAlamat', 'label' => 'Alamat', 'rules' => 'required'],
-				['field' => 'selHubungan', 'label' => 'Hubungan', 'rules' => 'required'],
-				['field' => 'txtTelp', 'label' => 'Telp Utama', 'rules' => 'required'],
-				['field' => 'txtEmail', 'label' => 'Email Utama', 'rules' => 'required|valid_email'],
-			];
 		elseif ($form_name == 'histori_kontrak') :
 			$rules = [
 				['field' => 'selTypeKaryawan', 'label' => 'Type Karyawan', 'rules' => 'required'],
@@ -149,6 +179,29 @@ class M_karyawan extends CI_Model {
 				['field' => 'txtSkill', 'label' => 'Nama Skill', 'rules' => 'required'],
 				['field' => 'selLevel', 'label' => 'Level Skill', 'rules' => 'required'],
 			];
+		elseif ($form_name == 'data_asuransi') :
+			$rules = [
+				['field' => 'selAsuransi', 'label' => 'Nama Asuransi', 'rules' => 'required'],
+				['field' => 'txtNoAsuransi', 'label' => 'No Asuransi', 'rules' => 'required'],
+				['field' => 'txtTglMasuk', 'label' => 'Tgl Masuk', 'rules' => 'required'],
+				['field' => 'selStatusAsuransi', 'label' => 'Status Asuransi', 'rules' => 'required'],
+			];
+		elseif ($form_name == 'data_keluarga') :
+			$rules = [
+				['field' => 'txtNmKeluarga', 'label' => 'Nama Keluarga', 'rules' => 'required'],
+				['field' => 'txtAlamat', 'label' => 'Alamat', 'rules' => 'required'],
+				['field' => 'selHubungan', 'label' => 'Hubungan', 'rules' => 'required'],
+				['field' => 'txtTelp', 'label' => 'Telp Utama', 'rules' => 'required'],
+				['field' => 'txtEmail', 'label' => 'Email Utama', 'rules' => 'required|valid_email'],
+			];
+		elseif ($form_name == 'data_kontak') :
+			$rules = [
+				['field' => 'txtNmKontak', 'label' => 'Nama Kontak', 'rules' => 'required'],
+				['field' => 'txtAlamat', 'label' => 'Alamat', 'rules' => 'required'],
+				['field' => 'selHubungan', 'label' => 'Hubungan', 'rules' => 'required'],
+				['field' => 'txtTelp', 'label' => 'Telp Utama', 'rules' => 'required'],
+				['field' => 'txtEmail', 'label' => 'Email Utama', 'rules' => 'required|valid_email'],
+			];
 		endif;
 		return $rules;
 	}
@@ -156,16 +209,16 @@ class M_karyawan extends CI_Model {
 	public function form_detail_warning($form_name = '', $datas = '') {
 		if ($form_name == 'data_pribadi') :
 			$forms = array('txtNm', 'txtTglMasuk', 'fileFoto', 'txtNoKtp', 'selJekel', 'txtTmpLahir', 'txtTglLahir', 'txtAlamat', 'txtTelpUtama', 'txtTelpLain', 'txtEmailUtama', 'txtEmailLain');
-		elseif ($form_name == 'data_asuransi') :
-			$forms = ['selAsuransi', 'txtNoAsuransi', 'txtTglMasuk', 'selStatusAsuransi'];
-		elseif ($form_name == 'data_kontak') :
-			$forms = ['txtNmKontak', 'txtAlamat', 'selHubungan', 'txtTelp', 'txtEmail'];
-		elseif ($form_name == 'data_keluarga') :
-			$forms = ['txtNmKeluarga', 'txtAlamat', 'selHubungan', 'txtTelp', 'txtEmail'];
 		elseif ($form_name == 'histori_kontrak') :
 			$forms = ['selTypeKaryawan', 'selClient', 'selUnit', 'selBagian', 'selJabatan', 'selStatusKerja', 'txtTglMulai', 'txtTglHabis'];
 		elseif ($form_name == 'data_skills') :
 			$forms = ['txtSkill', 'selLevel'];
+		elseif ($form_name == 'data_asuransi') :
+			$forms = ['selAsuransi', 'txtNoAsuransi', 'txtTglMasuk', 'selStatusAsuransi'];
+		elseif ($form_name == 'data_keluarga') :
+			$forms = ['txtNmKeluarga', 'txtAlamat', 'selHubungan', 'txtTelp', 'txtEmail'];
+		elseif ($form_name == 'data_kontak') :
+			$forms = ['txtNmKontak', 'txtAlamat', 'selHubungan', 'txtTelp', 'txtEmail'];
 		endif;
 		foreach ($datas as $key => $data) :
 			$str[$data] = (!empty(form_error($forms[$key])))?build_label('warning', form_error($forms[$key], '"', '"')):'';
@@ -216,32 +269,6 @@ class M_karyawan extends CI_Model {
 				$str = $this->base_query->submit_data('td_karyawan_info', 'kd_karyawan_info', 'Data Info Karyawan', $detail);
 				$str['key'] = $master_key;
 			endif;
-		elseif ($page_name == 'data_asuransi') :
-			$data['kd_karyawan_asuransi'] = $this->input->post('txtKd');
-			$data['asuransi_kd'] = $this->input->post('selAsuransi');
-			$data['karyawan_kd'] = $this->input->post('txtKdKaryawan');
-			$data['no_asuransi'] = $this->input->post('txtNoAsuransi');
-			$data['tgl_masuk'] = format_date($this->input->post('txtTglMasuk'), 'Y-m-d');
-			$data['status_asuransi'] = $this->input->post('selStatusAsuransi');
-			$str = $this->base_query->submit_data('td_karyawan_asuransi', 'kd_karyawan_asuransi', 'Data Asuransi Karyawan', $data);
-		elseif ($page_name == 'data_kontak') :
-			$data['kd_karyawan_kontak'] = $this->input->post('txtKd');
-			$data['karyawan_kd'] = $this->input->post('txtKdKaryawan');
-			$data['nm_kontak'] = $this->input->post('txtNmKontak');
-			$data['alamat'] = $this->input->post('txtAlamat');
-			$data['hubungan'] = $this->input->post('selHubungan');
-			$data['telp_utama'] = $this->input->post('txtTelp');
-			$data['email_utama'] = $this->input->post('txtEmail');
-			$str = $this->base_query->submit_data('td_karyawan_kontak', 'kd_karyawan_kontak', 'Data Kontak Karyawan', $data);
-		elseif ($page_name == 'data_keluarga') :
-			$data['kd_karyawan_keluarga'] = $this->input->post('txtKd');
-			$data['karyawan_kd'] = $this->input->post('txtKdKaryawan');
-			$data['nm_keluarga'] = $this->input->post('txtNmKeluarga');
-			$data['alamat'] = $this->input->post('txtAlamat');
-			$data['hubungan'] = $this->input->post('selHubungan');
-			$data['telp_utama'] = $this->input->post('txtTelp');
-			$data['email_utama'] = $this->input->post('txtEmail');
-			$str = $this->base_query->submit_data('td_karyawan_keluarga', 'kd_karyawan_keluarga', 'Data Keluarga Karyawan', $data);
 		elseif ($page_name == 'histori_kontrak') :
 			$data['karyawan_kd'] = $_SESSION['user']['detail_karyawan']['kd_karyawan'];
 			$data['kd_karyawan_kontrak'] = $this->input->post('txtKd');
@@ -274,24 +301,38 @@ class M_karyawan extends CI_Model {
 			$data['nm_skill'] = $this->input->post('txtSkill');
 			$data['lvl_skill'] = $this->input->post('selLevel');
 			$str = $this->base_query->submit_data('td_karyawan_skill', 'kd_karyawan_skill', 'Data Skills Karyawan', $data);
+		elseif ($page_name == 'data_asuransi') :
+			$data['kd_karyawan_asuransi'] = $this->input->post('txtKd');
+			$data['asuransi_kd'] = $this->input->post('selAsuransi');
+			$data['karyawan_kd'] = $this->input->post('txtKdKaryawan');
+			$data['no_asuransi'] = $this->input->post('txtNoAsuransi');
+			$data['tgl_masuk'] = format_date($this->input->post('txtTglMasuk'), 'Y-m-d');
+			$data['status_asuransi'] = $this->input->post('selStatusAsuransi');
+			$str = $this->base_query->submit_data('td_karyawan_asuransi', 'kd_karyawan_asuransi', 'Data Asuransi Karyawan', $data);
+		elseif ($page_name == 'data_keluarga') :
+			$data['kd_karyawan_keluarga'] = $this->input->post('txtKd');
+			$data['karyawan_kd'] = $this->input->post('txtKdKaryawan');
+			$data['nm_keluarga'] = $this->input->post('txtNmKeluarga');
+			$data['alamat'] = $this->input->post('txtAlamat');
+			$data['hubungan'] = $this->input->post('selHubungan');
+			$data['telp_utama'] = $this->input->post('txtTelp');
+			$data['email_utama'] = $this->input->post('txtEmail');
+			$str = $this->base_query->submit_data('td_karyawan_keluarga', 'kd_karyawan_keluarga', 'Data Keluarga Karyawan', $data);
+		elseif ($page_name == 'data_kontak') :
+			$data['kd_karyawan_kontak'] = $this->input->post('txtKd');
+			$data['karyawan_kd'] = $this->input->post('txtKdKaryawan');
+			$data['nm_kontak'] = $this->input->post('txtNmKontak');
+			$data['alamat'] = $this->input->post('txtAlamat');
+			$data['hubungan'] = $this->input->post('selHubungan');
+			$data['telp_utama'] = $this->input->post('txtTelp');
+			$data['email_utama'] = $this->input->post('txtEmail');
+			$str = $this->base_query->submit_data('td_karyawan_kontak', 'kd_karyawan_kontak', 'Data Kontak Karyawan', $data);
 		endif;
 		return $str;
 	}
 
 	public function get_delete_data($page_name = '', $kd_param = '') {
 		if ($page_name == 'data_pribadi') :
-		elseif ($page_name == 'data_asuransi') :
-			$str['tbl_name'] = 'td_karyawan_asuransi';
-			$str['params'] = ['kd_karyawan_asuransi' => $kd_param];
-			$str['title_name'] = 'Data Karyawan Asuransi';
-		elseif ($page_name == 'data_kontak') :
-			$str['tbl_name'] = 'td_karyawan_kontak';
-			$str['params'] = ['kd_karyawan_kontak' => $kd_param];
-			$str['title_name'] = 'Data Kontak Karyawan';
-		elseif ($page_name == 'data_keluarga') :
-			$str['tbl_name'] = 'td_karyawan_keluarga';
-			$str['params'] = ['kd_karyawan_keluarga' => $kd_param];
-			$str['title_name'] = 'Data Keluarga Karyawan';
 		elseif ($page_name == 'histori_kontrak') :
 			$str['tbl_name'] = 'td_karyawan_kontrak';
 			$str['params'] = ['kd_karyawan_kontrak' => $kd_param];
@@ -300,6 +341,18 @@ class M_karyawan extends CI_Model {
 			$str['tbl_name'] = 'td_karyawan_skill';
 			$str['params'] = ['kd_karyawan_skill' => $kd_param];
 			$str['title_name'] = 'Data Skills Karyawan';
+		elseif ($page_name == 'data_asuransi') :
+			$str['tbl_name'] = 'td_karyawan_asuransi';
+			$str['params'] = ['kd_karyawan_asuransi' => $kd_param];
+			$str['title_name'] = 'Data Karyawan Asuransi';
+		elseif ($page_name == 'data_keluarga') :
+			$str['tbl_name'] = 'td_karyawan_keluarga';
+			$str['params'] = ['kd_karyawan_keluarga' => $kd_param];
+			$str['title_name'] = 'Data Keluarga Karyawan';
+		elseif ($page_name == 'data_kontak') :
+			$str['tbl_name'] = 'td_karyawan_kontak';
+			$str['params'] = ['kd_karyawan_kontak' => $kd_param];
+			$str['title_name'] = 'Data Kontak Karyawan';
 		endif;
 		return $str;
 	}

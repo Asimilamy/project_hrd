@@ -53,19 +53,19 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 				if (!empty($karyawan_info->kd_karyawan)) :
 					?>
 					<li role="presentation">
-						<a href="javascript:void(0);" data-page-link="data_kontak">Kontak Lain</a>
+						<a href="javascript:void(0);" data-page-link="histori_kontrak">Histori Kontrak</a>
 					</li>
 					<li role="presentation">
-						<a href="javascript:void(0);" data-page-link="data_keluarga">Keluarga</a>
+						<a href="javascript:void(0);" data-page-link="data_skills">Skills</a>
 					</li>
 					<li role="presentation">
 						<a href="javascript:void(0);" data-page-link="data_asuransi">Asuransi</a>
 					</li>
 					<li role="presentation">
-						<a href="javascript:void(0);" data-page-link="histori_kontrak">Histori Kontrak</a>
+						<a href="javascript:void(0);" data-page-link="data_keluarga">Keluarga</a>
 					</li>
 					<li role="presentation">
-						<a href="javascript:void(0);" data-page-link="data_skills">Skills</a>
+						<a href="javascript:void(0);" data-page-link="data_kontak">Kontak Lain</a>
 					</li>
 					<?php
 				endif;
