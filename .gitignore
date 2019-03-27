@@ -4,7 +4,8 @@ application/logs/
 application/.htaccess
 system/
 db_backup/
-.htaccess
+.htaccess_new
+.htaccess_old
 index.php
 test.php
 list_modul.txt
