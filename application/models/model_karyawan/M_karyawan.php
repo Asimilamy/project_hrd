@@ -12,7 +12,9 @@ class M_karyawan extends CI_Model {
 			->join('tm_unit f', 'f.kd_unit = c.unit_kd', 'left')
 			->join('tm_bagian g', 'g.kd_bagian = c.bagian_kd', 'left')
 			->join('tm_jabatan h', 'h.kd_jabatan = c.jabatan_kd', 'left')
-			->where(array('a.kd_karyawan' => $kd_karyawan));
+			->where(['a.kd_karyawan' => $kd_karyawan])
+			->order_by('c.tgl_mulai', 'DESC')
+			->limit(1);
 		$query = $this->db->get();
 		$row = $query->row();
 		if (!empty($row)) :

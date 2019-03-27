@@ -25,11 +25,12 @@ class M_master_prop extends CI_Model {
 
 	public function render_prop_form($kd_user = '', $kd_master_type = '', $content_type = '') {
 		$this->load->helper('form_generator');
+		$prop_group_sblm = '';
 		$form = '<div class="form_prop_content">';
 		$result = $this->prop_data($kd_master_type, $kd_user, $content_type);
 		foreach ($result as $row) :
 			$row['value'] = isset($row['value'])?$row['value']:'';
-			if (isset($prop_group_sblm)) :
+			if (!empty($prop_group_sblm)) :
 				if ($prop_group_sblm != $row['nm_master_prop']) :
 					$form .= '<hr><h2 class="title">'.$row['nm_master_prop'].'</h2>';
 				endif;
