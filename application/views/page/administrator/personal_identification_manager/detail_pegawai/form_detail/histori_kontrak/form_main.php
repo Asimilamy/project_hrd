@@ -90,6 +90,14 @@ $this->load->view('page/'.$class_link.'/exts/ext_form_js', $data);
 
 <script type="text/javascript">
 	$('.form-err-class').slideUp();
+	$('.datetimepicker').datetimepicker({
+		format: 'DD-MM-YYYY',
+		<?php
+		if (!empty($form_data->tgl_mulai_sblm)) :
+			echo 'minDate: new Date(\''.$form_data->tgl_mulai_sblm.'\'),';
+		endif;
+		?>
+	});
 	
 	$(document).off('click', '.btn-close-form').on('click', '.btn-close-form', function() {
 		open_detail_page({'file_type' : 'table'});

@@ -28,9 +28,6 @@ $this->load->view('page/'.$class_link.'/exts/ext_form_js', $data);
 			success: function(html) {
 				$('.form_detail_main').html(html);
 				moveTo('.main_container');
-				$('.datetimepicker').datetimepicker({
-					format: 'DD-MM-YYYY',
-				});
 				first_load('.box-loader-detail-karyawan', '.box-page-detail-karyawan');
 			}
 		});

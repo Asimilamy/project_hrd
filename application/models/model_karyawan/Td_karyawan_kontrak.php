@@ -80,6 +80,7 @@ class Td_karyawan_kontrak extends CI_Model {
 	}
 
 	public function get_data($id = '') {
+		$min_date = '1';
 		$this->load->model(array('model_basic/base_query'));
 		$this->db->select('a.*, b.has_contract')
 			->from($this->tbl_name.' a')
@@ -88,9 +89,31 @@ class Td_karyawan_kontrak extends CI_Model {
 		$query = $this->db->get();
 		$row = $query->row();
 		if (!empty($row)) :
-			$data = (object) array('kd_karyawan_kontrak' => $row->kd_karyawan_kontrak, 'karyawan_kd' => $row->karyawan_kd, 'client_kd' => $row->client_kd, 'unit_kd' => $row->unit_kd, 'bagian_kd' => $row->bagian_kd, 'jabatan_kd' => $row->jabatan_kd, 'status_kerja_kd' => $row->status_kerja_kd, 'type_karyawan' => $row->type_karyawan, 'tgl_mulai' => format_date($row->tgl_mulai, 'd-m-Y'), 'tgl_habis' => format_date($row->tgl_habis, 'd-m-Y'), 'has_contract' => $row->has_contract);
+			$this->db->from($this->tbl_name)
+				->where(['karyawan_kd' => $_SESSION['user']['detail_karyawan']['kd_karyawan'], 'tgl_mulai <' => $row->tgl_mulai])
+				->order_by('tgl_mulai', 'DESC');
+			$query = $this->db->get();
+			$r_sblm = $query->row();
+			if (!empty($r_sblm)) :
+				$tgl_mulai = new DateTime($r_sblm->tgl_mulai);
+				$tgl_mulai->add(new DateInterval('P'.$min_date.'D'));
+				$tgl_mulai_sblm = $tgl_mulai->format('m/d/Y');
+			endif;
+			$tgl_mulai_sblm = !empty($tgl_mulai_sblm)?$tgl_mulai_sblm:'';
+			$data = (object) array('kd_karyawan_kontrak' => $row->kd_karyawan_kontrak, 'karyawan_kd' => $row->karyawan_kd, 'client_kd' => $row->client_kd, 'unit_kd' => $row->unit_kd, 'bagian_kd' => $row->bagian_kd, 'jabatan_kd' => $row->jabatan_kd, 'status_kerja_kd' => $row->status_kerja_kd, 'type_karyawan' => $row->type_karyawan, 'tgl_mulai' => format_date($row->tgl_mulai, 'd-m-Y'), 'tgl_habis' => format_date($row->tgl_habis, 'd-m-Y'), 'tgl_mulai_sblm' => $tgl_mulai_sblm, 'has_contract' => $row->has_contract);
 		else :
-			$data = (object) array('kd_karyawan_kontrak' => '', 'karyawan_kd' => '', 'client_kd' => '', 'unit_kd' => '', 'bagian_kd' => '', 'jabatan_kd' => '', 'status_kerja_kd' => '', 'type_karyawan' => '', 'tgl_mulai' => '', 'tgl_habis' => '', 'has_contract' => '0');
+			$this->db->from($this->tbl_name)
+				->where(['karyawan_kd' => $_SESSION['user']['detail_karyawan']['kd_karyawan']])
+				->order_by('tgl_mulai', 'DESC');
+			$query = $this->db->get();
+			$row = $query->row();
+			if (!empty($row)) :
+				$tgl_mulai = new DateTime($row->tgl_mulai);
+				$tgl_mulai->add(new DateInterval('P'.$min_date.'D'));
+				$tgl_mulai_sblm = $tgl_mulai->format('m/d/Y');
+			endif;
+			$tgl_mulai_sblm = !empty($tgl_mulai_sblm)?$tgl_mulai_sblm:'';
+			$data = (object) array('kd_karyawan_kontrak' => '', 'karyawan_kd' => '', 'client_kd' => '', 'unit_kd' => '', 'bagian_kd' => '', 'jabatan_kd' => '', 'status_kerja_kd' => '', 'type_karyawan' => '', 'tgl_mulai' => '', 'tgl_habis' => '', 'tgl_mulai_sblm' => $tgl_mulai_sblm, 'has_contract' => '0');
 		endif;
 		return $data;
 	}
