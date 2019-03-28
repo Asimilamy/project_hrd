@@ -8,6 +8,7 @@ class Detail_pegawai extends MY_Controller {
 		parent::__construct();
 		parent::datatables_assets();
 		$this->load->model(array('model_auth/m_access', 'model_karyawan/tm_karyawan'));
+		// $this->output->enable_profiler(TRUE);
 
 		$access = $this->m_access->read_user_access('data_pegawai', 'PIM');
 		$_SESSION['user']['access'] = array('create' => $access->create, 'read' => $access->read, 'update' => $access->update, 'delete' => $access->delete);
@@ -69,11 +70,16 @@ class Detail_pegawai extends MY_Controller {
 	}
 
 	public function open_detail() {
-		$this->load->model(array('model_karyawan/m_karyawan', 'model_setting/m_setting'));
-		$kd_karyawan = $this->input->get('kd_karyawan');
+		$this->load->model(['model_karyawan/m_karyawan']);
 		$data['class_link'] = $this->class_link;
-		$data['karyawan_info'] = $this->m_karyawan->get_data_pribadi($kd_karyawan);
+		$data['detail_karyawan'] = $this->m_karyawan->get_data_pribadi();
 		$this->load->view('page/'.$this->class_link.'/detail_main', $data);
+	}
+
+	public function get_profile_badge() {
+		$this->load->model(['model_karyawan/m_karyawan']);
+		$data['detail_karyawan'] = $this->m_karyawan->get_data_pribadi();
+		$this->load->view('page/'.$this->class_link.'/profile_badge', $data);
 	}
 
 	public function get_main_detail() {
@@ -85,7 +91,7 @@ class Detail_pegawai extends MY_Controller {
 		$data['page_name'] = $page_name;
 		$data['class_link'] = $this->class_link;
 		$data['form_errs'] = $this->m_karyawan->form_detail_errs($page_name);
-		$data['detail_row'] = $this->m_karyawan->fetch_detail($_SESSION['user']['detail_karyawan']['kd_karyawan'], $page_name);
+		$data['detail_karyawan'] = $this->m_karyawan->get_data_pribadi();
 		$page_url = 'page/'.$this->class_link.'/form_detail/'.$page_name.'_form_main';
 		if (file_exists(FCPATH.'application/views/'.$page_url.'.php')) :
 			$this->load->view($page_url, $data);
@@ -183,8 +189,21 @@ class Detail_pegawai extends MY_Controller {
 		$this->load->model('model_basic/base_query');
 		if ($this->input->is_ajax_request()) :
 			$id = $this->input->get('id');
-			$data = $this->m_karyawan->get_delete_data($_SESSION['user']['detail_karyawan']['page_name'], $id);
+			$page_name = $_SESSION['user']['detail_karyawan']['page_name'];
+			$data = $this->m_karyawan->get_delete_data($page_name, $id);
 			$str = $this->base_query->delete_data($data['tbl_name'], $data['params'], $data['title_name']);
+			if ($str['confirm'] == 'success' && $page_name == 'histori_kontrak') :
+				$this->db->from('td_karyawan_kontrak')
+					->order_by('tgl_mulai', 'DESC')
+					->limit(1);
+				$query = $this->db->get();
+				$row = $query->row();
+				if (!empty($row)) :
+					$this->base_query->edit_batch('td_karyawan_kontrak', 'Data Kontrak Karyawan', [['is_active' => '1', 'kd_karyawan_kontrak' => $row->kd_karyawan_kontrak]], 'kd_karyawan_kontrak');
+				endif;
+				$this->m_karyawan->get_data_pribadi();
+				$str['load_profile_badge'] = 'yes';
+			endif;
 			
 			header('Content-Type: application/json');
 			echo json_encode($str);

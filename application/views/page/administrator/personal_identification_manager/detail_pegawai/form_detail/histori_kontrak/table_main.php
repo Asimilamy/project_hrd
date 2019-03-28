@@ -29,6 +29,7 @@ $data['page_name'] = $page_name;
 				<th style="width:10%; text-align:left;">Tgl Mulai</th>
 				<th style="width:10%; text-align:left;">Tgl Habis</th>
 				<th style="width:0%; text-align:left;">Has Contract</th>
+				<th style="width:0%; text-align:left;">Is Active</th>
 			</tr>
 			</thead>
 		</table>
@@ -76,6 +77,7 @@ $data['page_name'] = $page_name;
 			{"searchable": false, "orderable": false, "className": "dt-center", "targets": 1},
 			{"searchable": false, "visible": false, "targets": 2},
 			{"searchable": false, "visible": false, "targets": 11},
+			{"searchable": false, "visible": false, "targets": 12},
 		],
 		"order":[2, 'desc'],
 		"rowCallback": function (row, data, iDisplayIndex) {

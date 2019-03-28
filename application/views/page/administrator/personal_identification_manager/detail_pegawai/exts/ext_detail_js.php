@@ -6,6 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	var first_page = $('.nav-pills a').parent().first();
 	var page_link = $('.nav-pills a').first().data('page-link');
 	first_page.addClass('active');
+	get_profile_badge();
 	get_main_detail(page_link);
 
 	$(".nav-pills a").on("click", function(){
@@ -18,6 +19,19 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		get_main_detail(page_link);
 	});
 
+	function get_profile_badge() {
+		$('.cl-panel-profile-badge').slideUp(function() {
+			$.ajax({
+				url: '<?php echo base_url($class_link.'/get_profile_badge'); ?>',
+				type: 'GET',
+				success: function(html) {
+					$('.cl-panel-profile-badge').html(html);
+					$('.cl-panel-profile-badge').slideDown();
+				}
+			});
+		});
+	}
+
 	function get_main_detail(page_name) {
 		$('.box-page-detail-karyawan').slideUp(function(){
 			$.ajax({
@@ -26,7 +40,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 				data: 'page_name='+page_name,
 				success: function(html) {
 					$('.box-page-detail-karyawan').html(html);
-					moveTo('.main_container');
 				}
 			});
 		});
@@ -42,6 +55,9 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 			success: function(data) {
 				$('.form-err-class').html(data.alert).fadeIn();
 				open_detail_page({'file_type' : 'table'});
+				if (data.load_profile_badge == 'yes') {
+					get_profile_badge();
+				}
 			}
 		});
 	}

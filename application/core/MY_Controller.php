@@ -26,12 +26,13 @@ class MY_Controller extends CI_Controller {
 		self::check_login();
 		$this->output->set_template('admin_tpl/admin_tpl');
 		$this->load->helper(array('menu_renderer_helper'));
-		$this->load->model(array('model_basic/base_query', 'model_setting/m_setting'));
+		$this->load->model(array('model_basic/base_query', 'model_setting/m_setting', 'model_karyawan/td_karyawan_kontrak'));
 
 		$this->db->trans_start();
 		$this->base_query->del_unused_img('assets/admin_assets/images/settings/', 'tm_sys_appareance', 'val_sys_appareance', ['type_sys_appareance' => 'img']);
 		$this->base_query->del_unused_img('assets/admin_assets/images/users/', 'tm_user', 'user_img');
 		$this->base_query->del_unused_img('assets/admin_assets/images/employees/', 'td_karyawan_info', 'foto_karyawan');
+		$this->td_karyawan_kontrak->set_expired_contract();
 		$this->db->trans_complete();
 		
 		$data = [];

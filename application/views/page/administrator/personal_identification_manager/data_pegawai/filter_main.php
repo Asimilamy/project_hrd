@@ -2,50 +2,51 @@
 defined('BASEPATH') or exit('No direct script script access allowed!');
 
 /* --Masukkan setting properti untuk form-- */
-$master_var = 'DataMasterType';
+$master_var = 'FilterKaryawan';
 $form_id = 'idForm'.$master_var;
-echo form_open_multipart('', array('id' => $form_id, 'class' => 'form-horizontal'));
-echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => ''));
+echo form_open_multipart('', array('id' => $form_id, 'style' => 'margin-top: -15px;'));
 ?>
-<div class="form-group">
-	<label for="idTxtNim" class="col-sm-2 control-label">NIK Karyawan</label>
-	<div class="col-sm-4 col-xs-4">
-		<div id="idErrNik"></div>
-		<?php echo form_input(array('name' => 'txtNik', 'id' => 'idTxtNim', 'class' => 'form-control', 'value' => '', 'placeholder' => 'NIK Karyawan')); ?>
+<div class="row" style="margin-top: 15px;">
+	<div class="form-group col-sm-3 col-xs-12">
+		<label for="idSelStatusKerja">Status Kerja</label>
+		<div>
+			<?php echo form_dropdown('selStatusKerja', $opts_status_kerja, '', ['id' => 'idSelStatusKerja', 'class' => 'form-control']); ?>
+		</div>
+	</div>
+	<div class="form-group col-sm-3 col-xs-12">
+		<label for="idSelPerusahaan">Nama Perusahaan</label>
+		<div>
+			<?php echo form_dropdown('selPerusahaan', $opts_client, '', ['id' => 'idSelPerusahaan', 'class' => 'form-control']); ?>
+		</div>
 	</div>
 </div>
-<div class="form-group">
-	<label for="idTxtNm" class="col-sm-2 control-label">Nama Karyawan</label>
-	<div class="col-sm-4 col-xs-4">
-		<div id="idErrNm"></div>
-		<?php echo form_input(array('name' => 'txtNm', 'id' => 'idTxtNm', 'class' => 'form-control', 'value' => '', 'placeholder' => 'Nama Karyawan')); ?>
+<div class="row">
+	<div class="form-group col-sm-3 col-xs-12">
+		<label for="idSelUnit">Nama Unit</label>
+		<div>
+			<?php echo form_dropdown('selUnit', $opts_unit, '', ['id' => 'idSelUnit', 'class' => 'form-control']); ?>
+		</div>
 	</div>
-</div>
-<div class="form-group">
-	<label for="idSelStatusKerja" class="col-sm-2 control-label">Status Kerja</label>
-	<div class="col-sm-4 col-xs-4">
-		<div id="idErrStatusKerja"></div>
-		<?php echo form_dropdown('selStatusKerja', ['' => 'Pilih AE'], '', array('id' => 'idSelStatusKerja', 'class' => 'form-control')); ?>
+	<div class="form-group col-sm-3 col-xs-12">
+		<label for="idSelBagian">Nama Bagian</label>
+		<div>
+			<?php echo form_dropdown('selBagian', $opts_bagian, '', ['id' => 'idSelBagian', 'class' => 'form-control']); ?>
+		</div>
 	</div>
-</div>
-<div class="form-group">
-	<label for="idTxtTglMasuk" class="col-sm-2 control-label">Tanggal Masuk</label>
-	<div class="col-sm-4 col-xs-4">
-		<div id="idErrTglMasuk"></div>
-		<?php echo form_input(array('name' => 'txtTglMasuk', 'id' => 'idTxtTglMasuk', 'class' => 'form-control datetimepicker', 'value' => '', 'placeholder' => 'Tanggal Masuk')); ?>
+	<div class="form-group col-sm-3 col-xs-12">
+		<label for="idSelJabatan">Nama Jabatan</label>
+		<div>
+			<?php echo form_dropdown('selJabatan', $opts_jabatan, '', ['id' => 'idSelJabatan', 'class' => 'form-control']); ?>
+		</div>
 	</div>
 </div>
 <hr>
-<div class="form-group">
-	<div class="col-sm-1 col-sm-offset-2 col-xs-12">
-		<button type="reset" name="btnReset" class="btn btn-default btn-flat">
-			<i class="fa fa-refresh"></i> Reset
-		</button>
-	</div>
-	<div class="col-sm-1 col-xs-12">
-		<button type="submit" name="btnSubmit" class="btn btn-primary btn-flat">
-			<i class="fa fa-save"></i> Submit
-		</button>
-	</div>
+<div class="form-group col-sm-3 col-xs-12">
+	<button type="reset" name="btnReset" class="btn btn-default btn-sm btn-flat">
+		<i class="fa fa-refresh"></i> Reset
+	</button>
+	<button type="submit" name="btnSubmit" class="btn btn-warning btn-sm btn-flat">
+		<i class="fa fa-search"></i> Filter Data
+	</button>
 </div>
 <?php echo form_close(); ?>

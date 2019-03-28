@@ -13,10 +13,11 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		<th style="width:1%; text-align:center;" class="all">No.</th>
 		<th style="width:4%; text-align:center;" class="all">Opsi</th>
 		<th style="text-align:center;">Kode</th>
-		<th style="width:30%; text-align:center;">User Code</th>
-		<th style="width:50%; text-align:left;">Nama Status Kerja</th>
+		<th style="width:20%; text-align:center;">User Code</th>
+		<th style="width:30%; text-align:left;">Nama Status Kerja</th>
 		<th style="width:10%; text-align:left;">Kontrak</th>
 		<th style="width:10%; text-align:left;">Ditampilkan</th>
+		<th style="width:30%; text-align:left;">Status Habis</th>
 	</tr>
 	</thead>
 </table>
@@ -58,6 +59,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 			{"data": null, "searchable": false, "orderable": false, "className": "dt-center", "targets": 0},
 			{"searchable": false, "orderable": false, "targets": 1},
 			{"searchable": false, "visible": false, "targets": 2},
+			{"className": "dt-center", "targets": 7},
 		],
 		"order":[2, 'asc'],
 		"rowCallback": function (row, data, iDisplayIndex) {

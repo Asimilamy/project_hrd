@@ -44,6 +44,9 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 						if (data.reload == 'yes') {
 							location.reload();
 						}
+						if (data.load_profile_badge == 'yes') {
+							get_profile_badge();
+						}
 					}
 					if (data.confirm == 'error') {
 						<?php

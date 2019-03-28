@@ -9,18 +9,18 @@ class Tm_karyawan extends CI_Model {
 	public function ssp_table() {
 		$data['table'] = $this->tbl_name;
 
-		$data['primaryKey'] = $this->p_key;
+		$data['primaryKey'] = 'a.'.$this->p_key;
 
 		$data['columns'] = array(
-			array( 'db' => $this->p_key, 'dt' => 1, 'field' => $this->p_key,
+			array( 'db' => 'a.'.$this->p_key, 'dt' => 1, 'field' => $this->p_key,
 				'formatter' => function($d, $row) {
 					return $this->tbl_btn($d, $row[3]);
 				} ),
-			array( 'db' => $this->p_key, 'dt' => 2, 'field' => $this->p_key ),
-			array( 'db' => 'nik_karyawan', 'dt' => 3, 'field' => 'nik_karyawan' ),
-			array( 'db' => 'nm_karyawan', 'dt' => 4, 'field' => 'nm_karyawan' ),
-			array( 'db' => 'alamat', 'dt' => 5, 'field' => 'alamat' ),
-			array( 'db' => 'tmp_lahir', 'dt' => 6, 'field' => 'tmp_lahir',
+			array( 'db' => 'a.'.$this->p_key, 'dt' => 2, 'field' => $this->p_key ),
+			array( 'db' => 'a.nik_karyawan', 'dt' => 3, 'field' => 'nik_karyawan' ),
+			array( 'db' => 'a.nm_karyawan', 'dt' => 4, 'field' => 'nm_karyawan' ),
+			array( 'db' => 'a.alamat', 'dt' => 5, 'field' => 'alamat' ),
+			array( 'db' => 'a.tmp_lahir', 'dt' => 6, 'field' => 'tmp_lahir',
 				'formatter' => function($d, $row) {
 					if (!empty($d)) {
 						return $d.', '.format_date($row[6], 'd-m-Y');
@@ -28,8 +28,8 @@ class Tm_karyawan extends CI_Model {
 						return '-';
 					}
 				} ),
-			array( 'db' => 'tgl_lahir', 'dt' => 7, 'field' => 'tgl_lahir' ),
-			array( 'db' => 'tgl_aktif', 'dt' => 8, 'field' => 'tgl_aktif',
+			array( 'db' => 'a.tgl_lahir', 'dt' => 7, 'field' => 'tgl_lahir' ),
+			array( 'db' => 'a.tgl_aktif', 'dt' => 8, 'field' => 'tgl_aktif',
 				'formatter' => function($d) {
 					return format_date($d, 'd-m-Y');
 				} ),
@@ -37,9 +37,26 @@ class Tm_karyawan extends CI_Model {
 
 		$data['sql_details'] = sql_connect();
 
-		$data['joinQuery'] = '';
+		$data['joinQuery'] = 'FROM '.$this->tbl_name.' a LEFT JOIN td_karyawan_kontrak b ON b.karyawan_kd = a.kd_karyawan';
 
-		$data['where'] = '';
+		$filter['status_kerja_kd'] = $this->input->get('selStatusKerja');
+		$filter['client_kd'] = $this->input->get('selPerusahaan');
+		$filter['unit_kd'] = $this->input->get('selUnit');
+		$filter['bagian_kd'] = $this->input->get('selBagian');
+		$filter['jabatan_kd'] = $this->input->get('selJabatan');
+		foreach ($filter as $key => $value) :
+			if (!empty($value)) :
+				$param[] = 'b.'.$key.' = '.$value;
+			endif;
+		endforeach;
+		if (isset($param)) :
+			$param = array_merge($param, ['b.is_active' => '1']);
+			$data['where'] = implode(' AND ', $param);
+		else :
+			$data['where'] = '';
+		endif;
+
+		$data['group_by'] = 'a.kd_karyawan';
 
 		return $data;
 	}

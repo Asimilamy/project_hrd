@@ -39,7 +39,17 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		"processing": true,
 		"serverSide": true,
 		"ordering" : true,
-		"ajax": "<?php echo base_url($class_link).'/table_data'; ?>",
+		"ajax": {
+			method: 'GET',
+			url: "<?php echo base_url($class_link).'/table_data'; ?>",
+			data: {
+				selStatusKerja: '<?php echo $kd_status_kerja; ?>',
+				selPerusahaan: '<?php echo $kd_client; ?>',
+				selUnit: '<?php echo $kd_unit; ?>',
+				selBagian: '<?php echo $kd_bagian; ?>',
+				selJabatan: '<?php echo $kd_jabatan; ?>'
+			}
+		},
 		"language" : {
 			"lengthMenu" : "Tampilkan _MENU_ data",
 			"zeroRecords" : "Maaf tidak ada data yang ditampilkan",
