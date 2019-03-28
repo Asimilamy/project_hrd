@@ -85,3 +85,18 @@ function empty_string($str = '', $replacement = '-') {
 	endif;
 	return $string;
 }
+
+function format_phone($phone = '', $split_char = '-', $split = '4') {
+	if (!empty($phone)) :
+		$var_phone = '';
+		$len_phone = strlen($phone);
+		$no = 0;
+		for ($i = 0; $i < $len_phone; $i++) :
+			$no++;
+			$var_phone .= $phone[$i];
+			$var_phone .= $no == $split && !empty($phone[$i + 1])?$split_char:'';
+			$no = $no == $split?'0':$no;
+		endfor;
+		return $var_phone;
+	endif;
+}

@@ -71,11 +71,11 @@ class Data_status_kerja extends MY_Controller {
 	}
 
 	public function table_data() {
-		$this->load->library(array('ssp'));
+		$this->load->library(array('custom_ssp'));
 
 		$data = $this->tm_status_kerja->ssp_table();
 		echo json_encode(
-			SSP::simple( $_GET, $data['sql_details'], $data['table'], $data['primaryKey'], $data['columns'], $data['joinQuery'], $data['where'] )
+			Custom_ssp::simple( $_GET, $data['sql_details'], $data['table'], $data['primaryKey'], $data['columns'], $data['joinQuery'], $data['where'] )
 		);
 	}
 
@@ -103,9 +103,11 @@ class Data_status_kerja extends MY_Controller {
 	}
 
 	public function open_form() {
+		$this->load->model(['model_organisasi/tm_status_kerja']);
 		$this->load->helper(array('form'));
 		$id = $this->input->get('id');
 		$data = $this->tm_status_kerja->get_data($id);
+		$data['opts_status'] = render_dropdown('Status Habis', $this->tm_status_kerja->get_notme($id), 'kd_status_kerja', 'nm_status_kerja');
 		$this->load->view('page/'.$this->class_link.'/form_main', $data);
 	}
 
@@ -123,6 +125,7 @@ class Data_status_kerja extends MY_Controller {
 				$data['nm_status_kerja'] = $this->input->post('txtNm');
 				$data['has_contract'] = empty($this->input->post('chkHasContract'))?'0':'1';
 				$data['is_visible'] = empty($this->input->post('chkIsVisible'))?'0':'1';
+				$data['kd_status_habis'] = empty($this->input->post('selKdStatus'))?NULL:$this->input->post('selKdStatus');
 				$str = $this->base_query->submit_data('tm_status_kerja', 'kd_status_kerja', 'Data Status Kerja', $data);
 			endif;
 			$str['alert_stat'] = 'offline';

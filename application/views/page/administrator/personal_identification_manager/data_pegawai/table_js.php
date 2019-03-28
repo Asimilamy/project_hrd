@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 ?>
 <script type="text/javascript">
 	open_table();
-	first_load('#<?php echo $box_loader_id; ?>', '#<?php echo $box_content_id; ?>');
 
 	$(document).off('click', '#<?php echo $btn_add_id; ?>').on('click', '#<?php echo $btn_add_id; ?>', function() {
 		view_detail('');
@@ -24,16 +23,17 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		$('html, body').animate({ scrollTop: $(element).offset().top - $('header').height() }, 'fast');
 	}
 
-	function open_table() {
+	function open_table(params) {
 		$('#<?php echo $btn_add_id; ?>').slideDown();
 		$('#<?php echo $box_content_id; ?>').slideUp(function(){
 			$.ajax({
 				type: 'GET',
 				url: '<?php echo base_url().$class_link.'/open_table'; ?>',
+				data: params,
 				success: function(html) {
 					$('#<?php echo $box_content_id; ?>').html(html);
 					$('#<?php echo $box_content_id; ?>').slideDown();
-					moveTo('.main_container');
+					first_load('#<?php echo $box_loader_id; ?>', '#<?php echo $box_content_id; ?>');
 				}
 			});
 		});
@@ -69,6 +69,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 			success: function(data) {
 				remove_box('#<?php echo $box_id; ?>');
 				$('#idMainContainer').html(data);
+				moveTo('.main_container');
 			}
 		});
 	}

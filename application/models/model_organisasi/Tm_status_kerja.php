@@ -10,29 +10,33 @@ class Tm_status_kerja extends CI_Model {
 		$this->load->helper(['basic_helper']);
 		$data['table'] = $this->tbl_name;
 
-		$data['primaryKey'] = $this->p_key;
+		$data['primaryKey'] = 'a.'.$this->p_key;
 
 		$data['columns'] = array(
-			array( 'db' => $this->p_key, 'dt' => 1, 'field' => $this->p_key,
-				'formatter' => function($d, $row) {
-					return $this->tbl_btn($d, $row[2]);
-				} ),
-			array( 'db' => 'kd_status_kerja', 'dt' => 2, 'field' => 'kd_status_kerja' ),
-			array( 'db' => 'user_code', 'dt' => 3, 'field' => 'user_code' ),
-			array( 'db' => 'nm_status_kerja', 'dt' => 4, 'field' => 'nm_status_kerja' ),
-			array( 'db' => 'has_contract', 'dt' => 5, 'field' => 'has_contract',
-				'formatter' => function($d) {
-					return ya_tidak($d);
-				} ),
-			array( 'db' => 'is_visible', 'dt' => 6, 'field' => 'is_visible',
-				'formatter' => function($d) {
-					return ya_tidak($d);
-				} ),
+			array( 'db' => 'a.'.$this->p_key, 'dt' => 1, 'field' => $this->p_key,
+			'formatter' => function($d, $row) {
+				return $this->tbl_btn($d, $row[2]);
+			} ),
+			array( 'db' => 'a.kd_status_kerja', 'dt' => 2, 'field' => 'kd_status_kerja' ),
+			array( 'db' => 'a.user_code', 'dt' => 3, 'field' => 'user_code' ),
+			array( 'db' => 'a.nm_status_kerja', 'dt' => 4, 'field' => 'nm_status_kerja' ),
+			array( 'db' => 'a.has_contract', 'dt' => 5, 'field' => 'has_contract',
+			'formatter' => function($d) {
+				return ya_tidak($d);
+			} ),
+			array( 'db' => 'a.is_visible', 'dt' => 6, 'field' => 'is_visible',
+			'formatter' => function($d) {
+				return ya_tidak($d);
+			} ),
+			array( 'db' => 'b.nm_status_kerja AS nm_status_habis', 'dt' => 7, 'field' => 'nm_status_habis',
+			'formatter' => function($d) {
+				return empty_string($d, '-');
+			}),
 		);
 
 		$data['sql_details'] = sql_connect();
 
-		$data['joinQuery'] = '';
+		$data['joinQuery'] = 'FROM '.$this->tbl_name.' a LEFT JOIN '.$this->tbl_name.' b ON b.kd_status_kerja = a.kd_status_habis';
 
 		$data['where'] = '';
 
@@ -61,11 +65,17 @@ class Tm_status_kerja extends CI_Model {
 		$this->load->model(array('model_basic/base_query'));
 		$row = $this->base_query->get_row($this->tbl_name, array($this->p_key => $id));
 		if (!empty($row)) :
-			$data = array('kd_status_kerja' => $row->kd_status_kerja, 'user_code' => $row->user_code, 'nm_status_kerja' => $row->nm_status_kerja, 'has_contract' => $row->has_contract, 'is_visible' => $row->is_visible);
+			$data = array('kd_status_kerja' => $row->kd_status_kerja, 'user_code' => $row->user_code, 'nm_status_kerja' => $row->nm_status_kerja, 'has_contract' => $row->has_contract, 'is_visible' => $row->is_visible, 'kd_status_habis' => $row->kd_status_habis);
 		else :
-			$data = array('kd_status_kerja' => '', 'user_code' => '', 'nm_status_kerja' => '', 'has_contract' => '', 'is_visible' => '');
+			$data = array('kd_status_kerja' => '', 'user_code' => '', 'nm_status_kerja' => '', 'has_contract' => '', 'is_visible' => '', 'kd_status_habis' => '');
 		endif;
 		return $data;
+	}
+
+	public function get_notme($my_code = '') {
+		$this->load->model(['model_basic/base_query']);
+		$result = $this->base_query->get_all($this->tbl_name, [$this->p_key.' !=' => $my_code]);
+		return $result;
 	}
 
 	public function form_rules() {

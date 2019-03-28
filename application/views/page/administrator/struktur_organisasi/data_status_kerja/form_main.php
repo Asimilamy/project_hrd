@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script script access allowed!');
 /* --Masukkan setting properti untuk form-- */
 $master_var = 'DataStatusKerja';
 $form_id = 'idForm'.$master_var;
+$is_status_visible = $has_contract?'':'style="display: none;"';
 echo form_open_multipart('', array('id' => $form_id, 'class' => 'form-horizontal'));
 echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $kd_status_kerja));
 ?>
@@ -26,6 +27,13 @@ echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $kd_stat
 	<div class="col-sm-4 col-xs-4">
 		<div id="idErrHasContract"></div>
 		<?php echo form_checkbox(['name' => 'chkHasContract', 'id' => 'idChkHasContract', 'class' => 'iCheck', 'value' => '1', 'checked' => $has_contract?TRUE:FALSE]); ?>
+	</div>
+</div>
+<div id="idFormStatus" class="form-group" <?php echo $is_status_visible; ?>>
+	<label for="idSelKdStatus" class="col-sm-2 control-label">Status Habis</label>
+	<div class="col-sm-4 col-xs-4">
+		<div id="idErrKdStatus"></div>
+		<?php echo form_dropdown('selKdStatus', $opts_status, $kd_status_habis, ['id' => 'idSelKdStatus', 'class' => 'form-control']); ?>
 	</div>
 </div>
 <div class="form-group">

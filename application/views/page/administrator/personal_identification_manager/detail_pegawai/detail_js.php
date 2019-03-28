@@ -2,20 +2,19 @@
 defined('BASEPATH') or exit('No direct script access allowed!');
 ?>
 <script type="text/javascript">
-	open_detail('<?php echo $_SESSION['user']['detail_karyawan']['kd_karyawan']; ?>');
+	open_detail();
 	first_load('#<?php echo $box_loader_id; ?>', '#<?php echo $box_content_id; ?>');
 
 	function moveTo(element) {
 		$('html, body').animate({ scrollTop: $(element).offset().top - $('header').height() }, 'fast');
 	}
 
-	function open_detail(kd_karyawan) {
+	function open_detail() {
 		$('#<?php echo $btn_add_id; ?>').slideDown();
 		$('#<?php echo $box_content_id; ?>').slideUp(function(){
 			$.ajax({
 				type: 'GET',
 				url: '<?php echo base_url($class_link.'/open_detail'); ?>',
-				data: 'kd_karyawan='+kd_karyawan,
 				success: function(html) {
 					$('#<?php echo $box_content_id; ?>').html(html);
 				}

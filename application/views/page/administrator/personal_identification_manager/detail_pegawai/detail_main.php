@@ -1,43 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct access allowed!');
-$default_user_img = $this->m_setting->get_setting('default_user_img');
 ?>
 <!-- START LEFT SIDE -->
 <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
 	<!-- START USER PROFILE -->
 	<div class="panel panel-primary">
-		<div class="panel-body">
-			<div class="profile_img">
-				<div id="crop-avatar">
-					<!-- Current avatar -->
-					<?php
-					if (!empty($karyawan_info->foto_karyawan) && file_exists('assets/admin_assets/images/employees/'.$karyawan_info->foto_karyawan)) :
-						?>
-						<img class="img-responsive avatar-view" src="<?php echo base_url('assets/admin_assets/images/employees/'.$karyawan_info->foto_karyawan); ?>" alt="<?php echo $karyawan_info->nm_karyawan; ?>" width="253px" height="253px" style="margin-left: auto; margin-right: auto;">
-						<?php
-					else :
-						?>
-						<img class="img-responsive avatar-view" src="<?php echo base_url('assets/admin_assets/images/settings/'.$default_user_img); ?>" alt="<?php echo $karyawan_info->nm_karyawan; ?>" width="253px" height="253px" style="margin-left: auto; margin-right: auto;">
-						<?php
-					endif;
-					?>
-				</div>
-			</div>
-			<h3><?php echo $karyawan_info->nm_karyawan; ?></h3>
-			<ul class="list-unstyled user_data">
-				<li>
-					<i class="fa fa-map-marker user-profile-icon"></i> <?php echo empty_string($karyawan_info->alamat); ?>
-				</li>
-
-				<li>
-					<i class="fa fa-briefcase user-profile-icon"></i> <?php echo empty_string($karyawan_info->nm_unit).' | '.empty_string($karyawan_info->nm_bagian).' | '.empty_string($karyawan_info->nm_jabatan); ?>
-				</li>
-
-				<li class="m-top-xs">
-					<i class="fa fa-envelope-o user-profile-icon"></i> <?php echo empty_string($karyawan_info->email_utama); ?>
-				</li>
-			</ul>
-		</div>
+		<div class="panel-body cl-panel-profile-badge"></div>
 	</div>
 	<!-- END USER PROFILE -->
 
@@ -50,7 +18,7 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 					<a href="javascript:void(0);" data-page-link="data_pribadi">Data Pribadi</a>
 				</li>
 				<?php
-				if (!empty($karyawan_info->kd_karyawan)) :
+				if (!empty($detail_karyawan->kd_karyawan)) :
 					?>
 					<li role="presentation">
 						<a href="javascript:void(0);" data-page-link="histori_kontrak">Histori Kontrak</a>
