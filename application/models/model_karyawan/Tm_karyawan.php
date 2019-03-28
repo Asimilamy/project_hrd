@@ -46,11 +46,11 @@ class Tm_karyawan extends CI_Model {
 		$filter['jabatan_kd'] = $this->input->get('selJabatan');
 		foreach ($filter as $key => $value) :
 			if (!empty($value)) :
-				$param[] = 'b.'.$key.' = '.$value;
+				$param[] = 'b.'.$key.' = \''.$value.'\'';
 			endif;
 		endforeach;
 		if (isset($param)) :
-			$param = array_merge($param, ['b.is_active' => '1']);
+			$param = array_merge($param, ['is_active' => 'b.is_active = \'1\'']);
 			$data['where'] = implode(' AND ', $param);
 		else :
 			$data['where'] = '';

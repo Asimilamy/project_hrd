@@ -278,6 +278,7 @@ class Custom_ssp {
          * Output
          */
         return array(
+            "query"           => $query,
             "draw"            => intval( $request['draw'] ),
             "recordsTotal"    => intval( $recordsTotal ),
             "recordsFiltered" => intval( $recordsFiltered ),
