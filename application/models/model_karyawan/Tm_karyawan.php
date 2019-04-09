@@ -37,7 +37,11 @@ class Tm_karyawan extends CI_Model {
 
 		$data['sql_details'] = sql_connect();
 
-		$data['joinQuery'] = 'FROM '.$this->tbl_name.' a LEFT JOIN td_karyawan_kontrak b ON b.karyawan_kd = a.kd_karyawan';
+		$data['joinQuery'] = '
+			FROM '.$this->tbl_name.' a
+			LEFT JOIN td_karyawan_kontrak b ON b.karyawan_kd = a.kd_karyawan
+			LEFT JOIN tm_status_kerja c ON c.kd_status_kerja = b.status_kerja_kd
+		';
 
 		$filter['status_kerja_kd'] = $this->input->get('selStatusKerja');
 		$filter['client_kd'] = $this->input->get('selPerusahaan');
@@ -53,7 +57,8 @@ class Tm_karyawan extends CI_Model {
 			$param = array_merge($param, ['is_active' => 'b.is_active = \'1\'']);
 			$data['where'] = implode(' AND ', $param);
 		else :
-			$data['where'] = '';
+			$param = '(c.is_visible = \'1\' AND b.is_active = \'1\') OR a.kd_karyawan NOT IN (SELECT karyawan_kd FROM td_karyawan_kontrak)';
+			$data['where'] = $param;
 		endif;
 
 		$data['group_by'] = 'a.kd_karyawan';

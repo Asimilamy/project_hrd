@@ -29,7 +29,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 					$('#<?php echo $box_content_id; ?>').slideDown();
 					moveTo('.main_container');
 					$('#idSelType').focus();
-					get_prop_form('<?php echo $id; ?>', '<?php echo $kd_master_type; ?>', '<?php echo $content_type; ?>');
 				}
 			});
 		});
@@ -79,22 +78,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 				}
 				$('#idSelType').focus();
 				$('input[name="<?php echo $this->config->item('csrf_token_name'); ?>"]').val(data.csrf);
-			}
-		});
-	}
-
-	$(document).off('change', '#idSelType').on('change', '#idSelType', function() {
-		get_prop_form('<?php echo $id; ?>', $(this).val(), '<?php echo $content_type; ?>');
-	});
-
-	function get_prop_form(kd_user, kd_type, content_type) {
-		$('.box_form_properties').slideUp();
-		$.ajax({
-			url: '<?php echo base_url('administrator/ajax_call/master_type/get_prop_form'); ?>',
-			type: 'GET',
-			data: 'kd_user='+kd_user+'&kd_type='+kd_type+'&content_type='+content_type,
-			success: function(data) {
-				$('.box_form_properties').html(data.form).slideDown();
 			}
 		});
 	}
