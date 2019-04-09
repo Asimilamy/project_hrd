@@ -11,7 +11,7 @@ echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $kd_user
 	<label for="idSelType" class="col-sm-2 control-label">Master Type</label>
 	<div class="col-sm-4 col-xs-4">
 		<div id="idErrType"></div>
-		<?php echo form_dropdown('selType', $master_type_opts, $master_type_kd, array('id' => 'idSelType', 'class' => 'form-control')); ?>
+		<?php echo form_dropdown('selType', $user_type_opts, $user_type_kd, array('id' => 'idSelType', 'class' => 'form-control')); ?>
 	</div>
 </div>
 <div class="form-group">

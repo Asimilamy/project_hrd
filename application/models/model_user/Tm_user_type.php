@@ -1,34 +1,35 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
 
-class Tm_user extends CI_Model {
-	private $tbl_name = 'tm_user';
-	private $p_key = 'kd_user';
-	private $title_name = 'Data User';
+class Tm_user_type extends CI_Model {
+	private $tbl_name = 'tm_user_type';
+	private $p_key = 'kd_user_type';
+	private $title_name = 'Data Tipe User';
 
 	public function ssp_table() {
+        $this->load->helper(['basic_helper']);
 		$data['table'] = $this->tbl_name;
 
 		$data['primaryKey'] = 'a.'.$this->p_key;
 
 		$data['columns'] = array(
-			array( 'db' => 'a.'.$this->p_key,
-				'dt' => 1, 'field' => $this->p_key,
-				'formatter' => function($d, $row){
-
-					return $this->tbl_btn($d, $row[2]);
-				} ),
+			array( 'db' => 'a.'.$this->p_key, 'dt' => 1, 'field' => $this->p_key,
+            'formatter' => function($d, $row){
+                return $this->tbl_btn($d, $row[2]);
+            } ),
 			array( 'db' => 'a.'.$this->p_key, 'dt' => 2, 'field' => $this->p_key ),
-			array( 'db' => 'b.nm_user_type', 'dt' => 3, 'field' => 'nm_user_type' ),
-			array( 'db' => 'a.user_id', 'dt' => 4, 'field' => 'user_id' ),
-			array( 'db' => 'a.user_name', 'dt' => 5, 'field' => 'user_name' ),
+            array( 'db' => 'b.nm_user_type AS nm_parent', 'dt' => 3, 'field' => 'nm_parent',
+            'formatter' => function($d) {
+                return empty_string($d);
+            } ),
+			array( 'db' => 'a.nm_user_type', 'dt' => 4, 'field' => 'nm_user_type' ),
 		);
 
 		$data['sql_details'] = sql_connect();
 
-		$data['joinQuery'] = 'FROM '.$this->tbl_name.' a LEFT JOIN tm_user_type b ON b.kd_user_type = a.user_type_kd';
+		$data['joinQuery'] = 'FROM '.$this->tbl_name.' a LEFT JOIN '.$this->tbl_name.' b ON b.'.$this->p_key.' = a.kd_parent';
 
-		$data['where'] = 'a.kd_user != '.$_SESSION['user']['kd_user'];
+		$data['where'] = '';
 
 		return $data;
 	}
@@ -55,31 +56,22 @@ class Tm_user extends CI_Model {
 		$this->load->model(array('model_basic/base_query'));
 		$row = $this->base_query->get_row($this->tbl_name, array($this->p_key => $id));
 		if (!empty($row)) :
-			$data = array('kd_user' => $row->kd_user, 'user_type_kd' => $row->user_type_kd, 'user_id' => $row->user_id, 'user_pass' => $row->user_pass, 'user_name' => $row->user_name, 'user_img' => $row->user_img);
+			$data = ['kd_user_type' => $row->kd_user_type, 'kd_parent' => $row->kd_parent, 'nm_user_type' => $row->nm_user_type];
 		else :
-			$data = array('kd_user' => '', 'user_type_kd' => '', 'user_id' => '', 'user_pass' => '', 'user_name' => '', 'user_img' => '');
+			$data = ['kd_user_type' => '', 'kd_parent' => '', 'nm_user_type' => ''];
 		endif;
 		return $data;
 	}
 
 	public function form_rules() {
-		$rules = array(
-			array('field' => 'selType', 'label' => 'Master Type', 'rules' => 'required'),
-			array('field' => 'txtId', 'label' => 'User ID', 'rules' => 'required|callback_username_check'),
-			array('field' => 'txtUsername', 'label' => 'User Name', 'rules' => 'required|callback_username_check'),
-		);
-		if (empty($this->input->post('txtKd')) || !empty($this->input->post('txtPass'))) :
-			$rules_pass = array(
-				array('field' => 'txtPass', 'label' => 'Password', 'rules' => 'required'),
-				array('field' => 'txtPassConf', 'label' => 'Confirm Password', 'rules' => 'required|matches[txtPass]'),
-			);
-			$rules = array_merge($rules, $rules_pass);
-		endif;
+		$rules = [
+			['field' => 'txtNm', 'label' => 'Nama User Type', 'rules' => 'required'],
+        ];
 		return $rules;
 	}
 
 	public function form_warning($datas = '') {
-		$forms = array('selType', 'txtId', 'txtPass', 'txtPassConf');
+		$forms = ['txtNm'];
 		foreach ($datas as $key => $data) :
 			$str[$data] = (!empty(form_error($forms[$key])))?build_label('warning', form_error($forms[$key], '"', '"')):'';
 		endforeach;
