@@ -40,6 +40,7 @@ class Tipe_user extends MY_Controller {
 	*/
 	public function index() {
 		parent::admin_tpl();
+		parent::icheck_assets();
 		$this->get_table();
 	}
 

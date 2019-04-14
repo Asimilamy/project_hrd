@@ -49,7 +49,7 @@ class Login extends MY_Controller {
 				$data['user_pass'] = $this->input->post('txtPassword');
 				$str = $this->m_login->verify_login($data);
 				if ($str['confirm'] == 'success') :
-					$this->m_menu->register_session($_SESSION['user']['master_type_kd']);
+					$this->m_menu->register_session($_SESSION['user']['user_type_kd']);
 				endif;
 			endif;
 			$str['alert_stat'] = 'offline';

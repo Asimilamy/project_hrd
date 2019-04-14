@@ -19,7 +19,7 @@ class M_login extends CI_Model {
 	}
 
 	public function chk_user_exist($user_id = '') {
-		$this->db->select('a.kd_user, a.master_type_kd, a.user_id, a.user_pass, a.user_name, a.user_img')
+		$this->db->select('a.kd_user, a.user_type_kd, a.user_id, a.user_pass, a.user_name, a.user_img')
 			->from('tm_user a')
 			->where(array('user_id' => $user_id));
 		$query = $this->db->get();

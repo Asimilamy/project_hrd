@@ -1,16 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
 
-class Data_barang extends MY_Controller {
-	private $class_link = 'administrator/management_items/data_barang';
-	private $form_errs = array('idErrType', 'idErrBarcode', 'idErrNmBarang', 'idErrDeskripsi');
+class Hak_akses extends MY_Controller {
+	private $class_link = 'administrator/administrator/hak_akses';
+	private $form_errs = [];
 
 	public function __construct() {
 		parent::__construct();
 		parent::datatables_assets();
-		$this->load->model(array('model_auth/m_access', 'model_barang/tm_barang'));
+		$this->load->model(array('model_auth/m_access', 'model_user/td_user_access'));
 
-		$access = $this->m_access->read_user_access('data_barang', 'Management Items');
+		$access = $this->m_access->read_user_access('hak_akses', 'Administrator');
 		$_SESSION['user']['access'] = array('create' => $access->create, 'read' => $access->read, 'update' => $access->update, 'delete' => $access->delete);
 	}
 
@@ -40,48 +40,35 @@ class Data_barang extends MY_Controller {
 	*/
 	public function index() {
 		parent::admin_tpl();
+		parent::icheck_assets();
 		$this->get_table();
 	}
 
 	public function get_table() {
 		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
-		$data['page_title'] = 'Data Barang';
+		$data['page_title'] = 'Data Tipe User';
 		$data['box_type'] = 'Table';
 		$data['page_search'] = FALSE;
 		$data['js_file'] = 'table_js';
 		/* --END OF BOX DEFAULT PROPERTY-- */
 
 		/* --START OF BOX BUTTON PROPERTY-- */
-		$data['btn_add'] = TRUE;
+		$data['btn_add'] = FALSE;
 		$data['btn_hide'] = TRUE;
 		$data['btn_close'] = TRUE;
 		/* --END OF BOX BUTTON PROPERTY-- */
 
 		/* --START OF BOX DATA PROPERTY-- */
-		$data['data'] = $this->base_query->define_container($this->class_link, $data['box_type']);
+		$data['data'] = $this->base_query->define_container('administrator/administrator/tipe_user', $data['box_type']);
 		/* --END OF BOX DATA PROPERTY-- */
 		$this->load->view('containers/view_box', $data);
-	}
-
-	public function open_table() {
-		$data['class_link'] = $this->class_link;
-		$this->load->view('page/'.$this->class_link.'/table_main', $data);
-	}
-
-	public function table_data() {
-		$this->load->library(array('ssp'));
-
-		$data = $this->tm_barang->ssp_table();
-		echo json_encode(
-			SSP::simple( $_GET, $data['sql_details'], $data['table'], $data['primaryKey'], $data['columns'], $data['joinQuery'], $data['where'] )
-		);
 	}
 
 	public function get_form() {
 		$this->load->model(['model_basic/base_query']);
 		/* --START OF BOX DEFAULT PROPERTY-- */
-		$data['page_title'] = 'Data Barang';
+		$data['page_title'] = 'User Access';
 		$data['box_type'] = 'Form';
 		$data['page_search'] = FALSE;
 		$data['js_file'] = 'form_js';
@@ -103,16 +90,21 @@ class Data_barang extends MY_Controller {
 	}
 
 	public function open_form() {
-		$this->load->helper(array('form'));
+		$this->load->model(['model_tpl/m_menu']);
+		$this->load->helper(['form', 'menu_renderer_helper']);
 		$id = $this->input->get('id');
-		$data = $this->tm_barang->get_data($id);
+		$_SESSION['user']['hak_akses']['kd_user_type'] = $id;
+		$data['user_accesses'] = $this->td_user_access->get_access_data($id);
+		$data['menu_lvl_ones'] = $this->m_menu->get_menu_level($id, 'one');
+		$data['menu_lvl_twos'] = $this->m_menu->get_menu_level($id, 'two');
+		$data['menu_lvl_threes'] = $this->m_menu->get_menu_level($id, 'three');
 		$this->load->view('page/'.$this->class_link.'/form_main', $data);
 	}
 
 	public function send_data() {
 		$this->load->library('form_validation');
 		if ($this->input->is_ajax_request()) :
-			$this->form_validation->set_rules($this->tm_barang->form_rules());
+			/*$this->form_validation->set_rules($this->tm_barang->form_rules());
 			if ($this->form_validation->run() == FALSE) :
 				$str = $this->tm_barang->form_warning($this->form_errs);
 				$str['confirm'] = 'error';
@@ -123,7 +115,8 @@ class Data_barang extends MY_Controller {
 				$data['nm_barang'] = $this->input->post('txtNmBarang');
 				$data['deskripsi'] = $this->input->post('txtDeskripsi');
 				$str = $this->tm_barang->submit_data($data);
-			endif;
+			endif;*/
+			$str['form-data'] = $this->input->post();
 			$str['csrf'] = $this->security->get_csrf_hash();
 
 			header('Content-Type: application/json');

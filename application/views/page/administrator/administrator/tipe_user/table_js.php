@@ -50,6 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		}
 		$('#<?php echo $box_alert_id; ?>').fadeOut();
 		remove_box('#idBoxForm');
+		remove_box('#idBoxFormAccess');
 		$.ajax({
 			type: 'GET',
 			url: '<?php echo base_url().$class_link.'/get_form'; ?>',
@@ -63,6 +64,7 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 	function hapus_data(id) {
 		$('#<?php echo $box_alert_id; ?>').fadeOut();
 		remove_box('#idBoxForm');
+		remove_box('#idBoxFormAccess');
 		$.ajax({
 			type: 'GET',
 			url: '<?php echo base_url().$class_link.'/delete_data'; ?>',
@@ -71,6 +73,20 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 				$('#<?php echo $box_alert_id; ?>').html(data.alert).fadeIn();
 				open_table();
 			}
+		});
+	}
+
+	function get_form_access(id) {
+		$('#<?php echo $box_alert_id; ?>').fadeOut();
+		remove_box('#idBoxForm');
+		remove_box('#idBoxFormAccess');
+		$.ajax({
+			type: 'GET',
+			url: '<?php echo base_url('administrator/administrator/hak_akses/get_form'); ?>',
+			data: {'id': id},
+			success: function(html) {
+				$('#idMainContainer').prepend(html);
+			} 
 		});
 	}
 </script>
