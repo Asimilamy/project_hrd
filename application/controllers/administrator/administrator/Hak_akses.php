@@ -104,31 +104,18 @@ class Hak_akses extends MY_Controller {
 	public function send_data() {
 		$this->load->library('form_validation');
 		if ($this->input->is_ajax_request()) :
-			/*$this->form_validation->set_rules($this->tm_barang->form_rules());
-			if ($this->form_validation->run() == FALSE) :
-				$str = $this->tm_barang->form_warning($this->form_errs);
-				$str['confirm'] = 'error';
-			else :
-				$data['kd_mbarang'] = $this->input->post('txtKd');
-				$data['master_type_kd'] = $this->input->post('selType');
-				$data['barcode'] = $this->input->post('txtBarcode');
-				$data['nm_barang'] = $this->input->post('txtNmBarang');
-				$data['deskripsi'] = $this->input->post('txtDeskripsi');
-				$str = $this->tm_barang->submit_data($data);
-			endif;*/
-			$str['form-data'] = $this->input->post();
+			$data['user_type_kd'] = $_SESSION['user']['hak_akses']['kd_user_type'];
+			$data['menu_kd'] = $this->input->post('txtKdMenu');
+			$data['create_access'] = $this->input->post('chkCreate');
+			$data['read_access'] = $this->input->post('chkRead');
+			$data['update_access'] = $this->input->post('chkUpdate');
+			$data['delete_access'] = $this->input->post('chkDelete');
+
+			$str = $this->td_user_access->submit_data($data);
+			$str['alert_stat'] = 'offline';
+			$str['csrf_alert'] = '';
 			$str['csrf'] = $this->security->get_csrf_hash();
 
-			header('Content-Type: application/json');
-			echo json_encode($str);
-		endif;
-	}
-
-	public function delete_data() {
-		if ($this->input->is_ajax_request()) :
-			$id = $this->input->get('id');
-			$str = $this->tm_barang->delete_data($id);
-			
 			header('Content-Type: application/json');
 			echo json_encode($str);
 		endif;

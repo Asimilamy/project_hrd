@@ -36,9 +36,8 @@ class Tm_user_type extends CI_Model {
 
 	private function tbl_btn($id = '', $var = '') {
 		$this->load->helper(array('btn_access_helper'));
-
-		$read_access = $_SESSION['user']['access']['read'];
-		$update_access = $_SESSION['user']['access']['update'];
+		
+		$update_access = 1;
 		$delete_access = $_SESSION['user']['access']['delete'];
 
 		$btns = array();

@@ -47,6 +47,7 @@ function render_menu_table($accesses = [], $menu = [], $attr = 'col-xs-12') {
 	$menu_table .= '<tr>';
 		$menu_table .= '<td><div class="'.$attr.'">';
 			$menu_table .= '<label style="cursor: pointer;">'.$obj_menu->menu_nm.'</label>';
+			$menu_table .= form_input(['type' => 'hidden', 'name' => 'txtKdMenu[]', 'value' => $obj_menu->kd_menu]);
 		$menu_table .= '</div></td>';
 		if (empty($is_colspan)) :
 			$menu_table .= '<td class=\'access-attr\'>';
@@ -62,7 +63,12 @@ function render_menu_table($accesses = [], $menu = [], $attr = 'col-xs-12') {
 				$menu_table .= form_checkbox(['name' => 'chkDelete['.$obj_menu->kd_menu.']', 'class' => 'flat icheckbox_flat-blue', 'value' => '1', 'checked' => $delete_access]);
 			$menu_table .= '</td>';
 		else :
-			$menu_table .= '<td '.$is_colspan.'></td>';
+			$menu_table .= '<td '.$is_colspan.'>';
+				$menu_table .= form_input(['type' => 'hidden', 'name' => 'chkCreate['.$obj_menu->kd_menu.']', 'value' => '1']);
+				$menu_table .= form_input(['type' => 'hidden', 'name' => 'chkRead['.$obj_menu->kd_menu.']', 'value' => '1']);
+				$menu_table .= form_input(['type' => 'hidden', 'name' => 'chkUpdate['.$obj_menu->kd_menu.']', 'value' => '1']);
+				$menu_table .= form_input(['type' => 'hidden', 'name' => 'chkDelete['.$obj_menu->kd_menu.']', 'value' => '1']);
+			$menu_table .= '</td>';
 		endif;
 	$menu_table .= '</tr>';
 
