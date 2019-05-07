@@ -3,9 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 
 class M_menu extends CI_Model {
 	public function register_session($user_type_kd = '') {
-		$_SESSION['user']['menus']['one'] = $this->m_menu->get_menu_level($user_type_kd, 'one');
-		$_SESSION['user']['menus']['two'] = $this->m_menu->get_menu_level($user_type_kd, 'two');
-		$_SESSION['user']['menus']['three'] = $this->m_menu->get_menu_level($user_type_kd, 'three');
+		$this->db->cache_on();
+		$menus['one'] = $this->m_menu->get_menu_level($user_type_kd, 'one');
+		$menus['two'] = $this->m_menu->get_menu_level($user_type_kd, 'two');
+		$menus['three'] = $this->m_menu->get_menu_level($user_type_kd, 'three');
+
+		return $menus;
 	}
 
 	public function get_menu_level($user_type_kd = '', $level = 'one') {
@@ -18,7 +21,9 @@ class M_menu extends CI_Model {
 			foreach ($menus as $menu) :
 				$kd_menus[] = $menu->kd_menu;
 			endforeach;
-			$this->db->where_in('a.menu_parent', $kd_menus);
+			if (isset($kd_menus)) {
+				$this->db->where_in('a.menu_parent', $kd_menus);
+			}
 		endif;
 		$this->db->select('a.kd_menu, a.menu_parent, a.menu_nm, a.menu_link,  a.menu_title, a.menu_icon, a.menu_order, a.menu_modul, a.menu_global')
 			->from('tm_menu a')

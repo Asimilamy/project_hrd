@@ -122,7 +122,7 @@ class Tipe_user extends MY_Controller {
 				$str['confirm'] = 'error';
 			else :
 				$data['kd_user_type'] = $this->input->post('txtKd');
-				$data['kd_parent'] = $this->input->post('selParent');
+				$data['kd_parent'] = empty_string($this->input->post('selParent'), NULL);
 				$data['nm_user_type'] = $this->input->post('txtNm');
 				$str = $this->base_query->submit_data('tm_user_type', 'kd_user_type', 'Data Tipe User', $data);
 			endif;

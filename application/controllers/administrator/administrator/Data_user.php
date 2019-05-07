@@ -9,7 +9,7 @@ class Data_user extends MY_Controller {
 		parent::__construct();
 		parent::datatables_assets();
 		$this->load->model(array('model_auth/m_access', 'model_user/tm_user'));
-
+		
 		$access = $this->m_access->read_user_access('data_user', 'Administrator');
 		$_SESSION['user']['access'] = array('create' => $access->create, 'read' => $access->read, 'update' => $access->update, 'delete' => $access->delete);
 	}

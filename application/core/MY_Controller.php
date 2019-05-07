@@ -19,9 +19,8 @@ class MY_Controller extends CI_Controller {
 	}
 
 	public function admin_tpl() {
-		if (ENVIRONMENT == 'development') :
-			$this->load->model(array('model_tpl/m_menu'));
-		endif;
+		// $this->output->enable_profiler(TRUE);
+		$this->load->model(array('model_tpl/m_menu'));
 		
 		self::check_login();
 		$this->output->set_template('admin_tpl/admin_tpl');
@@ -36,6 +35,7 @@ class MY_Controller extends CI_Controller {
 		$this->db->trans_complete();
 		
 		$data = [];
+		$data['sidebar_menu'] = $this->m_menu->register_session($_SESSION['user']['user_type_kd']);
 		$this->load->section('sidebar_menu', 'templates/admin_tpl/sidebar_menu', $data);
 		$this->load->section('top_nav', 'templates/admin_tpl/top_nav', $data);
 		$this->load->section('footer', 'templates/admin_tpl/footer', $data);

@@ -78,11 +78,11 @@ function write_log($stat, $var, $data = array()){
     insert_log(array('user_kd' => $user_kd, 'user_id' => $user_id, 'stat' => $stat, 'keterangan' => $var.' dengan'.$nm_kolom));
 }
 
-function insert_log($datas = '') {
+function insert_log($datas = []) {
     $CI =& get_instance();
     $kd_log = create_pkey('tb_log', 'kd_log', '', 0);
 
-    $d_log = array_merge(array('kd_log' => $kd_log, 'tgl_input' => date('Y-m-d H:i:s')), $datas);
+    $d_log = array_merge(['kd_log' => $kd_log, 'tgl_input' => date('Y-m-d H:i:s')], $datas);
     $input_log = $CI->db->insert('tb_log', $d_log);
 
     return $input_log?TRUE:FALSE;

@@ -1,10 +1,5 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
-if (ENVIRONMENT == 'development') :
-	if (isset($_SESSION['user']['master_type_kd'])) :
-		$this->m_menu->register_session($_SESSION['user']['master_type_kd']);
-	endif;
-endif;
 $app_logo = $this->m_setting->get_setting('app_logo');
 $greeting_text = $this->m_setting->get_setting('greeting_text');
 $sidebar_title = $this->m_setting->get_setting('sidebar_title');
@@ -54,17 +49,17 @@ $default_user_img = $this->m_setting->get_setting('default_user_img');
 						<ul class="nav side-menu">
 							<?php
 							$user_menu = '';
-							if (isset($_SESSION['user']['menus']['one'])) :
-								foreach ($_SESSION['user']['menus']['one'] as $menu) :
+							if (isset($sidebar_menu['one'])) :
+								foreach ($sidebar_menu['one'] as $menu) :
 									if ($menu->menu_link == '#') :
 										$user_menu .= open_parent_menu($menu->menu_title, $menu->menu_icon, $menu->menu_nm, 'parent');
-										if (isset($_SESSION['user']['menus']['two'])) :
-											foreach ($_SESSION['user']['menus']['two'] as $submenu) :
+										if (isset($sidebar_menu['two'])) :
+											foreach ($sidebar_menu['two'] as $submenu) :
 												if ($submenu->menu_parent == $menu->kd_menu) :
 													if ($submenu->menu_link == '#') :
 														$user_menu .= open_parent_menu($submenu->menu_title, '', $submenu->menu_nm, 'child');
-														if (isset($_SESSION['user']['menus']['three'])) :
-															foreach ($_SESSION['user']['menus']['three'] as $subsubmenu) :
+														if (isset($sidebar_menu['three'])) :
+															foreach ($sidebar_menu['three'] as $subsubmenu) :
 																if ($subsubmenu->menu_parent == $submenu->kd_menu) :
 																	$user_menu .= render_child_menu($menu->menu_modul.'/'.url_title($menu->menu_title, '_', TRUE).'/'.url_title($submenu->menu_title, '_', TRUE).'/'.$subsubmenu->menu_link, $subsubmenu->menu_title, $subsubmenu->menu_nm);
 																endif;

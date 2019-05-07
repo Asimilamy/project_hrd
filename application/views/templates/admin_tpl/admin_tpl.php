@@ -65,6 +65,7 @@ $app_logo = $this->m_setting->get_setting('app_logo');
 		<!-- page content -->
 		<div class="right_col" role="main">
 			<?php
+			// print_r($_SESSION);
 			$uri_segments = $this->uri->segment_array();
 			$page_title = ucwords(str_replace('_', ' ', end($uri_segments)));
 			?>
