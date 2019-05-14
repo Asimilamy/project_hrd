@@ -60,6 +60,12 @@ class Base_query extends CI_Model {
 		return $str;
 	}
 
+	public function soft_delete($tbl_name = '', $data = [], $title_name = '') {
+		$act = $this->db->update($tbl_name, ['is_deleted' => 1], $data);
+		$str = get_report($act, 'Menghapus '.$title_name, $data);
+		return $str;
+	}
+
 	public function submit_batch($tbl_name = '', $title_name = '', $data = []) {
 		$act = $this->db->insert_batch($tbl_name, $data);
 		$str = get_report($act, 'Menambahkan '.$title_name, $data);

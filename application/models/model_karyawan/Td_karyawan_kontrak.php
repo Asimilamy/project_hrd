@@ -116,19 +116,20 @@ class Td_karyawan_kontrak extends CI_Model {
 				->where(['karyawan_kd' => $_SESSION['user']['detail_karyawan']['kd_karyawan'], 'is_active' => '1']);
 			$query = $this->db->get();
 			$row = $query->row();
-			if (!empty($row)) :
-				$tgl_mulai = new DateTime($row->tgl_mulai);
-				$tgl_mulai->add(new DateInterval('P'.$min_date.'D'));
-				$tgl_mulai_sblm = $tgl_mulai->format('m/d/Y');
+			
+			$tgl_mulai = !empty($row->tgl_mulai)?$row->tgl_mulai:date('Y-m-d');
+			$obj_tgl_mulai = new DateTime($tgl_mulai);
+			$obj_tgl_mulai->add(new DateInterval('P'.$min_date.'D'));
+			$tgl_mulai_sblm = $obj_tgl_mulai->format('m/d/Y');
 
-				$client_kd = !empty($row->client_kd)?$row->client_kd:'';
-				$unit_kd = !empty($row->unit_kd)?$row->unit_kd:'';
-				$bagian_kd = !empty($row->bagian_kd)?$row->bagian_kd:'';
-				$jabatan_kd = !empty($row->jabatan_kd)?$row->jabatan_kd:'';
-				$status_kerja_kd = !empty($row->status_kerja_kd)?$row->status_kerja_kd:'';
-				$type_karyawan = !empty($row->type_karyawan)?$row->type_karyawan:'';
-				$has_contract = !empty($row->has_contract)?$row->has_contract:'0';
-			endif;
+			$client_kd = !empty($row->client_kd)?$row->client_kd:'';
+			$unit_kd = !empty($row->unit_kd)?$row->unit_kd:'';
+			$bagian_kd = !empty($row->bagian_kd)?$row->bagian_kd:'';
+			$jabatan_kd = !empty($row->jabatan_kd)?$row->jabatan_kd:'';
+			$status_kerja_kd = !empty($row->status_kerja_kd)?$row->status_kerja_kd:'';
+			$type_karyawan = !empty($row->type_karyawan)?$row->type_karyawan:'';
+			$has_contract = !empty($row->has_contract)?$row->has_contract:'0';
+				
 			$tgl_mulai_sblm = !empty($tgl_mulai_sblm)?$tgl_mulai_sblm:'';
 			$data = (object) array('kd_karyawan_kontrak' => '', 'karyawan_kd' => '', 'client_kd' => $client_kd, 'unit_kd' => $unit_kd, 'bagian_kd' => $bagian_kd, 'jabatan_kd' => $jabatan_kd, 'status_kerja_kd' => $status_kerja_kd, 'type_karyawan' => $type_karyawan, 'tgl_mulai' => '', 'tgl_habis' => '', 'tgl_mulai_sblm' => $tgl_mulai_sblm, 'has_contract' => $has_contract);
 		endif;

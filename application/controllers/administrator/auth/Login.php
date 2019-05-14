@@ -10,6 +10,7 @@ class Login extends MY_Controller {
 	}
 
 	public function index() {
+		$this->db->cache_delete_all();
 		parent::admin_login_tpl();
 		$this->login_form();
 	}

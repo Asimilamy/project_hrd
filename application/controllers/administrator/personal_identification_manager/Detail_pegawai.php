@@ -72,26 +72,25 @@ class Detail_pegawai extends MY_Controller {
 	public function open_detail() {
 		$this->load->model(['model_karyawan/m_karyawan']);
 		$data['class_link'] = $this->class_link;
-		$data['detail_karyawan'] = $this->m_karyawan->get_data_pribadi();
+		$data['detail_karyawan'] = $this->m_karyawan->get_data_pribadi($_SESSION['user']['detail_karyawan']['kd_karyawan']);
 		$this->load->view('page/'.$this->class_link.'/detail_main', $data);
 	}
 
 	public function get_profile_badge() {
 		$this->load->model(['model_karyawan/m_karyawan']);
-		$data['detail_karyawan'] = $this->m_karyawan->get_data_pribadi();
+		$data['detail_karyawan'] = $this->m_karyawan->get_data_pribadi($_SESSION['user']['detail_karyawan']['kd_karyawan']);
 		$this->load->view('page/'.$this->class_link.'/profile_badge', $data);
 	}
 
 	public function get_main_detail() {
 		$this->load->model(array('model_karyawan/m_karyawan'));
 		$this->load->helper(array('form'));
-
-		$_SESSION['user']['detail_karyawan']['page_name'] = $this->input->get('page_name');
-		$page_name = $_SESSION['user']['detail_karyawan']['page_name'];
+		
+		$page_name = $this->input->get('page_name');
 		$data['page_name'] = $page_name;
 		$data['class_link'] = $this->class_link;
 		$data['form_errs'] = $this->m_karyawan->form_detail_errs($page_name);
-		$data['detail_karyawan'] = $this->m_karyawan->get_data_pribadi();
+		$data['detail_karyawan'] = $this->m_karyawan->get_data_pribadi($_SESSION['user']['detail_karyawan']['kd_karyawan']);
 		$page_url = 'page/'.$this->class_link.'/form_detail/'.$page_name.'_form_main';
 		if (file_exists(FCPATH.'application/views/'.$page_url.'.php')) :
 			$this->load->view($page_url, $data);
@@ -110,7 +109,7 @@ class Detail_pegawai extends MY_Controller {
 		$this->load->helper(array('form'));
 		
 		$file_type = $this->input->get('file_type');
-		$page_name = $_SESSION['user']['detail_karyawan']['page_name'];
+		$page_name = $this->input->get('page_name');
 		if ($file_type == 'form') :
 			$data = $this->m_karyawan->get_complete_detail($page_name);
 		endif;
@@ -178,7 +177,7 @@ class Detail_pegawai extends MY_Controller {
 		$this->load->library(array('custom_ssp'));
 		$this->load->model(array('model_karyawan/m_karyawan'));
 
-		$data = $this->m_karyawan->get_ssp($_SESSION['user']['detail_karyawan']['page_name']);
+		$data = $this->m_karyawan->get_ssp($this->input->get('page_name'));
 		echo json_encode(
 			Custom_SSP::simple( $_GET, $data['sql_details'], $data['table'], $data['primaryKey'], $data['columns'], $data['joinQuery'], $data['where'] )
 		);
@@ -201,7 +200,7 @@ class Detail_pegawai extends MY_Controller {
 				if (!empty($row)) :
 					$this->base_query->edit_batch('td_karyawan_kontrak', 'Data Kontrak Karyawan', [['is_active' => '1', 'kd_karyawan_kontrak' => $row->kd_karyawan_kontrak]], 'kd_karyawan_kontrak');
 				endif;
-				$this->m_karyawan->get_data_pribadi();
+				$this->m_karyawan->get_data_pribadi($_SESSION['user']['detail_karyawan']['kd_karyawan']);
 				$str['load_profile_badge'] = 'yes';
 			endif;
 			

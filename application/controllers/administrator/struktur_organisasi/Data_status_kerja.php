@@ -141,7 +141,7 @@ class Data_status_kerja extends MY_Controller {
 		$this->load->model('model_basic/base_query');
 		if ($this->input->is_ajax_request()) :
 			$id = $this->input->get('id');
-			$str = $this->base_query->delete_data('tm_status_kerja', array('kd_status_kerja' => $id), 'Data Status Kerja');
+			$str = $this->base_query->soft_delete('tm_status_kerja', array('kd_status_kerja' => $id), 'Data Status Kerja');
 			
 			header('Content-Type: application/json');
 			echo json_encode($str);

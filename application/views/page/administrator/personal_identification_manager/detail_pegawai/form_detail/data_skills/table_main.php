@@ -47,6 +47,7 @@ $data['page_name'] = $page_name;
 		"searching": false,
 		"ajax": {
 			"url": "<?php echo base_url($class_link).'/table_detail_data'; ?>",
+			"data": {'page_name': '<?php echo $page_name; ?>'}
 		},
 		"language" : {
 			"lengthMenu" : "Tampilkan _MENU_ data",

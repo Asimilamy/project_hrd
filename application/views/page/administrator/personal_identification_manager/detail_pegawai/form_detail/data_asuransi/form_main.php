@@ -62,7 +62,7 @@ $this->load->view('page/'.$class_link.'/exts/ext_form_js', $data);
 	$('.form-err-class').slideUp();
 	
 	$(document).off('click', '.btn-close-form').on('click', '.btn-close-form', function() {
-		open_detail_page({'file_type' : 'table'});
+		open_detail_page({'file_type' : 'table', 'page_name': '<?php echo $page_name; ?>'});
 		$('.form-err-class').slideUp();
 	});
 	

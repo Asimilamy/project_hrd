@@ -14,10 +14,10 @@ $this->load->view('page/'.$class_link.'/exts/ext_form_js', $data);
 ?>
 
 <script type="text/javascript">
-	open_detail_page({'file_type' : 'table'});
+	open_detail_page({'file_type' : 'table', 'page_name' : '<?php echo $page_name; ?>'});
 
 	$(document).off('click', '.btn-add-asuransi').on('click', '.btn-add-asuransi', function() {
-		open_detail_page({'file_type' : 'form', 'kd_karyawan_kontrak' : ''});
+		open_detail_page({'file_type' : 'form', 'page_name' : '<?php echo $page_name; ?>', 'kd_karyawan_kontrak' : ''});
 	});
 
 	function open_detail_page(params) {

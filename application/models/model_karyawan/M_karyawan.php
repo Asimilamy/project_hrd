@@ -2,9 +2,8 @@
 defined('BASEPATH') or exit('No direct script access allowed!');
 
 class M_karyawan extends CI_Model {
-	public function get_data_pribadi() {
+	public function get_data_pribadi($kd_karyawan = '') {
 		$this->load->model(['model_setting/m_setting']);
-		$kd_karyawan = $_SESSION['user']['detail_karyawan']['kd_karyawan'];
 		$this->db->select('a.kd_karyawan, a.nik_karyawan, a.nm_karyawan, a.no_ktp, a.jekel, a.tmp_lahir, a.tgl_lahir, a.alamat, a.tgl_aktif, b.kd_karyawan_info, b.no_telp_utama, b.no_telp_lain, b.email_utama, b.email_lain, b.foto_karyawan')
 			->from('tm_karyawan a')
 			->join('td_karyawan_info b', 'b.karyawan_kd = a.kd_karyawan', 'left')

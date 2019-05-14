@@ -7,6 +7,7 @@ class M_menu extends CI_Model {
 		$menus['one'] = $this->m_menu->get_menu_level($user_type_kd, 'one');
 		$menus['two'] = $this->m_menu->get_menu_level($user_type_kd, 'two');
 		$menus['three'] = $this->m_menu->get_menu_level($user_type_kd, 'three');
+		$this->db->cache_off();
 
 		return $menus;
 	}

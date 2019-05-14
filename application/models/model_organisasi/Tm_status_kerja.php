@@ -38,7 +38,7 @@ class Tm_status_kerja extends CI_Model {
 
 		$data['joinQuery'] = 'FROM '.$this->tbl_name.' a LEFT JOIN '.$this->tbl_name.' b ON b.kd_status_kerja = a.kd_status_habis';
 
-		$data['where'] = '';
+		$data['where'] = 'a.is_deleted = \'0\'';
 
 		return $data;
 	}
