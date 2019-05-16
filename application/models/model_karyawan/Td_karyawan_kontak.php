@@ -44,10 +44,10 @@ class Td_karyawan_kontak extends CI_Model {
 
 		$btns = array();
 		// $btns[] = get_btn(array('access' => $read_access, 'title' => 'Detail '.$this->title_name, 'icon' => 'search', 'onclick' => 'view_detail(\''.$id.'\')'));
-		$btns[] = get_btn(array('access' => $update_access, 'title' => 'Ubah', 'icon' => 'pencil', 'onclick' => 'open_detail_page({\'file_type\' : \'form\', \''.$this->p_key.'\' : \''.$id.'\'})'));
+		$btns[] = get_btn(array('access' => $update_access, 'title' => 'Ubah', 'icon' => 'pencil', 'onclick' => 'open_detail_page({\'file_type\' : \'form\', \'page_name\' : \'data_kontak\', \''.$this->p_key.'\' : \''.$id.'\'})'));
 		$btns[] = get_btn_divider();
 		$btns[] = get_btn(array('access' => $delete_access, 'title' => 'Hapus', 'icon' => 'trash',
-			'onclick' => 'return confirm(\'Anda akan menghapus '.$this->title_name.' = '.$var.'?\')?hapus_data(\''.$id.'\'):false'));
+			'onclick' => 'return confirm(\'Anda akan menghapus '.$this->title_name.' = '.$var.'?\')?hapus_data(\''.$id.'\', \'data_kontak\'):false'));
 		$btn_group = group_btns($btns);
 
 		return $btn_group;

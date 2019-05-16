@@ -20,9 +20,10 @@ $data['page_name'] = $page_name;
 				<th style="width:1%; text-align:center;" class="all">No.</th>
 				<th style="width:4%; text-align:center;" class="all">Opsi</th>
 				<th style="width:1%; text-align:center;">Kode</th>
-				<th style="width:50%; text-align:left;">Nama Asuransi</th>
+				<th style="width:40%; text-align:left;">Nama Asuransi</th>
 				<th style="width:25%; text-align:left;">Nomer Asuransi</th>
 				<th style="width:10%; text-align:left;">Tanggal Daftar</th>
+				<th style="width:10%; text-align:left;">Penanggung Jawab</th>
 				<th style="width:9%; text-align:left;">Status</th>
 			</tr>
 			</thead>

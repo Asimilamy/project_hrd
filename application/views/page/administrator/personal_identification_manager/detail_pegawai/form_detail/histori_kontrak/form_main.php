@@ -14,6 +14,7 @@ $_SESSION['user']['detail_karyawan']['has_contract'] = $form_data->has_contract;
 	<div class="col-md-12">
 		<?php
 		echo form_open_multipart('', array('id' => 'idFormKontrak', 'class' => 'form-horizontal form-label-left'));
+		echo form_input(array('type' => 'hidden', 'name' => 'page_name', 'value' => $page_name));
 		echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $form_data->kd_karyawan_kontrak));
 		?>
 		<div class="form-group">

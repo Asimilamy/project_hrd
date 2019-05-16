@@ -40,7 +40,6 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 					if (data.confirm == 'success') {
 						$(form_id).parents('.box-page-detail-karyawan').prev('.form-err-class').html(data.alert).slideDown();
 						get_main_detail('<?php echo $page_name; ?>');
-						first_load('.box-loader-detail-karyawan', '.box-page-detail-karyawan');
 						if (data.reload == 'yes') {
 							location.reload();
 						}

@@ -139,7 +139,7 @@ class Detail_pegawai extends MY_Controller {
 		$this->load->model(array('model_basic/base_query', 'model_karyawan/m_karyawan'));
 		$this->load->helper('date');
 		if ($this->input->is_ajax_request()) :
-			$page_name = $_SESSION['user']['detail_karyawan']['page_name'];
+			$page_name = $this->input->post('page_name');
 			$this->form_validation->set_rules($this->m_karyawan->form_detail_rules($page_name));
 			if ($this->form_validation->run() == FALSE) :
 				$str = $this->m_karyawan->form_detail_warning($page_name, $this->m_karyawan->form_detail_errs($page_name));
@@ -188,7 +188,7 @@ class Detail_pegawai extends MY_Controller {
 		$this->load->model('model_basic/base_query');
 		if ($this->input->is_ajax_request()) :
 			$id = $this->input->get('id');
-			$page_name = $_SESSION['user']['detail_karyawan']['page_name'];
+			$page_name = $this->input->get('page_name');
 			$data = $this->m_karyawan->get_delete_data($page_name, $id);
 			$str = $this->base_query->delete_data($data['tbl_name'], $data['params'], $data['title_name']);
 			if ($str['confirm'] == 'success' && $page_name == 'histori_kontrak') :

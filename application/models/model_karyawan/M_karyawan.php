@@ -53,6 +53,7 @@ class M_karyawan extends CI_Model {
 		elseif ($page_name == 'data_asuransi') :
 			$this->load->model(array('model_karyawan/td_karyawan_asuransi'));
 			$data['opts_asuransi'] = render_dropdown('Asuransi', $this->base_query->get_all('tm_asuransi'), 'kd_asuransi', 'nm_asuransi');
+			$data['opts_client'] = render_dropdown('Penanggung Jawab', $this->base_query->get_all('tm_client'), 'kd_client', 'nm_client');
 			$table = 'td_karyawan_asuransi';
 			$p_key = $this->input->get('kd_karyawan_asuransi');
 		elseif ($page_name == 'data_keluarga') :
@@ -285,6 +286,7 @@ class M_karyawan extends CI_Model {
 			$data['kd_karyawan_asuransi'] = $this->input->post('txtKd');
 			$data['asuransi_kd'] = $this->input->post('selAsuransi');
 			$data['karyawan_kd'] = $this->input->post('txtKdKaryawan');
+			$data['client_kd'] = $this->input->post('selClient');
 			$data['no_asuransi'] = $this->input->post('txtNoAsuransi');
 			$data['tgl_masuk'] = format_date($this->input->post('txtTglMasuk'), 'Y-m-d');
 			$data['status_asuransi'] = $this->input->post('selStatusAsuransi');

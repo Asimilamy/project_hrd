@@ -45,16 +45,16 @@ defined('BASEPATH') or exit('No direct script access allowed!');
 		});
 	}
 
-	function hapus_data(id) {
+	function hapus_data(id, page_name) {
 		$('.form-err-class').slideUp();
 		remove_box('#idBoxForm');
 		$.ajax({
 			type: 'GET',
 			url: '<?php echo base_url().$class_link.'/delete_data_detail'; ?>',
-			data: 'id='+id,
+			data: {'id' : id, 'page_name' : page_name},
 			success: function(data) {
 				$('.form-err-class').html(data.alert).fadeIn();
-				open_detail_page({'file_type' : 'table'});
+				open_detail_page({'file_type' : 'table', 'page_name' : page_name});
 				if (data.load_profile_badge == 'yes') {
 					get_profile_badge();
 				}

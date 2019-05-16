@@ -10,6 +10,7 @@ $data['page_name'] = $page_name;
 $tgl_lahir = empty($detail_karyawan->tgl_lahir)?'':format_date($detail_karyawan->tgl_lahir, 'd-m-Y');
 $tgl_aktif = empty($detail_karyawan->tgl_aktif)?'':format_date($detail_karyawan->tgl_aktif, 'd-m-Y');
 echo form_open_multipart('', array('id' => $form_id, 'style' => 'margin-top: -15px;'));
+echo form_input(array('type' => 'hidden', 'name' => 'page_name', 'value' => $page_name));
 echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $_SESSION['user']['detail_karyawan']['kd_karyawan']));
 echo form_input(array('type' => 'hidden', 'name' => 'txtKdKaryawanInfo', 'value' => $detail_karyawan->kd_karyawan_info));
 ?>

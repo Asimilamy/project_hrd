@@ -11,6 +11,7 @@ $data['page_name'] = $page_name;
 	<div class="col-md-12">
 		<?php
 		echo form_open_multipart('', array('id' => 'idFormAsuransi', 'class' => 'form-horizontal form-label-left'));
+		echo form_input(array('type' => 'hidden', 'name' => 'page_name', 'value' => $page_name));
 		echo form_input(array('type' => 'hidden', 'name' => 'txtKd', 'value' => $form_data->kd_karyawan_asuransi));
 		echo form_input(array('type' => 'hidden', 'name' => 'txtKdKaryawan', 'value' => $_SESSION['user']['detail_karyawan']['kd_karyawan']));
 		?>
@@ -26,6 +27,13 @@ $data['page_name'] = $page_name;
 			<div class="col-md-4 col-sm-12 col-xs-12">
 				<div id="idErrNoAsuransi"></div>
 				<?php echo form_input(array('name' => 'txtNoAsuransi', 'id' => 'idTxtNoAsuransi', 'class' => 'form-control', 'value' => $form_data->no_asuransi, 'placeholder' => 'No Asuransi')); ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="idSelClient" class="control-label col-md-2 col-sm-12 col-xs-12">Penanggung Jawab</label>
+			<div class="col-md-4 col-sm-12 col-xs-12">
+				<div id="idErrSelClient"></div>
+				<?php echo form_dropdown('selClient', $opts_client, $form_data->client_kd, ['id' => 'idSelClient', 'class' => 'form-control']); ?>
 			</div>
 		</div>
 		<div class="form-group">
