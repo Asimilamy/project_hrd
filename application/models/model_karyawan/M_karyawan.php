@@ -56,6 +56,10 @@ class M_karyawan extends CI_Model {
 			$data['opts_client'] = render_dropdown('Penanggung Jawab', $this->base_query->get_all('tm_client'), 'kd_client', 'nm_client');
 			$table = 'td_karyawan_asuransi';
 			$p_key = $this->input->get('kd_karyawan_asuransi');
+		elseif ($page_name == 'data_pembayaran_asuransi') :
+			$this->load->model(array('model_karyawan/td_karyawan_asuransi_pembayaran'));
+			$table = 'td_karyawan_asuransi_pembayaran';
+			$p_key = $this->input->get('kd_karyawan_asuransi_pembayaran');
 		elseif ($page_name == 'data_keluarga') :
 			$this->load->model(array('model_karyawan/td_karyawan_keluarga'));
 			$table = 'td_karyawan_keluarga';
@@ -79,6 +83,9 @@ class M_karyawan extends CI_Model {
 		elseif ($page_name == 'data_asuransi') :
 			$this->load->model(array('model_karyawan/td_karyawan_asuransi'));
 			$data = $this->td_karyawan_asuransi->ssp_table();
+		elseif ($page_name == 'data_pembayaran_asuransi') :
+			$this->load->model(['model_karyawan/td_karyawan_asuransi_pembayaran']);
+			$data = $this->td_karyawan_asuransi_pembayaran->ssp_table();
 		elseif ($page_name == 'data_keluarga') :
 			$this->load->model(array('model_karyawan/td_karyawan_keluarga'));
 			$data = $this->td_karyawan_keluarga->ssp_table();
@@ -99,6 +106,8 @@ class M_karyawan extends CI_Model {
 			$form_errs = ['idErrSkill', 'idErrLevel'];
 		elseif ($form_name == 'data_asuransi') :
 			$form_errs = ['idErrAsuransi', 'idErrNoAsuransi', 'idErrTglMasuk', 'idErrStatusAsuransi'];
+		elseif ($form_name == 'data_pembayaran_asuransi') :
+			$form_errs = ['idErrTgl', 'idErrJmlBayar'];
 		elseif ($form_name == 'data_keluarga') :
 			$form_errs = ['idErrNamaKeluarga', 'idErrAlamat', 'idErrHubungan', 'idErrTelpUtama', 'idErrEmailUtama'];
 		elseif ($form_name == 'data_kontak') :
@@ -161,6 +170,11 @@ class M_karyawan extends CI_Model {
 				['field' => 'txtTglMasuk', 'label' => 'Tgl Masuk', 'rules' => 'required'],
 				['field' => 'selStatusAsuransi', 'label' => 'Status Asuransi', 'rules' => 'required'],
 			];
+		elseif ($form_name == 'data_pembayaran_asuransi') :
+			$rules = [
+				['field' => 'txtTglBayar', 'label' => 'Tanggal Bayar', 'rules' => 'required'],
+				['field' => 'txtJmlBayar', 'label' => 'Jumlah Bayar', 'rules' => 'required'],
+			];
 		elseif ($form_name == 'data_keluarga') :
 			$rules = [
 				['field' => 'txtNmKeluarga', 'label' => 'Nama Keluarga', 'rules' => 'required'],
@@ -190,6 +204,8 @@ class M_karyawan extends CI_Model {
 			$forms = ['txtSkill', 'selLevel'];
 		elseif ($form_name == 'data_asuransi') :
 			$forms = ['selAsuransi', 'txtNoAsuransi', 'txtTglMasuk', 'selStatusAsuransi'];
+		elseif ($form_name == 'data_pembayaran_asuransi') :
+			$forms = ['txtTglBayar', 'txtJmlBayar'];
 		elseif ($form_name == 'data_keluarga') :
 			$forms = ['txtNmKeluarga', 'txtAlamat', 'selHubungan', 'txtTelp', 'txtEmail'];
 		elseif ($form_name == 'data_kontak') :
@@ -291,6 +307,14 @@ class M_karyawan extends CI_Model {
 			$data['tgl_masuk'] = format_date($this->input->post('txtTglMasuk'), 'Y-m-d');
 			$data['status_asuransi'] = $this->input->post('selStatusAsuransi');
 			$str = $this->base_query->submit_data('td_karyawan_asuransi', 'kd_karyawan_asuransi', 'Data Asuransi Karyawan', $data);
+		elseif ($page_name == 'data_pembayaran_asuransi') :
+			$data['kd_karyawan_asuransi_pembayaran'] = $this->input->post('txtKd');
+			$data['karyawan_asuransi_kd'] = $this->input->post('txtKdAsuransiKaryawan');
+			$data['karyawan_kd'] = $this->input->post('txtKdKaryawan');
+			$data['client_kd'] = $this->input->post('txtKdClient');
+			$data['tgl_bayar'] = format_date($this->input->post('txtTglBayar'), 'Y-m-d');
+			$data['jml_bayar'] = $this->input->post('txtJmlBayar');
+			$str = $this->base_query->submit_data('td_karyawan_asuransi_pembayaran', 'kd_karyawan_asuransi_pembayaran', 'Data Pembayaran Asuransi Karyawan', $data);
 		elseif ($page_name == 'data_keluarga') :
 			$data['kd_karyawan_keluarga'] = $this->input->post('txtKd');
 			$data['karyawan_kd'] = $this->input->post('txtKdKaryawan');
@@ -327,6 +351,10 @@ class M_karyawan extends CI_Model {
 			$str['tbl_name'] = 'td_karyawan_asuransi';
 			$str['params'] = ['kd_karyawan_asuransi' => $kd_param];
 			$str['title_name'] = 'Data Karyawan Asuransi';
+		elseif ($page_name == 'data_pembayaran_asuransi') :
+			$str['tbl_name'] = 'td_karyawan_asuransi_pembayaran';
+			$str['params'] = ['kd_karyawan_asuransi_pembayaran' => $kd_param];
+			$str['title_name'] = 'Data Pembayaran Asuransi Karyawan';
 		elseif ($page_name == 'data_keluarga') :
 			$str['tbl_name'] = 'td_karyawan_keluarga';
 			$str['params'] = ['kd_karyawan_keluarga' => $kd_param];

@@ -12,29 +12,25 @@ $data['page_name'] = $page_name;
 <button type="button" name="btnAdd" id="idBtnAdd" class="btn btn-primary btn-flat pull-right btn-add-asuransi" title="Tambah Data Asuransi">
 	<i class="fa fa-plus"></i> Tambah Data
 </button>
-<div class="row">
-	<div class="col-md-12">
-		<table id="idTable" class="table table-striped table-bordered" style="width:100%;">
-			<thead>
-			<tr>
-				<th style="width:1%; text-align:center;" class="all">No.</th>
-				<th style="width:4%; text-align:center;" class="all">Opsi</th>
-				<th style="width:0%; text-align:center;">Kode</th>
-				<th style="width:10%; text-align:left;">Tipe Karyawan</th>
-				<th style="width:25%; text-align:left;">Nama Client</th>
-				<th style="width:10%; text-align:left;">Unit</th>
-				<th style="width:10%; text-align:left;">Bagian</th>
-				<th style="width:10%; text-align:left;">Jabatan</th>
-				<th style="width:10%; text-align:left;">Status Kerja</th>
-				<th style="width:10%; text-align:left;">Tgl Mulai</th>
-				<th style="width:10%; text-align:left;">Tgl Habis</th>
-				<th style="width:0%; text-align:left;">Has Contract</th>
-				<th style="width:0%; text-align:left;">Is Active</th>
-			</tr>
-			</thead>
-		</table>
-	</div>
-</div>
+<table id="idTable" class="table table-striped table-bordered" style="width:100%;">
+	<thead>
+	<tr>
+		<th style="width:1%; text-align:center;" class="all">No.</th>
+		<th style="width:4%; text-align:center;" class="all">Opsi</th>
+		<th style="width:0%; text-align:center;">Kode</th>
+		<th style="width:10%; text-align:left;">Tipe Karyawan</th>
+		<th style="width:25%; text-align:left;">Nama Client</th>
+		<th style="width:10%; text-align:left;">Unit</th>
+		<th style="width:10%; text-align:left;">Bagian</th>
+		<th style="width:10%; text-align:left;">Jabatan</th>
+		<th style="width:10%; text-align:left;">Status Kerja</th>
+		<th style="width:10%; text-align:left;">Tgl Mulai</th>
+		<th style="width:10%; text-align:left;">Tgl Habis</th>
+		<th style="width:0%; text-align:left;">Has Contract</th>
+		<th style="width:0%; text-align:left;">Is Active</th>
+	</tr>
+	</thead>
+</table>
 
 <script type="text/javascript">
 	$.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings) {

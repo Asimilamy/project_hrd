@@ -9,9 +9,19 @@ $data['page_name'] = $page_name;
 	td.dt-left { text-align: left; }
 </style>
 
-<button type="button" name="btnAdd" id="idBtnAdd" class="btn btn-primary btn-flat pull-right btn-add-asuransi" title="Tambah Data Asuransi">
-	<i class="fa fa-plus"></i> Tambah Data
-</button>
+<div class="row" style="margin-bottom: 15px;">
+	<div class="col-xs-2">
+		<button type="button" name="btnAsuransi" id="idBtnAsuransi" class="btn btn-warning btn-flat pull-left btn-back-asuransi" title="Kembali ke Data Asuransi">
+			<i class="fa fa-arrow-left"></i> Kembali
+		</button>
+	</div>
+	<div class="col-xs-8"></div>
+	<div class="col-xs-2">
+		<button type="button" name="btnAdd" id="idBtnAdd" class="btn btn-primary btn-flat pull-right btn-add-asuransi-pembayaran" title="Tambah Data Pembayaran Asuransi">
+			<i class="fa fa-plus"></i> Tambah Data
+		</button>
+	</div>
+</div>
 <table id="idTable" class="table table-striped table-bordered" style="width:100%;">
 	<thead>
 	<tr>
@@ -19,10 +29,10 @@ $data['page_name'] = $page_name;
 		<th style="width:4%; text-align:center;" class="all">Opsi</th>
 		<th style="width:1%; text-align:center;">Kode</th>
 		<th style="width:40%; text-align:left;">Nama Asuransi</th>
-		<th style="width:25%; text-align:left;">Nomer Asuransi</th>
-		<th style="width:10%; text-align:left;">Tanggal Daftar</th>
 		<th style="width:10%; text-align:left;">Penanggung Jawab</th>
-		<th style="width:9%; text-align:left;">Status</th>
+		<th style="width:25%; text-align:left;">Nomer Asuransi</th>
+		<th style="width:10%; text-align:left;">Tanggal Bayar</th>
+		<th style="width:9%; text-align:left;">Jumlah Bayar</th>
 	</tr>
 	</thead>
 </table>

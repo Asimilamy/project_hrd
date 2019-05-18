@@ -12,24 +12,20 @@ $data['page_name'] = $page_name;
 <button type="button" name="btnAdd" id="idBtnAdd" class="btn btn-primary btn-flat pull-right btn-add-asuransi" title="Tambah Data Asuransi">
 	<i class="fa fa-plus"></i> Tambah Data
 </button>
-<div class="row">
-	<div class="col-md-12">
-		<table id="idTable" class="table table-striped table-bordered" style="width:100%;">
-			<thead>
-			<tr>
-				<th style="width:1%; text-align:center;" class="all">No.</th>
-				<th style="width:4%; text-align:center;" class="all">Opsi</th>
-				<th style="width:1%; text-align:center;">Kode</th>
-				<th style="width:25%; text-align:left;">Nama Keluarga</th>
-				<th style="width:50%; text-align:left;">Alamat</th>
-				<th style="width:9%; text-align:left;">Hubungan</th>
-				<th style="width:5%; text-align:left;">Telp</th>
-				<th style="width:5%; text-align:left;">Email</th>
-			</tr>
-			</thead>
-		</table>
-	</div>
-</div>
+<table id="idTable" class="table table-striped table-bordered" style="width:100%;">
+	<thead>
+	<tr>
+		<th style="width:1%; text-align:center;" class="all">No.</th>
+		<th style="width:4%; text-align:center;" class="all">Opsi</th>
+		<th style="width:1%; text-align:center;">Kode</th>
+		<th style="width:25%; text-align:left;">Nama Keluarga</th>
+		<th style="width:50%; text-align:left;">Alamat</th>
+		<th style="width:9%; text-align:left;">Hubungan</th>
+		<th style="width:5%; text-align:left;">Telp</th>
+		<th style="width:5%; text-align:left;">Email</th>
+	</tr>
+	</thead>
+</table>
 
 <script type="text/javascript">
 	$.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings) {

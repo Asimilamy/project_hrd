@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed!');
 
-class Td_karyawan_asuransi extends CI_Model {
-	private $tbl_name = 'td_karyawan_asuransi';
-	private $p_key = 'kd_karyawan_asuransi';
-	private $title_name = 'Data Asuransi Pegawai';
+class Td_karyawan_asuransi_pembayaran extends CI_Model {
+	private $tbl_name = 'td_karyawan_asuransi_pembayaran';
+	private $p_key = 'kd_karyawan_asuransi_pembayaran';
+	private $title_name = 'Data Pembayaran Asuransi Pegawai';
 
 	public function ssp_table() {
 		$data['table'] = $this->tbl_name;
@@ -20,18 +20,15 @@ class Td_karyawan_asuransi extends CI_Model {
 				} ),
 			array( 'db' => 'a.'.$this->p_key, 'dt' => 2, 'field' => $this->p_key ),
 			array( 'db' => 'b.nm_asuransi', 'dt' => 3, 'field' => 'nm_asuransi' ),
-			array( 'db' => 'a.no_asuransi', 'dt' => 4, 'field' => 'no_asuransi' ),
-			array( 'db' => 'a.tgl_masuk', 'dt' => 5, 'field' => 'tgl_masuk',
+			array( 'db' => 'c.nm_client', 'dt' => 4, 'field' => 'nm_client' ),
+			array( 'db' => 'd.no_asuransi', 'dt' => 5, 'field' => 'no_asuransi' ),
+			array( 'db' => 'a.tgl_bayar', 'dt' => 6, 'field' => 'tgl_bayar',
 			'formatter' => function($d) {
 				return format_date($d, 'd-m-Y');
 			} ),
-			array( 'db' => 'c.nm_client', 'dt' => 6, 'field' => 'nm_client',
+			array( 'db' => 'a.jml_bayar', 'dt' => 7, 'field' => 'jml_bayar',
 				'formatter' => function($d) {
-					return empty_string($d, '-');
-				} ),
-			array( 'db' => 'a.status_asuransi', 'dt' => 7, 'field' => 'status_asuransi',
-				'formatter' => function($d) {
-					return ucwords($d);
+					return number_format($d, 2, ',', '.');
 				} ),
 		);
 
@@ -41,6 +38,7 @@ class Td_karyawan_asuransi extends CI_Model {
 			FROM '.$this->tbl_name.' a
 			LEFT JOIN tm_asuransi b ON b.kd_asuransi = a.asuransi_kd
 			LEFT JOIN tm_client c ON c.kd_client = a.client_kd
+			LEFT JOIN td_karyawan_asuransi d ON d.kd_karyawan_asuransi = a.karyawan_asuransi_kd
 		';
 
 		$data['where'] = 'a.karyawan_kd = \''.$_SESSION['user']['detail_karyawan']['kd_karyawan'].'\'';
@@ -57,11 +55,10 @@ class Td_karyawan_asuransi extends CI_Model {
 
 		$btns = array();
 		// $btns[] = get_btn(array('access' => $read_access, 'title' => 'Detail '.$this->title_name, 'icon' => 'search', 'onclick' => 'view_detail(\''.$id.'\')'));
-		$btns[] = get_btn(array('access' => $update_access, 'title' => 'Ubah', 'icon' => 'pencil', 'onclick' => 'open_detail_page({\'file_type\' : \'form\', \'page_name\' : \'data_asuransi\', \'kd_karyawan_asuransi\' : \''.$id.'\'})'));
-		$btns[] = get_btn(array('access' => $read_access, 'title' => 'Data Pembayaran', 'icon' => 'money', 'onclick' => 'get_main_detail(\'data_pembayaran_asuransi\')'));
+		$btns[] = get_btn(array('access' => $update_access, 'title' => 'Ubah', 'icon' => 'pencil', 'onclick' => 'open_detail_page({\'file_type\' : \'form\', \'page_name\' : \'data_pembayaran_asuransi\', \'kd_karyawan_asuransi_pembayaran\' : \''.$id.'\'})'));
 		$btns[] = get_btn_divider();
 		$btns[] = get_btn(array('access' => $delete_access, 'title' => 'Hapus', 'icon' => 'trash',
-			'onclick' => 'return confirm(\'Anda akan menghapus '.$this->title_name.' = '.$var.'?\')?hapus_data(\''.$id.'\', \'data_asuransi\'):false'));
+			'onclick' => 'return confirm(\'Anda akan menghapus '.$this->title_name.' = '.$var.'?\')?hapus_data(\''.$id.'\', \'data_pembayaran_asuransi\'):false'));
 		$btn_group = group_btns($btns);
 
 		return $btn_group;
@@ -71,9 +68,9 @@ class Td_karyawan_asuransi extends CI_Model {
 		$this->load->model(array('model_basic/base_query'));
 		$row = $this->base_query->get_row($this->tbl_name, array($this->p_key => $id));
 		if (!empty($row)) :
-			$data = (object) array('kd_karyawan_asuransi' => $row->kd_karyawan_asuransi, 'asuransi_kd' => $row->asuransi_kd, 'karyawan_kd' => $row->karyawan_kd, 'client_kd' => $row->client_kd, 'no_asuransi' => $row->no_asuransi, 'tgl_masuk' => format_date($row->tgl_masuk, 'd-m-Y'), 'status_asuransi' => $row->status_asuransi);
+			$data = (object) array('kd_karyawan_asuransi_pembayaran' => $row->kd_karyawan_asuransi_pembayaran, 'karyawan_asuransi_kd' => $row->karyawan_asuransi_kd, 'karyawan_kd' => $row->karyawan_kd, 'asuransi_kd' => $row->asuransi_kd, 'client_kd' => $row->client_kd, 'tgl_bayar' => format_date($row->tgl_bayar, 'd-m-Y'), 'jml_bayar' => $row->jml_bayar);
 		else :
-			$data = (object) array('kd_karyawan_asuransi' => '', 'asuransi_kd' => '', 'karyawan_kd' => '', 'client_kd' => '', 'no_asuransi' => '', 'tgl_masuk' => '', 'status_asuransi' => '');
+			$data = (object) array('kd_karyawan_asuransi_pembayaran' => '', 'karyawan_asuransi_kd' => '', 'karyawan_kd' => '', 'asuransi_kd' => '', 'client_kd' => '', 'tgl_bayar' => '', 'jml_bayar' => '');
 		endif;
 		return $data;
 	}
